@@ -1,0 +1,30 @@
+/*
+ * Tokens for Select in multiple mode. Tag visuals are shared through
+ * `.yuki-select-tag`; this file only owns the multi-value layout.
+ */
+
+.yuki-multi-select {
+  --yuki-multi-select-tag-gap: var(--yuki-space-1);
+  --yuki-multi-select-tag-remove-size: var(--yuki-icon-size-2xs);
+  --yuki-multi-select-more-color: var(--yuki-color-text-tertiary);
+  --yuki-multi-select-more-font-size: var(--yuki-font-size-xs);
+}
+
+.yuki-multi-select__tags {
+  gap: var(--yuki-multi-select-tag-gap);
+}
+
+.yuki-multi-select__more {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  padding-inline: var(--yuki-space-1);
+  color: var(--yuki-multi-select-more-color);
+  font-size: var(--yuki-multi-select-more-font-size);
+  white-space: nowrap;
+}
+
+.yuki-multi-select .yuki-select-tag__remove {
+  width: var(--yuki-multi-select-tag-remove-size);
+  height: var(--yuki-multi-select-tag-remove-size);
+}

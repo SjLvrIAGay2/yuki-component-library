@@ -1,0 +1,88 @@
+.yuki-splitter {
+  --yuki-splitter-handle-hit: var(--yuki-space-2);
+  --yuki-splitter-handle-line-thickness: var(--yuki-border-width-thin);
+  --yuki-splitter-handle-line-length: var(--yuki-space-6);
+  --yuki-splitter-handle-color: var(--yuki-color-border);
+  --yuki-splitter-handle-active-color: var(--yuki-color-primary);
+
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.yuki-splitter--horizontal {
+  flex-direction: row;
+}
+
+.yuki-splitter--vertical {
+  flex-direction: column;
+}
+
+.yuki-splitter__pane {
+  overflow: auto;
+  min-width: 0;
+  min-height: 0;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.yuki-splitter__pane--fill {
+  flex: 1 1 0;
+}
+
+.yuki-splitter__handle {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border-radius: var(--yuki-radius-xs);
+  transition: var(--yuki-transition-colors);
+  touch-action: none;
+}
+
+.yuki-splitter--horizontal > .yuki-splitter__handle {
+  width: var(--yuki-splitter-handle-hit);
+  cursor: col-resize;
+}
+
+.yuki-splitter--vertical > .yuki-splitter__handle {
+  height: var(--yuki-splitter-handle-hit);
+  cursor: row-resize;
+}
+
+.yuki-splitter__line {
+  display: block;
+  background: var(--yuki-splitter-handle-color);
+  border-radius: var(--yuki-radius-full);
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-splitter--horizontal .yuki-splitter__line {
+  width: var(--yuki-splitter-handle-line-thickness);
+  height: var(--yuki-splitter-handle-line-length);
+}
+
+.yuki-splitter--vertical .yuki-splitter__line {
+  width: var(--yuki-splitter-handle-line-length);
+  height: var(--yuki-splitter-handle-line-thickness);
+}
+
+.yuki-splitter__handle:hover .yuki-splitter__line,
+.yuki-splitter[data-dragging] .yuki-splitter__line,
+.yuki-splitter__handle:focus-visible .yuki-splitter__line {
+  background: var(--yuki-splitter-handle-active-color);
+}
+
+.yuki-splitter__handle:focus-visible {
+  outline: var(--yuki-focus-ring-width) solid var(--yuki-focus-ring-color);
+  outline-offset: var(--yuki-focus-ring-offset);
+}
+
+.yuki-splitter--disabled .yuki-splitter__handle {
+  cursor: default;
+  opacity: var(--yuki-opacity-disabled);
+}

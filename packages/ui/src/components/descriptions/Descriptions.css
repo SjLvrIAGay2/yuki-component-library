@@ -1,0 +1,133 @@
+.yuki-descriptions {
+  --yuki-descriptions-columns: 3;
+  --yuki-descriptions-label-width: var(--yuki-space-24);
+  --yuki-descriptions-column-gap: var(--yuki-space-6);
+  --yuki-descriptions-row-gap: var(--yuki-space-2);
+  --yuki-descriptions-cell-padding-block: var(--yuki-space-2-5);
+  --yuki-descriptions-cell-padding-inline: var(--yuki-space-3);
+  --yuki-descriptions-label-color: var(--yuki-color-text-secondary);
+  --yuki-descriptions-content-color: var(--yuki-color-text);
+  display: block;
+  min-width: 0;
+  color: var(--yuki-descriptions-content-color);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-font-size-sm);
+}
+
+.yuki-descriptions--sm {
+  --yuki-descriptions-column-gap: var(--yuki-space-4);
+  --yuki-descriptions-row-gap: var(--yuki-space-1-5);
+  --yuki-descriptions-cell-padding-block: var(--yuki-space-1-5);
+  --yuki-descriptions-cell-padding-inline: var(--yuki-space-2);
+  --yuki-descriptions-label-width: var(--yuki-space-20);
+  font-size: var(--yuki-font-size-xs);
+}
+
+.yuki-descriptions--lg {
+  --yuki-descriptions-column-gap: var(--yuki-space-8);
+  --yuki-descriptions-row-gap: var(--yuki-space-3);
+  --yuki-descriptions-cell-padding-block: var(--yuki-space-3);
+  --yuki-descriptions-cell-padding-inline: var(--yuki-space-4);
+  --yuki-descriptions-label-width: var(--yuki-space-28);
+  font-size: var(--yuki-font-size-md);
+}
+
+.yuki-descriptions__header {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-2);
+  margin-block-end: var(--yuki-space-3);
+}
+
+.yuki-descriptions__title {
+  flex: 1;
+  min-width: 0;
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-font-size-md);
+  font-weight: var(--yuki-font-weight-semibold);
+  line-height: var(--yuki-line-height-snug);
+}
+
+.yuki-descriptions__extra {
+  flex: none;
+  color: var(--yuki-color-text-secondary);
+}
+
+.yuki-descriptions__table {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--yuki-descriptions-columns),
+    minmax(0, 1fr)
+  );
+  column-gap: var(--yuki-descriptions-column-gap);
+  row-gap: var(--yuki-descriptions-row-gap);
+}
+
+.yuki-descriptions__item {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--yuki-space-2);
+  min-width: 0;
+}
+
+.yuki-descriptions__label {
+  color: var(--yuki-descriptions-label-color);
+  font-size: inherit;
+  line-height: var(--yuki-line-height-snug);
+}
+
+.yuki-descriptions__content {
+  min-width: 0;
+  color: var(--yuki-descriptions-content-color);
+  line-height: var(--yuki-line-height-snug);
+  overflow-wrap: anywhere;
+}
+
+.yuki-descriptions--colon .yuki-descriptions__label::after {
+  content: ':';
+  margin-inline-start: var(--yuki-space-0-5);
+}
+
+.yuki-descriptions--vertical .yuki-descriptions__item {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--yuki-space-1);
+}
+
+.yuki-descriptions--bordered .yuki-descriptions__table {
+  gap: var(--yuki-border-width-thin);
+  overflow: hidden;
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  border-radius: var(--yuki-radius-md);
+  background: var(--yuki-color-border-subtle);
+}
+
+.yuki-descriptions--bordered .yuki-descriptions__item {
+  grid-template-columns: minmax(0, var(--yuki-descriptions-label-width)) minmax(
+      0,
+      1fr
+    );
+  background: var(--yuki-color-bg-surface);
+}
+
+.yuki-descriptions--bordered .yuki-descriptions__label,
+.yuki-descriptions--bordered .yuki-descriptions__content {
+  padding-block: var(--yuki-descriptions-cell-padding-block);
+  padding-inline: var(--yuki-descriptions-cell-padding-inline);
+}
+
+.yuki-descriptions--bordered .yuki-descriptions__label {
+  background: var(--yuki-color-bg-subtle);
+}
+
+.yuki-descriptions--bordered.yuki-descriptions--vertical
+  .yuki-descriptions__item {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 0;
+}
+
+.yuki-descriptions--bordered.yuki-descriptions--vertical
+  .yuki-descriptions__label {
+  border-block-end: var(--yuki-border-width-thin) solid
+    var(--yuki-color-divider);
+}

@@ -1,0 +1,469 @@
+/* =============================================================================
+ * Yuki UI · Design Tokens
+ * -----------------------------------------------------------------------------
+ * The single source of visual truth. Every component consumes these variables;
+ * component CSS may only declare component-scoped tokens that reference them.
+ *
+ * Layers:
+ *   1. Primitives  — raw palette / scales (theme independent)
+ *   2. Semantic    — role-based tokens (theme dependent: light / dark)
+ *   3. Motion      — durations & easings
+ *   4. Elevation   — shadows
+ *   5. Layers      — z-index scale
+ *
+ * Aesthetic: "stillness". Cool graphite neutrals, one iris accent, hairline
+ * borders, restrained radii and a calm 4px rhythm. See docs/design-system.md.
+ * ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------------
+   * 1. Primitives · Iris (brand)
+   * ------------------------------------------------------------------------ */
+  --yuki-iris-50: #f3f3ff;
+  --yuki-iris-100: #e9e9ff;
+  --yuki-iris-200: #d6d6ff;
+  --yuki-iris-300: #b8b8fb;
+  --yuki-iris-400: #9797f2;
+  --yuki-iris-500: #7b7be7;
+  --yuki-iris-600: #6464d4;
+  --yuki-iris-700: #5151b9;
+  --yuki-iris-800: #414195;
+  --yuki-iris-900: #32326f;
+  --yuki-iris-950: #1e1e46;
+
+  /* Primitives · Graphite (neutral) */
+  --yuki-graphite-0: #ffffff;
+  --yuki-graphite-50: #f8f9fb;
+  --yuki-graphite-100: #f1f3f7;
+  --yuki-graphite-200: #e4e8ee;
+  --yuki-graphite-300: #d3d9e2;
+  --yuki-graphite-400: #aeb7c4;
+  --yuki-graphite-500: #8b95a5;
+  --yuki-graphite-600: #6b7585;
+  --yuki-graphite-700: #4e5868;
+  --yuki-graphite-800: #343d4b;
+  --yuki-graphite-900: #1f2632;
+  --yuki-graphite-950: #10151d;
+
+  /* Primitives · Status hues */
+  --yuki-emerald-50: #e9f8f2;
+  --yuki-emerald-100: #d2f1e5;
+  --yuki-emerald-200: #a7e4cd;
+  --yuki-emerald-500: #0e9f6e;
+  --yuki-emerald-600: #078057;
+  --yuki-emerald-400: #34d399;
+  --yuki-amber-50: #fdf5e6;
+  --yuki-amber-100: #faebd2;
+  --yuki-amber-200: #f3d9a5;
+  --yuki-amber-500: #d97706;
+  --yuki-amber-600: #b45309;
+  --yuki-amber-400: #fbbf24;
+  --yuki-red-50: #fdeeee;
+  --yuki-red-100: #fbdcdd;
+  --yuki-red-200: #f6c2c4;
+  --yuki-red-500: #dc3d43;
+  --yuki-red-600: #b92b31;
+  --yuki-red-400: #f87171;
+  --yuki-cyan-50: #e8f7fa;
+  --yuki-cyan-100: #d0eff5;
+  --yuki-cyan-200: #ade2ed;
+  --yuki-cyan-500: #0b8ea8;
+  --yuki-cyan-600: #076f85;
+  --yuki-cyan-400: #38bdf8;
+
+  /* ---------------------------------------------------------------------------
+   * 2. Typography scale
+   * ------------------------------------------------------------------------ */
+  --yuki-font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  --yuki-font-family-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Code', 'Consolas',
+    'Liberation Mono', monospace;
+
+  --yuki-font-size-2xs: 11px;
+  --yuki-font-size-xs: 12px;
+  --yuki-font-size-sm: 13px;
+  --yuki-font-size-md: 14px;
+  --yuki-font-size-lg: 16px;
+  --yuki-font-size-xl: 18px;
+  --yuki-font-size-2xl: 22px;
+  --yuki-font-size-3xl: 28px;
+  --yuki-font-size-4xl: 36px;
+  --yuki-font-size-5xl: 48px;
+
+  --yuki-font-weight-regular: 400;
+  --yuki-font-weight-medium: 500;
+  --yuki-font-weight-semibold: 600;
+  --yuki-font-weight-bold: 700;
+
+  --yuki-line-height-none: 1;
+  --yuki-line-height-tight: 1.25;
+  --yuki-line-height-snug: 1.375;
+  --yuki-line-height-normal: 1.5;
+  --yuki-line-height-relaxed: 1.625;
+  --yuki-line-height-loose: 1.75;
+
+  --yuki-letter-spacing-tight: -0.011em;
+  --yuki-letter-spacing-normal: 0;
+  --yuki-letter-spacing-wide: 0.02em;
+  --yuki-letter-spacing-wider: 0.06em;
+
+  /* ---------------------------------------------------------------------------
+   * 3. Spacing rhythm (4px base)
+   * ------------------------------------------------------------------------ */
+  --yuki-space-0: 0;
+  --yuki-space-0-5: 2px;
+  --yuki-space-1: 4px;
+  --yuki-space-1-5: 6px;
+  --yuki-space-2: 8px;
+  --yuki-space-2-5: 10px;
+  --yuki-space-3: 12px;
+  --yuki-space-3-5: 14px;
+  --yuki-space-4: 16px;
+  --yuki-space-5: 20px;
+  --yuki-space-6: 24px;
+  --yuki-space-7: 28px;
+  --yuki-space-8: 32px;
+  --yuki-space-9: 36px;
+  --yuki-space-10: 40px;
+  --yuki-space-12: 48px;
+  --yuki-space-14: 56px;
+  --yuki-space-16: 64px;
+  --yuki-space-20: 80px;
+  --yuki-space-24: 96px;
+  --yuki-space-28: 112px;
+  --yuki-space-40: 160px;
+  --yuki-space-64: 256px;
+
+  /* ---------------------------------------------------------------------------
+   * 4. Shape
+   * ------------------------------------------------------------------------ */
+  --yuki-radius-none: 0;
+  --yuki-radius-xs: 4px;
+  --yuki-radius-sm: 6px;
+  --yuki-radius-md: 8px;
+  --yuki-radius-lg: 12px;
+  --yuki-radius-xl: 16px;
+  --yuki-radius-2xl: 20px;
+  --yuki-radius-3xl: 28px;
+  --yuki-radius-full: 9999px;
+
+  --yuki-border-width-thin: 1px;
+  --yuki-border-width-medium: 1.5px;
+  --yuki-border-width-thick: 2px;
+
+  /* ---------------------------------------------------------------------------
+   * 5. Control metrics
+   * ------------------------------------------------------------------------ */
+  --yuki-control-height-xs: 22px;
+  --yuki-control-height-sm: 28px;
+  --yuki-control-height-md: 34px;
+  --yuki-control-height-lg: 42px;
+  --yuki-control-height-xl: 50px;
+
+  --yuki-control-padding-xs: 6px;
+  --yuki-control-padding-sm: 10px;
+  --yuki-control-padding-md: 14px;
+  --yuki-control-padding-lg: 18px;
+
+  --yuki-control-gap-xs: 4px;
+  --yuki-control-gap-sm: 6px;
+  --yuki-control-gap-md: 8px;
+  --yuki-control-gap-lg: 10px;
+
+  --yuki-icon-size-2xs: 10px;
+  --yuki-icon-size-xs: 12px;
+  --yuki-icon-size-sm: 14px;
+  --yuki-icon-size-md: 16px;
+  --yuki-icon-size-lg: 20px;
+  --yuki-icon-size-xl: 24px;
+  --yuki-icon-size-2xl: 32px;
+  --yuki-icon-size-3xl: 40px;
+
+  /* Shared overlay widths so popovers, dropdowns and select panels align. */
+  --yuki-popup-width-xs: 12rem;
+  --yuki-popup-width-sm: 16rem;
+  --yuki-popup-width-md: 20rem;
+  --yuki-popup-width-lg: 24rem;
+
+  --yuki-focus-ring-width: 3px;
+  --yuki-focus-ring-offset: 2px;
+  --yuki-focus-ring-color: color-mix(in srgb, var(--yuki-color-primary) 42%, transparent);
+
+  --yuki-opacity-disabled: 0.5;
+  --yuki-opacity-muted: 0.72;
+  --yuki-opacity-overlay: 0.56;
+
+  --yuki-backdrop-blur: 8px;
+  --yuki-backdrop-blur-xs: 1px;
+  --yuki-scrollbar-size: 8px;
+  --yuki-scrollbar-thumb: color-mix(in srgb, var(--yuki-color-text) 22%, transparent);
+  --yuki-scrollbar-thumb-hover: color-mix(in srgb, var(--yuki-color-text) 36%, transparent);
+
+  /* ---------------------------------------------------------------------------
+   * 6. Motion
+   * ------------------------------------------------------------------------ */
+  --yuki-duration-instant: 80ms;
+  --yuki-duration-fast: 120ms;
+  --yuki-duration-base: 180ms;
+  --yuki-duration-slow: 280ms;
+  --yuki-duration-slower: 420ms;
+
+  --yuki-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --yuki-easing-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --yuki-easing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --yuki-easing-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --yuki-transition-colors: color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    border-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    box-shadow var(--yuki-duration-fast) var(--yuki-easing-standard);
+  --yuki-transition-transform: transform var(--yuki-duration-base) var(--yuki-easing-standard);
+  --yuki-transition-opacity: opacity var(--yuki-duration-base) var(--yuki-easing-standard);
+
+  /* ---------------------------------------------------------------------------
+   * 8. Layers
+   * ------------------------------------------------------------------------ */
+  --yuki-z-base: 0;
+  --yuki-z-sticky: 100;
+  --yuki-z-dropdown: 1000;
+  --yuki-z-overlay: 1100;
+  --yuki-z-modal: 1200;
+  --yuki-z-popover: 1300;
+  --yuki-z-toast: 1400;
+  --yuki-z-tooltip: 1500;
+  --yuki-z-tour: 1600;
+  --yuki-z-max: 9999;
+
+  /* ---------------------------------------------------------------------------
+   * 9. Breakpoints (documented; CSS media queries cannot read custom properties)
+   * ------------------------------------------------------------------------ */
+  --yuki-breakpoint-xs: 480px;
+  --yuki-breakpoint-sm: 640px;
+  --yuki-breakpoint-md: 768px;
+  --yuki-breakpoint-lg: 1024px;
+  --yuki-breakpoint-xl: 1280px;
+  --yuki-breakpoint-2xl: 1536px;
+
+}
+
+:root,
+[data-yuki-theme='light'] {
+  /* ---------------------------------------------------------------------------
+   * 7. Elevation (light)
+   * ------------------------------------------------------------------------ */
+  --yuki-shadow-xs: 0 1px 2px rgba(16, 21, 29, 0.05);
+  --yuki-shadow-sm: 0 1px 3px rgba(16, 21, 29, 0.08), 0 1px 2px rgba(16, 21, 29, 0.04);
+  --yuki-shadow-md: 0 4px 12px -2px rgba(16, 21, 29, 0.1), 0 2px 4px -2px rgba(16, 21, 29, 0.06);
+  --yuki-shadow-lg: 0 12px 32px -6px rgba(16, 21, 29, 0.16),
+    0 4px 8px -4px rgba(16, 21, 29, 0.08);
+  --yuki-shadow-xl: 0 24px 64px -12px rgba(16, 21, 29, 0.22);
+  --yuki-shadow-inner: inset 0 1px 2px rgba(16, 21, 29, 0.06);
+  --yuki-shadow-focus: 0 0 0 var(--yuki-focus-ring-width) var(--yuki-focus-ring-color);
+
+  /* ---------------------------------------------------------------------------
+   * 10. Semantic colors · light
+   * ------------------------------------------------------------------------ */
+  --yuki-color-bg-canvas: var(--yuki-graphite-50);
+  --yuki-color-bg-surface: var(--yuki-graphite-0);
+  --yuki-color-bg-elevated: var(--yuki-graphite-0);
+  --yuki-color-bg-subtle: var(--yuki-graphite-100);
+  --yuki-color-bg-muted: var(--yuki-graphite-200);
+  --yuki-color-bg-hover: var(--yuki-graphite-100);
+  --yuki-color-bg-active: var(--yuki-graphite-200);
+  --yuki-color-bg-inverse: var(--yuki-graphite-900);
+  --yuki-color-bg-disabled: var(--yuki-graphite-100);
+  --yuki-color-bg-overlay: color-mix(in srgb, var(--yuki-graphite-950) 52%, transparent);
+  --yuki-color-bg-glass: color-mix(in srgb, var(--yuki-color-bg-surface) 78%, transparent);
+
+  --yuki-color-text: var(--yuki-graphite-900);
+  --yuki-color-text-secondary: var(--yuki-graphite-700);
+  --yuki-color-text-tertiary: var(--yuki-graphite-600);
+  --yuki-color-text-placeholder: var(--yuki-graphite-500);
+  --yuki-color-text-disabled: var(--yuki-graphite-400);
+  --yuki-color-text-inverse: var(--yuki-graphite-0);
+  --yuki-color-text-link: var(--yuki-color-primary);
+  --yuki-color-text-link-hover: var(--yuki-color-primary-hover);
+
+  --yuki-color-border: var(--yuki-graphite-200);
+  --yuki-color-border-subtle: var(--yuki-graphite-100);
+  --yuki-color-border-strong: var(--yuki-graphite-300);
+  --yuki-color-border-inverse: var(--yuki-graphite-700);
+  --yuki-color-divider: var(--yuki-graphite-200);
+
+  --yuki-color-primary: var(--yuki-iris-600);
+  --yuki-color-primary-hover: var(--yuki-iris-700);
+  --yuki-color-primary-active: var(--yuki-iris-800);
+  --yuki-color-primary-subtle: var(--yuki-iris-50);
+  --yuki-color-primary-subtle-hover: var(--yuki-iris-100);
+  --yuki-color-primary-border: var(--yuki-iris-200);
+  --yuki-color-primary-contrast: var(--yuki-graphite-0);
+  --yuki-color-primary-ring: var(--yuki-focus-ring-color);
+
+  --yuki-color-success: var(--yuki-emerald-500);
+  --yuki-color-success-hover: var(--yuki-emerald-600);
+  --yuki-color-success-subtle: var(--yuki-emerald-50);
+  --yuki-color-success-border: var(--yuki-emerald-200);
+  --yuki-color-success-contrast: var(--yuki-graphite-0);
+
+  --yuki-color-warning: var(--yuki-amber-500);
+  --yuki-color-warning-hover: var(--yuki-amber-600);
+  --yuki-color-warning-subtle: var(--yuki-amber-50);
+  --yuki-color-warning-border: var(--yuki-amber-200);
+  --yuki-color-warning-contrast: var(--yuki-graphite-950);
+
+  --yuki-color-danger: var(--yuki-red-500);
+  --yuki-color-danger-hover: var(--yuki-red-600);
+  --yuki-color-danger-subtle: var(--yuki-red-50);
+  --yuki-color-danger-border: var(--yuki-red-200);
+  --yuki-color-danger-contrast: var(--yuki-graphite-0);
+
+  --yuki-color-info: var(--yuki-cyan-500);
+  --yuki-color-info-hover: var(--yuki-cyan-600);
+  --yuki-color-info-subtle: var(--yuki-cyan-50);
+  --yuki-color-info-border: var(--yuki-cyan-200);
+  --yuki-color-info-contrast: var(--yuki-graphite-0);
+
+  /* Component-level defaults that must live globally to support overrides
+   * before a component mounts (e.g. SSR critical CSS). */
+  --yuki-mask-color: var(--yuki-color-bg-overlay);
+  --yuki-popup-bg: var(--yuki-color-bg-elevated);
+  --yuki-popup-border: var(--yuki-color-border);
+  --yuki-popup-radius: var(--yuki-radius-lg);
+  --yuki-popup-shadow: var(--yuki-shadow-lg);
+
+  color-scheme: light;
+}
+
+/* -----------------------------------------------------------------------------
+ * Dark theme — same semantic names, different primitives/roles.
+ * -------------------------------------------------------------------------- */
+[data-yuki-theme='dark'] {
+  --yuki-color-bg-canvas: #0c1118;
+  --yuki-color-bg-surface: #141a23;
+  --yuki-color-bg-elevated: #1a222e;
+  --yuki-color-bg-subtle: #1e2733;
+  --yuki-color-bg-muted: #26303e;
+  --yuki-color-bg-hover: #222c3a;
+  --yuki-color-bg-active: #2b3646;
+  --yuki-color-bg-inverse: var(--yuki-graphite-50);
+  --yuki-color-bg-disabled: #1d2531;
+  --yuki-color-bg-overlay: color-mix(in srgb, #000000 62%, transparent);
+  --yuki-color-bg-glass: color-mix(in srgb, var(--yuki-color-bg-surface) 76%, transparent);
+
+  --yuki-color-text: #edf1f6;
+  --yuki-color-text-secondary: #b8c2d0;
+  --yuki-color-text-tertiary: #8f9bab;
+  --yuki-color-text-placeholder: #6f7b8b;
+  --yuki-color-text-disabled: #596473;
+  --yuki-color-text-inverse: var(--yuki-graphite-900);
+  --yuki-color-text-link: #a3a3f8;
+  --yuki-color-text-link-hover: #bdbdfb;
+
+  --yuki-color-border: #29323f;
+  --yuki-color-border-subtle: #212a36;
+  --yuki-color-border-strong: #3a4554;
+  --yuki-color-border-inverse: var(--yuki-graphite-300);
+  --yuki-color-divider: #29323f;
+
+  --yuki-color-primary: #8f8ff2;
+  --yuki-color-primary-hover: #a6a6f7;
+  --yuki-color-primary-active: #babaf9;
+  --yuki-color-primary-subtle: color-mix(in srgb, var(--yuki-color-primary) 14%, var(--yuki-color-bg-surface));
+  --yuki-color-primary-subtle-hover: color-mix(in srgb, var(--yuki-color-primary) 22%, var(--yuki-color-bg-surface));
+  --yuki-color-primary-border: color-mix(in srgb, var(--yuki-color-primary) 38%, var(--yuki-color-bg-surface));
+  --yuki-color-primary-contrast: #14142e;
+  --yuki-color-primary-ring: color-mix(in srgb, var(--yuki-color-primary) 45%, transparent);
+
+  --yuki-color-success: var(--yuki-emerald-400);
+  --yuki-color-success-hover: #6ee7b7;
+  --yuki-color-success-subtle: color-mix(in srgb, var(--yuki-emerald-400) 16%, var(--yuki-color-bg-surface));
+  --yuki-color-success-border: color-mix(in srgb, var(--yuki-emerald-400) 38%, var(--yuki-color-bg-surface));
+  --yuki-color-success-contrast: #052e22;
+
+  --yuki-color-warning: var(--yuki-amber-400);
+  --yuki-color-warning-hover: #fcd34d;
+  --yuki-color-warning-subtle: color-mix(in srgb, var(--yuki-amber-400) 16%, var(--yuki-color-bg-surface));
+  --yuki-color-warning-border: color-mix(in srgb, var(--yuki-amber-400) 38%, var(--yuki-color-bg-surface));
+  --yuki-color-warning-contrast: #331f04;
+
+  --yuki-color-danger: var(--yuki-red-400);
+  --yuki-color-danger-hover: #fca5a5;
+  --yuki-color-danger-subtle: color-mix(in srgb, var(--yuki-red-400) 16%, var(--yuki-color-bg-surface));
+  --yuki-color-danger-border: color-mix(in srgb, var(--yuki-red-400) 38%, var(--yuki-color-bg-surface));
+  --yuki-color-danger-contrast: #350a0b;
+
+  --yuki-color-info: var(--yuki-cyan-400);
+  --yuki-color-info-hover: #7dd3fc;
+  --yuki-color-info-subtle: color-mix(in srgb, var(--yuki-cyan-400) 16%, var(--yuki-color-bg-surface));
+  --yuki-color-info-border: color-mix(in srgb, var(--yuki-cyan-400) 38%, var(--yuki-color-bg-surface));
+  --yuki-color-info-contrast: #062630;
+
+  --yuki-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.32);
+  --yuki-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.28);
+  --yuki-shadow-md: 0 5px 14px -2px rgba(0, 0, 0, 0.48), 0 2px 5px -2px rgba(0, 0, 0, 0.32);
+  --yuki-shadow-lg: 0 14px 36px -6px rgba(0, 0, 0, 0.56), 0 5px 10px -4px rgba(0, 0, 0, 0.4);
+  --yuki-shadow-xl: 0 28px 72px -12px rgba(0, 0, 0, 0.68);
+  --yuki-shadow-inner: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+
+  --yuki-scrollbar-thumb: color-mix(in srgb, var(--yuki-color-text) 26%, transparent);
+  --yuki-scrollbar-thumb-hover: color-mix(in srgb, var(--yuki-color-text) 42%, transparent);
+
+  color-scheme: dark;
+}
+
+/* Reduce motion at the token layer: every component transitions zero. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --yuki-duration-instant: 0ms;
+    --yuki-duration-fast: 0ms;
+    --yuki-duration-base: 0ms;
+    --yuki-duration-slow: 0ms;
+    --yuki-duration-slower: 0ms;
+  }
+}
+
+[data-yuki-motion='off'] {
+  --yuki-duration-instant: 0ms;
+  --yuki-duration-fast: 0ms;
+  --yuki-duration-base: 0ms;
+  --yuki-duration-slow: 0ms;
+  --yuki-duration-slower: 0ms;
+}
+
+/* An explicit brand override only has to set --yuki-color-primary; the rest of
+ * the primary family is derived with color-mix() at runtime. */
+[data-yuki-brand='custom'] {
+  --yuki-color-primary-hover: color-mix(in srgb, var(--yuki-color-primary) 86%, #000000);
+  --yuki-color-primary-active: color-mix(in srgb, var(--yuki-color-primary) 72%, #000000);
+  --yuki-color-primary-subtle: color-mix(
+    in srgb,
+    var(--yuki-color-primary) 8%,
+    var(--yuki-color-bg-surface)
+  );
+  --yuki-color-primary-subtle-hover: color-mix(
+    in srgb,
+    var(--yuki-color-primary) 14%,
+    var(--yuki-color-bg-surface)
+  );
+  --yuki-color-primary-border: color-mix(
+    in srgb,
+    var(--yuki-color-primary) 34%,
+    var(--yuki-color-bg-surface)
+  );
+  --yuki-focus-ring-color: color-mix(in srgb, var(--yuki-color-primary) 42%, transparent);
+}
+
+[data-yuki-theme='dark'][data-yuki-brand='custom'] {
+  --yuki-color-primary-hover: color-mix(in srgb, var(--yuki-color-primary) 86%, #ffffff);
+  --yuki-color-primary-active: color-mix(in srgb, var(--yuki-color-primary) 72%, #ffffff);
+  --yuki-color-primary-contrast: #10101f;
+}
+
+
+[data-yuki-density='compact'] {
+  --yuki-control-height-md: var(--yuki-control-height-sm);
+  --yuki-control-padding-md: var(--yuki-control-padding-sm);
+  --yuki-control-gap-md: var(--yuki-control-gap-sm);
+  --yuki-density-content-padding: var(--yuki-space-4);
+  --yuki-density-gap: var(--yuki-space-1-5);
+}

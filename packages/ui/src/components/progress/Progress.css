@@ -1,0 +1,159 @@
+.yuki-progress {
+  --yuki-progress-tone: var(--yuki-color-primary);
+  --yuki-progress-track-color: var(--yuki-color-bg-muted);
+  --yuki-progress-line-height: var(--yuki-space-1);
+  --yuki-progress-circle-size: calc(var(--yuki-icon-size-2xl) * 2);
+  --yuki-progress-circle-track-width: var(--yuki-border-width-thick);
+  --yuki-progress-text-color: var(--yuki-color-text-secondary);
+  --yuki-progress-text-size: var(--yuki-font-size-sm);
+  --yuki-progress-gap: var(--yuki-space-2);
+
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-progress-text-size);
+  color: var(--yuki-progress-text-color);
+}
+
+.yuki-progress--primary {
+  --yuki-progress-tone: var(--yuki-color-primary);
+}
+
+.yuki-progress--success {
+  --yuki-progress-tone: var(--yuki-color-success);
+}
+
+.yuki-progress--warning {
+  --yuki-progress-tone: var(--yuki-color-warning);
+}
+
+.yuki-progress--danger {
+  --yuki-progress-tone: var(--yuki-color-danger);
+}
+
+.yuki-progress--info {
+  --yuki-progress-tone: var(--yuki-color-info);
+}
+
+.yuki-progress--line {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-progress-gap);
+  width: 100%;
+}
+
+.yuki-progress__track {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: hidden;
+  height: var(--yuki-progress-line-height);
+  border-radius: var(--yuki-radius-full);
+  background-color: var(--yuki-progress-track-color);
+}
+
+.yuki-progress__bar {
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--yuki-progress-tone);
+  transition: width var(--yuki-duration-slow) var(--yuki-easing-standard),
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-progress__text {
+  flex: none;
+  min-width: var(--yuki-space-10);
+  color: var(--yuki-progress-text-color);
+  font-size: var(--yuki-progress-text-size);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+.yuki-progress--circle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-progress-circle-size);
+  height: var(--yuki-progress-circle-size);
+  font-size: inherit;
+}
+
+.yuki-progress__circle {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+}
+
+.yuki-progress__svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.yuki-progress__circle-track {
+  stroke: var(--yuki-progress-track-color);
+}
+
+.yuki-progress__circle-bar {
+  stroke: var(--yuki-progress-tone);
+  transition: stroke-dashoffset var(--yuki-duration-slow) var(--yuki-easing-standard),
+    stroke var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-progress--circle .yuki-progress__text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-progress-text-size);
+  text-align: center;
+}
+
+.yuki-progress--circle .yuki-progress__svg {
+  transform: none;
+}
+
+.yuki-progress--circle .yuki-progress__circle-bar {
+  transform-origin: 50% 50%;
+  transform: rotate(-90deg);
+}
+
+.yuki-progress--indeterminate .yuki-progress__bar:not([data-yuki-motion-preset]) {
+  animation: yuki-progress-indeterminate var(--yuki-duration-slower) var(--yuki-easing-standard) infinite;
+}
+
+.yuki-progress--indeterminate .yuki-progress__svg:not([data-yuki-motion-preset]) {
+  animation: yuki-spin var(--yuki-duration-slower) linear infinite;
+}
+
+.yuki-progress__bar[data-yuki-motion-preset='feedback'] {
+  transition: width var(--yuki-motion-duration) var(--yuki-motion-easing),
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-progress__svg[data-yuki-motion-preset] .yuki-progress__circle-bar {
+  transition-duration: var(--yuki-motion-duration);
+}
+
+@keyframes yuki-progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(150%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.yuki-progress-field {
+  display: grid;
+  gap: var(--yuki-space-1-5);
+  color: var(--yuki-color-text);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-font-size-sm);
+}
+.yuki-progress-field[hidden] { display: none; }

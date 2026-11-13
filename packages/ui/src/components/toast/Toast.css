@@ -1,0 +1,126 @@
+.yuki-toast-viewport {
+  position: fixed;
+  bottom: var(--yuki-space-6);
+  right: var(--yuki-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-2-5);
+  width: min(22.5rem, calc(100vw - var(--yuki-space-8)));
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: var(--yuki-z-toast);
+  outline: none;
+}
+.yuki-toast {
+  display: flex;
+  align-items: flex-start;
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+  box-shadow: var(--yuki-shadow-lg);
+  color: var(--yuki-color-text);
+  background: var(--yuki-color-bg-elevated);
+  border-radius: var(--yuki-radius-lg);
+  gap: var(--yuki-space-3);
+  padding: var(--yuki-space-4);
+}
+.yuki-toast__icon {
+  color: var(--yuki-color-text-link);
+  display: flex;
+  margin-top: var(--yuki-space-0-5);
+}
+.yuki-toast--success .yuki-toast__icon {
+  color: var(--yuki-color-success);
+}
+.yuki-toast--danger .yuki-toast__icon {
+  color: var(--yuki-color-danger);
+}
+.yuki-toast--warning .yuki-toast__icon {
+  color: var(--yuki-color-warning);
+}
+.yuki-toast-viewport--top-left,
+.yuki-toast-viewport--top-center,
+.yuki-toast-viewport--top-right {
+  top: var(--yuki-space-6);
+  bottom: auto;
+}
+.yuki-toast-viewport--top-left,
+.yuki-toast-viewport--bottom-left {
+  left: var(--yuki-space-6);
+  right: auto;
+}
+.yuki-toast-viewport--top-center,
+.yuki-toast-viewport--bottom-center {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+.yuki-toast[data-state='closed'] {
+  pointer-events: none;
+}
+.yuki-toast__body {
+  flex: 1;
+}
+.yuki-toast__title {
+  font-size: var(--yuki-font-size-md);
+  font-weight: var(--yuki-font-weight-semibold);
+  line-height: var(--yuki-line-height-normal);
+}
+.yuki-toast__description {
+  margin: var(--yuki-space-1) 0 0;
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+}
+.yuki-toast__close {
+  display: flex;
+  padding: var(--yuki-space-0-5);
+  background: transparent;
+  border: 0;
+  color: var(--yuki-color-text-secondary);
+  cursor: pointer;
+  border-radius: var(--yuki-radius-xs);
+}
+.yuki-toast[data-swipe='move'] {
+  transform: translate(var(--radix-toast-swipe-move-x, var(--yuki-space-0)), var(--radix-toast-swipe-move-y, var(--yuki-space-0)));
+}
+.yuki-toast[data-swipe='cancel'] {
+  transform: translateX(0);
+  transition: transform var(--yuki-motion-duration, 200ms) var(--yuki-motion-easing, ease);
+}
+.yuki-toast.yuki-motion[data-state='closed'][data-yuki-presence][data-swipe='end'] {
+  animation-name: yuki-toast-out;
+}
+.yuki-toast[data-swipe-direction='right'] {
+  --yuki-toast-exit-x: calc(100% + var(--yuki-space-6));
+  --yuki-toast-exit-y: var(--yuki-space-0);
+}
+.yuki-toast[data-swipe-direction='left'] {
+  --yuki-toast-exit-x: calc(-100% - var(--yuki-space-6));
+  --yuki-toast-exit-y: var(--yuki-space-0);
+}
+.yuki-toast[data-swipe-direction='up'] {
+  --yuki-toast-exit-x: var(--yuki-space-0);
+  --yuki-toast-exit-y: calc(-100% - var(--yuki-space-6));
+}
+.yuki-toast[data-swipe-direction='down'] {
+  --yuki-toast-exit-x: var(--yuki-space-0);
+  --yuki-toast-exit-y: calc(100% + var(--yuki-space-6));
+}
+@keyframes yuki-toast-out {
+  to {
+    transform: translate(var(--yuki-toast-exit-x, calc(100% + var(--yuki-space-6))), var(--yuki-toast-exit-y, var(--yuki-space-0)));
+  }
+}
+
+/* A dialog is a scroll container. Keep local notices in its flow so they cannot cover form actions. */
+.yuki-dialog .yuki-toast-viewport {
+  position: static;
+  transform: none;
+  width: auto;
+  margin: 0 var(--yuki-space-5) var(--yuki-space-4);
+  max-height: none;
+}
+.yuki-dialog .yuki-toast-viewport:empty {
+  margin: 0;
+}

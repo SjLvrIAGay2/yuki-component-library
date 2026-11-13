@@ -1,0 +1,104 @@
+/* =============================================================================
+ * Rate
+ * ========================================================================== */
+
+.yuki-rate {
+  --yuki-rate-size: var(--yuki-icon-size-lg);
+  --yuki-rate-gap: var(--yuki-space-1);
+  --yuki-rate-color: var(--yuki-color-primary);
+  --yuki-rate-color-active: var(--yuki-rate-color);
+  --yuki-rate-color-hover: var(--yuki-rate-color);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-rate-gap);
+  font-family: var(--yuki-font-family-sans);
+  line-height: var(--yuki-line-height-none);
+  vertical-align: middle;
+}
+
+.yuki-rate__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  min-width: var(--yuki-rate-size);
+  min-height: var(--yuki-rate-size);
+  white-space: nowrap;
+  color: var(--yuki-rate-color);
+  cursor: pointer;
+  outline: none;
+  transition: color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-rate__item:hover {
+  color: var(--yuki-rate-color-hover);
+}
+
+.yuki-rate__item:focus-visible {
+  border-radius: var(--yuki-radius-xs);
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-rate__star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.yuki-rate__star svg {
+  width: var(--yuki-rate-size);
+  height: var(--yuki-rate-size);
+}
+
+/* Monochrome icons and text share the same outline and solid silhouettes. */
+.yuki-rate__star:not(.yuki-rate__fill) {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: calc(var(--yuki-border-width-thin) * 0.6) currentColor;
+}
+
+.yuki-rate__star:not(.yuki-rate__fill) svg:is(:not([fill]), [fill='none' i], [fill='currentColor' i]),
+.yuki-rate__star:not(.yuki-rate__fill) svg [fill='currentColor' i] {
+  fill: none;
+  stroke: currentColor;
+}
+
+.yuki-rate__fill svg:is(:not([fill]), [fill='none' i], [fill='currentColor' i]),
+.yuki-rate__fill svg [fill='currentColor' i] {
+  fill: currentColor;
+}
+
+/* Clip a full-size copy so both halves stay aligned even for wide text. */
+.yuki-rate__fill {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: var(--yuki-rate-color-active);
+}
+
+.yuki-rate__item[data-half='true'] > .yuki-rate__fill {
+  clip-path: inset(0 50% 0 0);
+}
+
+.yuki-rate[data-disabled='true'] {
+  cursor: not-allowed;
+  opacity: var(--yuki-opacity-disabled);
+}
+
+.yuki-rate[data-disabled='true'] .yuki-rate__item {
+  cursor: not-allowed;
+}
+
+.yuki-rate[data-disabled='true'] .yuki-rate__item:hover {
+  color: var(--yuki-rate-color);
+}
+
+/* Sizes ------------------------------------------------------------------- */
+.yuki-rate--sm {
+  --yuki-rate-size: var(--yuki-icon-size-md);
+}
+
+.yuki-rate--lg {
+  --yuki-rate-size: var(--yuki-icon-size-xl);
+}

@@ -1,0 +1,387 @@
+/*
+ * Shared visual contract for the form-selection family: Select,
+ * Cascader, TreeSelect, DatePicker, TimePicker and DateRangePicker.
+ *
+ * Every family root carries `.yuki-select-root` (component tokens + size
+ * variables), and every component renders its trigger through the shared
+ * `.yuki-select-trigger` shell. Panels share `.yuki-select-*` row styles.
+ */
+
+.yuki-select-root {
+  --yuki-select-height: var(--yuki-control-height-md);
+  --yuki-select-padding-x: var(--yuki-control-padding-md);
+  --yuki-select-font-size: var(--yuki-font-size-md);
+  --yuki-select-icon-size: var(--yuki-icon-size-md);
+  --yuki-select-radius: var(--yuki-radius-md);
+  --yuki-select-option-height: var(--yuki-control-height-md);
+  --yuki-select-list-max-height: calc(var(--yuki-space-10) * 8);
+  --yuki-select-trigger-bg: var(--yuki-color-bg-surface);
+  --yuki-select-trigger-border: var(--yuki-color-border);
+  --yuki-select-trigger-border-hover: var(--yuki-color-border-strong);
+  --yuki-select-trigger-border-focus: var(--yuki-color-primary);
+  --yuki-select-trigger-color: var(--yuki-color-text);
+  --yuki-select-placeholder-color: var(--yuki-color-text-placeholder);
+  --yuki-select-icon-color: var(--yuki-color-text-tertiary);
+
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  min-width: var(--yuki-space-24);
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.yuki-select-root[data-size='sm'] {
+  --yuki-select-height: var(--yuki-control-height-sm);
+  --yuki-select-padding-x: var(--yuki-control-padding-xs);
+  --yuki-select-font-size: var(--yuki-font-size-sm);
+  --yuki-select-icon-size: var(--yuki-icon-size-sm);
+  --yuki-select-option-height: var(--yuki-control-height-sm);
+}
+
+.yuki-select-root[data-size='lg'] {
+  --yuki-select-height: var(--yuki-control-height-lg);
+  --yuki-select-padding-x: var(--yuki-control-padding-lg);
+  --yuki-select-font-size: var(--yuki-font-size-lg);
+  --yuki-select-icon-size: var(--yuki-icon-size-lg);
+  --yuki-select-option-height: var(--yuki-control-height-lg);
+}
+
+.yuki-select-root[data-invalid=''] {
+  --yuki-select-trigger-border: var(--yuki-color-danger);
+  --yuki-select-trigger-border-hover: var(--yuki-color-danger);
+}
+
+.yuki-select-root[data-disabled=''] {
+  --yuki-select-trigger-bg: var(--yuki-color-bg-disabled);
+  --yuki-select-trigger-color: var(--yuki-color-text-disabled);
+  --yuki-select-placeholder-color: var(--yuki-color-text-disabled);
+}
+
+/* ---------------------------------------------------------------- trigger */
+
+.yuki-select-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-control-gap-sm);
+  width: 100%;
+  height: var(--yuki-select-height);
+  box-sizing: border-box;
+  padding-inline: var(--yuki-select-padding-x);
+  border: var(--yuki-border-width-thin) solid var(--yuki-select-trigger-border);
+  border-radius: var(--yuki-select-radius);
+  background: var(--yuki-select-trigger-bg);
+  color: var(--yuki-select-trigger-color);
+  font-family: inherit;
+  font-size: var(--yuki-select-font-size);
+  line-height: var(--yuki-line-height-normal);
+  text-align: start;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-select-trigger:hover:not([data-disabled]) {
+  border-color: var(--yuki-select-trigger-border-hover);
+}
+
+.yuki-select-trigger:focus-visible {
+  outline: none;
+  border-color: var(--yuki-select-trigger-border-focus);
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-select-trigger[data-state='open'] {
+  border-color: var(--yuki-select-trigger-border-focus);
+}
+
+.yuki-select-trigger[data-invalid='']:focus-visible {
+  --yuki-focus-ring-color: var(--yuki-color-danger);
+}
+
+.yuki-select-trigger[data-disabled] {
+  background: var(--yuki-color-bg-disabled);
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-select-trigger--borderless {
+  border-color: transparent;
+  background: transparent;
+}
+
+.yuki-select-trigger--borderless:hover:not([data-disabled]),
+.yuki-select-trigger--borderless[data-state='open'] {
+  border-color: transparent;
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-select-trigger--borderless:focus-visible {
+  border-color: var(--yuki-select-trigger-border-focus);
+  background: var(--yuki-select-trigger-bg);
+}
+
+.yuki-select-trigger--multiple {
+  height: auto;
+  min-height: var(--yuki-select-height);
+  padding-block: var(--yuki-space-1);
+  cursor: text;
+}
+
+.yuki-select-trigger__prefix,
+.yuki-select-trigger__suffix {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  color: var(--yuki-select-icon-color);
+  font-size: var(--yuki-select-icon-size);
+}
+
+.yuki-select-trigger__value {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-select-trigger__value--placeholder {
+  color: var(--yuki-select-placeholder-color);
+}
+
+.yuki-select-trigger--multiple .yuki-select-trigger__value {
+  flex-wrap: wrap;
+  row-gap: var(--yuki-space-1);
+  white-space: normal;
+}
+
+.yuki-select-trigger__clear {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-select-icon-size);
+  height: var(--yuki-select-icon-size);
+  border-radius: var(--yuki-radius-full);
+  color: var(--yuki-select-icon-color);
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-select-trigger__clear:hover {
+  color: var(--yuki-color-text);
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-select-trigger__arrow {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--yuki-select-icon-color);
+  font-size: var(--yuki-select-icon-size);
+  transition: transform var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-select-trigger[data-state='open'] .yuki-select-trigger__arrow {
+  transform: rotate(180deg);
+}
+
+/* -------------------------------------------------------------- multi tags */
+
+.yuki-select-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  max-width: 100%;
+  padding-inline: var(--yuki-space-1-5);
+  padding-block: var(--yuki-space-0-5);
+  border-radius: var(--yuki-radius-xs);
+  background: var(--yuki-color-bg-subtle);
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-xs);
+  line-height: var(--yuki-line-height-snug);
+}
+
+.yuki-select-tag__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-select-tag__remove {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--yuki-radius-full);
+  background: transparent;
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-icon-size-2xs);
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-select-tag__remove:hover {
+  color: var(--yuki-color-danger);
+}
+
+/* ----------------------------------------------------------------- panels */
+
+.yuki-select-panel {
+  padding: var(--yuki-space-1);
+}
+
+.yuki-select-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  max-height: var(--yuki-select-list-max-height);
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+}
+
+.yuki-select-option {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-2);
+  min-height: var(--yuki-select-option-height);
+  padding-inline: var(--yuki-space-2);
+  padding-block: var(--yuki-space-1-5);
+  border-radius: var(--yuki-radius-sm);
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-snug);
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-select-option--active {
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-select-option--selected {
+  color: var(--yuki-color-primary);
+  font-weight: var(--yuki-font-weight-medium);
+}
+
+.yuki-select-option--selected.yuki-select-option--active {
+  background: var(--yuki-color-primary-subtle);
+}
+
+.yuki-select-option--disabled {
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-select-option--disabled.yuki-select-option--active {
+  background: transparent;
+}
+
+.yuki-select-option--active:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-select-option__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  min-width: 0;
+}
+
+.yuki-select-option__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-select-option__description {
+  display: block;
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-font-size-xs);
+  font-weight: var(--yuki-font-weight-regular);
+}
+
+.yuki-select-option__check {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  color: var(--yuki-color-primary);
+  font-size: var(--yuki-icon-size-sm);
+}
+
+.yuki-select-group {
+  padding: var(--yuki-space-1) var(--yuki-space-2);
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-font-size-xs);
+  font-weight: var(--yuki-font-weight-medium);
+  letter-spacing: var(--yuki-letter-spacing-wide);
+}
+
+.yuki-select-search {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-2);
+  margin-block-end: var(--yuki-space-1);
+  padding: var(--yuki-space-1) var(--yuki-space-2);
+  border-block-end: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+  color: var(--yuki-color-text-tertiary);
+}
+
+.yuki-select-search__icon {
+  display: inline-flex;
+  flex: none;
+  font-size: var(--yuki-icon-size-sm);
+}
+
+.yuki-select-search__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--yuki-color-text);
+  font-family: inherit;
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-select-search__input::placeholder {
+  color: var(--yuki-color-text-placeholder);
+}
+
+.yuki-select-status {
+  padding: var(--yuki-space-5) var(--yuki-space-2);
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+  text-align: center;
+}
+
+.yuki-select-status[data-tone='error'] {
+  color: var(--yuki-color-danger);
+}
+
+.yuki-select-status__loading {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-inline-end: var(--yuki-space-1);
+  font-size: var(--yuki-icon-size-sm);
+}

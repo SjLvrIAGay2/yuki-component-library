@@ -1,0 +1,84 @@
+.yuki-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--yuki-z-overlay);
+  background: var(--yuki-mask-color);
+  backdrop-filter: none;
+}
+.yuki-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  height: fit-content;
+  z-index: var(--yuki-z-modal);
+  max-height: calc(100dvh - var(--yuki-space-12));
+  overflow-y: auto;
+  color: var(--yuki-color-text);
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+  box-shadow: var(--yuki-shadow-xl);
+  width: min(32.5rem, calc(100vw - var(--yuki-space-8)));
+  background: var(--yuki-color-bg-elevated);
+  padding: 0;
+  border-radius: var(--yuki-radius-lg);
+}
+.yuki-dialog--sm {
+  width: min(22.5rem, calc(100vw - var(--yuki-space-8)));
+}
+.yuki-dialog--lg {
+  width: min(42.5rem, calc(100vw - var(--yuki-space-8)));
+}
+.yuki-dialog__title {
+  font-weight: var(--yuki-font-weight-semibold);
+  letter-spacing: var(--yuki-letter-spacing-tight);
+  padding: var(--yuki-space-4) var(--yuki-space-12) var(--yuki-space-3) var(--yuki-space-5);
+  margin: 0;
+  font-size: var(--yuki-font-size-xl);
+  line-height: var(--yuki-line-height-snug);
+}
+.yuki-dialog__description {
+  color: var(--yuki-color-text-secondary);
+  margin: var(--yuki-space-3) var(--yuki-space-5) 0;
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+}
+.yuki-dialog__body {
+  padding: var(--yuki-space-4) var(--yuki-space-5);
+  font-size: var(--yuki-font-size-md);
+  line-height: var(--yuki-line-height-normal);
+}
+.yuki-dialog__footer {
+  display: flex;
+  gap: var(--yuki-space-2);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: var(--yuki-space-3) var(--yuki-space-5);
+  border-top: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+}
+.yuki-dialog__close {
+  position: absolute;
+  border: 0;
+  background: transparent;
+  color: var(--yuki-color-text-secondary);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  width: var(--yuki-space-7);
+  height: var(--yuki-space-7);
+  border-radius: var(--yuki-radius-sm);
+  top: var(--yuki-space-3);
+  right: var(--yuki-space-3);
+}
+.yuki-dialog__close:hover {
+  background: var(--yuki-color-bg-hover);
+}
+.yuki-dialog[hidden],
+.yuki-dialog-overlay[hidden] {
+  display: none !important;
+}
+
+
+/* Release the animation transform so fixed descendant overlays use viewport coordinates. */
+.yuki-dialog[data-state='open'] {
+  animation-fill-mode: backwards;
+}

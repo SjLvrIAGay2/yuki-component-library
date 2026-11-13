@@ -1,0 +1,129 @@
+.yuki-player-controls {
+  color: var(--yuki-color-text);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-player-controls__timeline,
+.yuki-player-controls__row,
+.yuki-player-controls__volume {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-2);
+}
+
+.yuki-player-controls__timeline {
+  margin-block-end: var(--yuki-space-2);
+}
+
+.yuki-player-controls__time,
+.yuki-player-controls__clock {
+  flex-shrink: 0;
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.yuki-player-controls__range {
+  --yuki-player-progress: 0%;
+  --yuki-player-buffered: 0%;
+  --yuki-player-track: linear-gradient(to right,
+    var(--yuki-color-primary) var(--yuki-player-progress), transparent var(--yuki-player-progress)),
+    linear-gradient(to right, var(--yuki-color-border-strong) var(--yuki-player-buffered),
+    var(--yuki-color-border) var(--yuki-player-buffered));
+  appearance: none;
+  width: 100%;
+  min-width: 0;
+  height: var(--yuki-control-height-xs);
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.yuki-player-controls__range::-webkit-slider-runnable-track {
+  height: var(--yuki-space-1);
+  border-radius: var(--yuki-radius-full);
+  background: var(--yuki-player-track);
+}
+.yuki-player-controls__range::-moz-range-track {
+  height: var(--yuki-space-1);
+  border-radius: var(--yuki-radius-full);
+  background: var(--yuki-player-track);
+}
+.yuki-player-controls__range::-webkit-slider-thumb {
+  appearance: none;
+  width: var(--yuki-space-3);
+  height: var(--yuki-space-3);
+  margin-top: calc(-1 * var(--yuki-space-1));
+  border: var(--yuki-border-width-thick) solid var(--yuki-color-bg-surface);
+  border-radius: var(--yuki-radius-full);
+  background: var(--yuki-color-primary);
+  box-shadow: 0 0 0 var(--yuki-border-width-thin) var(--yuki-color-primary);
+}
+.yuki-player-controls__range::-moz-range-thumb {
+  box-sizing: border-box;
+  width: var(--yuki-space-3);
+  height: var(--yuki-space-3);
+  border: var(--yuki-border-width-thick) solid var(--yuki-color-bg-surface);
+  border-radius: var(--yuki-radius-full);
+  background: var(--yuki-color-primary);
+  box-shadow: 0 0 0 var(--yuki-border-width-thin) var(--yuki-color-primary);
+}
+
+.yuki-player-controls__row { flex-wrap: wrap; }
+.yuki-player-controls__spacer { flex: 1; }
+.yuki-player-controls__volume { gap: var(--yuki-space-1); }
+.yuki-player-controls__volume input { width: var(--yuki-space-14); }
+
+.yuki-player-controls__button,
+.yuki-player-controls__play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--yuki-control-height-sm);
+  height: var(--yuki-control-height-sm);
+  padding: 0;
+  border: 0;
+  border-radius: var(--yuki-radius-md);
+  background: transparent;
+  color: var(--yuki-color-text-secondary);
+  font: inherit;
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+.yuki-player-controls__button:hover:enabled {
+  color: var(--yuki-color-text);
+  background: var(--yuki-color-bg-hover);
+}
+.yuki-player-controls__play {
+  width: var(--yuki-control-height-md);
+  height: var(--yuki-control-height-md);
+  border-radius: var(--yuki-radius-full);
+  color: var(--yuki-color-primary-contrast);
+  background: var(--yuki-color-primary);
+}
+.yuki-player-controls__play:hover:enabled { background: var(--yuki-color-primary-hover); }
+
+.yuki-player-controls :is(button, input):focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+.yuki-player-controls :disabled {
+  cursor: not-allowed;
+  opacity: var(--yuki-opacity-disabled);
+}
+.yuki-player-controls .yuki-player-controls__select {
+  flex: 0 1 auto;
+  width: auto;
+  min-width: 0;
+  max-width: var(--yuki-space-24);
+}
+.yuki-player-controls__error {
+  margin: var(--yuki-space-2) 0 0;
+  font-size: var(--yuki-font-size-sm);
+  color: var(--yuki-color-danger);
+}

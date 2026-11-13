@@ -1,0 +1,187 @@
+.yuki-tag {
+  --yuki-tag-height: var(--yuki-space-6);
+  --yuki-tag-padding-x: var(--yuki-space-2);
+  --yuki-tag-gap: var(--yuki-control-gap-xs);
+  --yuki-tag-radius: var(--yuki-radius-sm);
+  --yuki-tag-font-size: var(--yuki-font-size-xs);
+  --yuki-tag-border-width: var(--yuki-border-width-thin);
+  --yuki-tag-accent: var(--yuki-color-bg-inverse);
+  --yuki-tag-accent-subtle: var(--yuki-color-bg-subtle);
+  --yuki-tag-accent-border: var(--yuki-color-border-subtle);
+  --yuki-tag-accent-text: var(--yuki-color-text-secondary);
+  --yuki-tag-accent-contrast: var(--yuki-color-text-inverse);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--yuki-tag-gap);
+  box-sizing: border-box;
+  height: var(--yuki-tag-height);
+  padding-inline: var(--yuki-tag-padding-x);
+  border: var(--yuki-tag-border-width) solid transparent;
+  border-radius: var(--yuki-tag-radius);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-tag-font-size);
+  font-weight: var(--yuki-font-weight-medium);
+  line-height: var(--yuki-line-height-none);
+  white-space: nowrap;
+  vertical-align: middle;
+  transition:
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    border-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-tag--sm {
+  --yuki-tag-height: var(--yuki-space-5);
+  --yuki-tag-padding-x: var(--yuki-space-1-5);
+  --yuki-tag-font-size: var(--yuki-font-size-2xs);
+}
+
+.yuki-tag--lg {
+  --yuki-tag-height: var(--yuki-space-7);
+  --yuki-tag-padding-x: var(--yuki-space-2-5);
+  --yuki-tag-font-size: var(--yuki-font-size-sm);
+}
+
+.yuki-tag--round {
+  --yuki-tag-radius: var(--yuki-radius-full);
+  --yuki-tag-padding-x: var(--yuki-space-2-5);
+}
+
+/* 语义色 */
+.yuki-tag--primary {
+  --yuki-tag-accent: var(--yuki-color-primary);
+  --yuki-tag-accent-subtle: var(--yuki-color-primary-subtle);
+  --yuki-tag-accent-border: var(--yuki-color-primary-border);
+  --yuki-tag-accent-text: var(--yuki-color-primary-hover);
+  --yuki-tag-accent-contrast: var(--yuki-color-primary-contrast);
+}
+
+.yuki-tag--success {
+  --yuki-tag-accent: var(--yuki-color-success);
+  --yuki-tag-accent-subtle: var(--yuki-color-success-subtle);
+  --yuki-tag-accent-border: var(--yuki-color-success-border);
+  --yuki-tag-accent-text: var(--yuki-color-success-hover);
+  --yuki-tag-accent-contrast: var(--yuki-color-success-contrast);
+}
+
+.yuki-tag--warning {
+  --yuki-tag-accent: var(--yuki-color-warning);
+  --yuki-tag-accent-subtle: var(--yuki-color-warning-subtle);
+  --yuki-tag-accent-border: var(--yuki-color-warning-border);
+  --yuki-tag-accent-text: var(--yuki-color-warning-hover);
+  --yuki-tag-accent-contrast: var(--yuki-color-warning-contrast);
+}
+
+.yuki-tag--danger {
+  --yuki-tag-accent: var(--yuki-color-danger);
+  --yuki-tag-accent-subtle: var(--yuki-color-danger-subtle);
+  --yuki-tag-accent-border: var(--yuki-color-danger-border);
+  --yuki-tag-accent-text: var(--yuki-color-danger-hover);
+  --yuki-tag-accent-contrast: var(--yuki-color-danger-contrast);
+}
+
+.yuki-tag--info {
+  --yuki-tag-accent: var(--yuki-color-info);
+  --yuki-tag-accent-subtle: var(--yuki-color-info-subtle);
+  --yuki-tag-accent-border: var(--yuki-color-info-border);
+  --yuki-tag-accent-text: var(--yuki-color-info-hover);
+  --yuki-tag-accent-contrast: var(--yuki-color-info-contrast);
+}
+
+/* 变体 */
+.yuki-tag--soft {
+  border-color: var(--yuki-tag-accent-border);
+  background: var(--yuki-tag-accent-subtle);
+  color: var(--yuki-tag-accent-text);
+}
+
+.yuki-tag--solid {
+  border-color: transparent;
+  background: var(--yuki-tag-accent);
+  color: var(--yuki-tag-accent-contrast);
+}
+
+.yuki-tag--outline {
+  border-color: var(--yuki-tag-accent-border);
+  background: transparent;
+  color: var(--yuki-tag-accent-text);
+}
+
+/* 可选中 */
+.yuki-tag--checkable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.yuki-tag--checkable:hover:not(.yuki-tag--disabled) {
+  border-color: var(--yuki-tag-accent);
+}
+
+.yuki-tag--checkable.yuki-tag--checked {
+  border-color: var(--yuki-tag-accent);
+  background: var(--yuki-tag-accent-subtle);
+  color: var(--yuki-tag-accent-text);
+}
+
+.yuki-tag--solid.yuki-tag--checked {
+  background: var(--yuki-tag-accent);
+  color: var(--yuki-tag-accent-contrast);
+}
+
+.yuki-tag--disabled {
+  cursor: not-allowed;
+  opacity: var(--yuki-opacity-disabled);
+}
+
+.yuki-tag__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  font-size: var(--yuki-icon-size-xs);
+}
+
+.yuki-tag__content {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yuki-tag__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--yuki-space-4);
+  height: var(--yuki-space-4);
+  margin-inline-end: calc(var(--yuki-space-1) * -1);
+  padding: 0;
+  border: 0;
+  border-radius: var(--yuki-radius-xs);
+  background: transparent;
+  color: inherit;
+  font-size: var(--yuki-icon-size-2xs);
+  line-height: var(--yuki-line-height-none);
+  cursor: pointer;
+  opacity: var(--yuki-opacity-muted);
+  transition:
+    opacity var(--yuki-duration-fast) var(--yuki-easing-standard),
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-tag__close:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  opacity: 1;
+}
+
+.yuki-tag__close:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-tag__close:disabled {
+  cursor: not-allowed;
+}

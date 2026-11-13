@@ -1,0 +1,438 @@
+/* =============================================================================
+ * Table
+ * -----------------------------------------------------------------------------
+ * Component tokens live on the root class so a consumer can retheme one table
+ * without touching shared design tokens.
+ * ========================================================================== */
+
+.yuki-table {
+  --yuki-table-cell-padding-y: var(--yuki-space-2);
+  --yuki-table-cell-padding-x: var(--yuki-space-3);
+  --yuki-table-font-size: var(--yuki-font-size-sm);
+  --yuki-table-border-color: var(--yuki-color-border-subtle);
+  --yuki-table-header-bg: var(--yuki-color-bg-subtle);
+  --yuki-table-header-color: var(--yuki-color-text-secondary);
+  --yuki-table-row-bg: var(--yuki-color-bg-surface);
+  --yuki-table-row-hover-bg: var(--yuki-color-bg-hover);
+  --yuki-table-row-striped-bg: var(--yuki-color-bg-subtle);
+  --yuki-table-row-selected-bg: var(--yuki-color-primary-subtle);
+  --yuki-table-radius: var(--yuki-radius-lg);
+  --yuki-table-sticky-z: var(--yuki-z-sticky);
+  --yuki-table-header-z: var(--yuki-z-dropdown);
+
+  position: relative;
+  width: 100%;
+  color: var(--yuki-color-text);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-table-font-size);
+  line-height: var(--yuki-line-height-snug);
+}
+
+.yuki-table[data-size='sm'] {
+  --yuki-table-cell-padding-y: var(--yuki-space-1-5);
+  --yuki-table-cell-padding-x: var(--yuki-space-2);
+  --yuki-table-font-size: var(--yuki-font-size-xs);
+}
+
+.yuki-table[data-size='lg'] {
+  --yuki-table-cell-padding-y: var(--yuki-space-3);
+  --yuki-table-cell-padding-x: var(--yuki-space-4);
+  --yuki-table-font-size: var(--yuki-font-size-md);
+}
+
+.yuki-table__content {
+  position: relative;
+  width: 100%;
+}
+
+.yuki-table__container {
+  width: 100%;
+  overflow: auto;
+  border-radius: var(--yuki-table-radius);
+  -webkit-overflow-scrolling: touch;
+}
+
+.yuki-table[data-bordered] .yuki-table__container {
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+}
+
+.yuki-table__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: auto;
+}
+
+/* -------------------------------------------------------------------------- *
+ * Header
+ * -------------------------------------------------------------------------- */
+
+.yuki-table__header-row {
+  background: var(--yuki-table-header-bg);
+}
+
+.yuki-table__header-cell {
+  position: relative;
+  z-index: var(--yuki-table-header-z);
+  padding: var(--yuki-table-cell-padding-y) var(--yuki-table-cell-padding-x);
+  background: var(--yuki-table-header-bg);
+  color: var(--yuki-table-header-color);
+  font-weight: var(--yuki-font-weight-medium);
+  font-size: var(--yuki-table-font-size);
+  line-height: var(--yuki-line-height-snug);
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+  box-sizing: border-box;
+}
+
+.yuki-table__table--sticky .yuki-table__header-cell {
+  position: sticky;
+  top: 0;
+  z-index: var(--yuki-table-header-z);
+}
+
+.yuki-table__header-cell--left {
+  text-align: left;
+}
+
+.yuki-table__header-cell--center {
+  text-align: center;
+}
+
+.yuki-table__header-cell--right {
+  text-align: right;
+}
+
+.yuki-table__header-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  max-width: 100%;
+}
+
+.yuki-table__header-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yuki-table__sort-trigger,
+.yuki-table__filter-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--yuki-space-0-5);
+  border: none;
+  border-radius: var(--yuki-radius-sm);
+  background: transparent;
+  color: var(--yuki-color-text-tertiary);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-table__sort-trigger:hover,
+.yuki-table__filter-trigger:hover {
+  background: var(--yuki-color-bg-hover);
+  color: var(--yuki-color-text);
+}
+
+.yuki-table__sort-trigger:focus-visible,
+.yuki-table__filter-trigger:focus-visible,
+.yuki-table__filter-option:focus-visible,
+.yuki-table__filter-reset:focus-visible,
+.yuki-table__expand-button:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-table__sort-trigger--active,
+.yuki-table__filter-trigger--active {
+  color: var(--yuki-color-primary);
+}
+
+.yuki-table__sort-icon {
+  display: inline-flex;
+  transition: color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-table__sort-trigger--active .yuki-table__sort-icon {
+  color: var(--yuki-color-primary);
+}
+
+/* Header cells that are pinned use the scroll offset set inline. */
+.yuki-table__header-cell--fixed-left,
+.yuki-table__header-cell--fixed-right {
+  position: sticky;
+  z-index: var(--yuki-table-header-z);
+}
+
+/* -------------------------------------------------------------------------- *
+ * Filter panel (rendered inside Popover)
+ * -------------------------------------------------------------------------- */
+
+.yuki-table__filter-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-1);
+  min-width: 8em;
+  padding: var(--yuki-space-1);
+}
+
+.yuki-table__filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  max-height: 16em;
+  overflow: auto;
+}
+
+.yuki-table__filter-option {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-1-5);
+  width: 100%;
+  padding: var(--yuki-space-1) var(--yuki-space-2);
+  border: none;
+  border-radius: var(--yuki-radius-sm);
+  background: transparent;
+  color: var(--yuki-color-text);
+  font: inherit;
+  font-size: var(--yuki-font-size-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-table__filter-option:hover {
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-table__filter-option--active {
+  color: var(--yuki-color-primary);
+}
+
+.yuki-table__filter-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-icon-size-sm);
+  height: var(--yuki-icon-size-sm);
+  flex: none;
+  color: var(--yuki-color-primary);
+}
+
+.yuki-table__filter-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--yuki-space-1);
+  border-top: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+}
+
+.yuki-table__filter-reset {
+  padding: var(--yuki-space-0-5) var(--yuki-space-1-5);
+  border: none;
+  border-radius: var(--yuki-radius-sm);
+  background: transparent;
+  color: var(--yuki-color-text-secondary);
+  font: inherit;
+  font-size: var(--yuki-font-size-xs);
+  cursor: pointer;
+  transition: color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-table__filter-reset:hover {
+  color: var(--yuki-color-primary);
+}
+
+/* -------------------------------------------------------------------------- *
+ * Body
+ * -------------------------------------------------------------------------- */
+
+.yuki-table__row {
+  --yuki-table-current-row-bg: var(--yuki-table-row-bg);
+}
+
+.yuki-table__row--striped {
+  --yuki-table-current-row-bg: var(--yuki-table-row-striped-bg);
+}
+
+.yuki-table__row--selected {
+  --yuki-table-current-row-bg: var(--yuki-table-row-selected-bg);
+}
+
+.yuki-table__row--expanded,
+.yuki-table__row--expanded:hover {
+  --yuki-table-current-row-bg: var(--yuki-table-row-striped-bg);
+}
+
+.yuki-table__row--hover:hover {
+  --yuki-table-current-row-bg: var(--yuki-table-row-hover-bg);
+}
+
+.yuki-table__cell {
+  padding: var(--yuki-table-cell-padding-y) var(--yuki-table-cell-padding-x);
+  background: var(--yuki-table-current-row-bg, var(--yuki-table-row-bg));
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-table-font-size);
+  line-height: var(--yuki-line-height-snug);
+  vertical-align: middle;
+  border-bottom: var(--yuki-border-width-thin) solid var(--yuki-table-border-color);
+  transition: background-color var(--yuki-duration-fast) var(--yuki-easing-standard);
+  box-sizing: border-box;
+}
+
+.yuki-table[data-bordered] .yuki-table__cell + .yuki-table__cell,
+.yuki-table[data-bordered] .yuki-table__header-cell + .yuki-table__header-cell {
+  border-inline-start: var(--yuki-border-width-thin) solid var(--yuki-table-border-color);
+}
+
+.yuki-table__body tr:last-child .yuki-table__cell {
+  border-bottom: none;
+}
+
+.yuki-table__row--virtual .yuki-table__cell {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.yuki-table__cell--ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.yuki-table__cell--left {
+  text-align: left;
+}
+
+.yuki-table__cell--center {
+  text-align: center;
+}
+
+.yuki-table__cell--right {
+  text-align: right;
+}
+
+.yuki-table__cell--selection,
+.yuki-table__header-cell--selection,
+.yuki-table__cell--expand,
+.yuki-table__header-cell--expand {
+  padding-inline: var(--yuki-space-1);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.yuki-table__cell--fixed-left,
+.yuki-table__cell--fixed-right {
+  position: sticky;
+  z-index: var(--yuki-table-sticky-z);
+}
+
+.yuki-table__row--expanded .yuki-table__cell--expanded {
+  padding: 0;
+  background: var(--yuki-color-bg-surface);
+}
+
+/* -------------------------------------------------------------------------- *
+ * Selection / expansion controls
+ * -------------------------------------------------------------------------- */
+
+.yuki-table__radio {
+  width: var(--yuki-icon-size-md);
+  height: var(--yuki-icon-size-md);
+  margin: 0;
+  accent-color: var(--yuki-color-primary);
+  cursor: pointer;
+}
+
+.yuki-table__radio:disabled {
+  cursor: not-allowed;
+  opacity: var(--yuki-opacity-disabled);
+}
+
+.yuki-table__expand-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-control-height-xs);
+  height: var(--yuki-control-height-xs);
+  padding: 0;
+  border: none;
+  border-radius: var(--yuki-radius-sm);
+  background: transparent;
+  color: var(--yuki-color-text-tertiary);
+  cursor: pointer;
+  transition:
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-table__expand-button:hover {
+  background: var(--yuki-color-bg-hover);
+  color: var(--yuki-color-text);
+}
+
+.yuki-table__expand-icon {
+  display: inline-flex;
+  transition: transform var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-table__expand-button--expanded .yuki-table__expand-icon {
+  transform: rotate(90deg);
+}
+
+/* -------------------------------------------------------------------------- *
+ * Empty / loading / footer / pagination
+ * -------------------------------------------------------------------------- */
+
+.yuki-table__empty {
+  padding: var(--yuki-space-12) var(--yuki-space-4);
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-table-font-size);
+  text-align: center;
+}
+
+.yuki-table__loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--yuki-color-bg-overlay);
+  border-radius: var(--yuki-table-radius);
+  backdrop-filter: var(--yuki-backdrop-blur);
+}
+
+.yuki-table__spinner {
+  width: var(--yuki-icon-size-lg);
+  height: var(--yuki-icon-size-lg);
+  border: var(--yuki-border-width-medium) solid var(--yuki-color-primary-border);
+  border-top-color: var(--yuki-color-primary);
+  border-radius: var(--yuki-radius-full);
+  animation: yuki-spin var(--yuki-duration-slow) linear infinite;
+}
+
+.yuki-table__footer {
+  padding: var(--yuki-space-2) var(--yuki-space-3);
+  border-top: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-table-font-size);
+}
+
+.yuki-table__pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--yuki-space-3);
+}
+
+.yuki-table__spacer td {
+  background: transparent;
+}
+
+.yuki-table--compound[data-striped] tbody tr:nth-child(even) { background: var(--yuki-table-row-striped-bg); }
+.yuki-table--compound[data-hover] tbody tr:hover { background: var(--yuki-table-row-hover-bg); }
+.yuki-table--compound caption { padding: var(--yuki-space-2); font-size: var(--yuki-font-size-sm); color: var(--yuki-color-text-secondary); }

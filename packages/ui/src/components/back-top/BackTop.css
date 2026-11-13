@@ -1,0 +1,68 @@
+/* BackTop — fixed scroll-to-top control. */
+.yuki-back-top {
+  --yuki-back-top-size: var(--yuki-control-height-lg);
+  --yuki-back-top-bg: var(--yuki-color-bg-elevated);
+  --yuki-back-top-border: var(--yuki-color-border);
+  --yuki-back-top-color: var(--yuki-color-text-secondary);
+  --yuki-back-top-hover-bg: var(--yuki-color-bg-hover);
+  --yuki-back-top-hover-color: var(--yuki-color-primary);
+  --yuki-back-top-offset-block: var(--yuki-space-6);
+  --yuki-back-top-offset-inline: var(--yuki-space-6);
+  --yuki-back-top-arrow-size: var(--yuki-space-2);
+
+  position: fixed;
+  inset-block-end: var(--yuki-back-top-offset-block);
+  inset-inline-end: var(--yuki-back-top-offset-inline);
+  z-index: var(--yuki-z-sticky);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--yuki-back-top-size);
+  block-size: var(--yuki-back-top-size);
+  padding: 0;
+  border: var(--yuki-border-width-thin) solid var(--yuki-back-top-border);
+  border-radius: var(--yuki-radius-full);
+  background: var(--yuki-back-top-bg);
+  color: var(--yuki-back-top-color);
+  box-shadow: var(--yuki-shadow-md);
+  cursor: pointer;
+  animation: yuki-fade-in var(--yuki-duration-fast) var(--yuki-easing-enter);
+  transition:
+    color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    transform var(--yuki-duration-fast) var(--yuki-easing-standard),
+    box-shadow var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-back-top:hover {
+  background: var(--yuki-back-top-hover-bg);
+  color: var(--yuki-back-top-hover-color);
+  box-shadow: var(--yuki-shadow-lg);
+  transform: translateY(calc(var(--yuki-space-0-5) * -1));
+}
+
+.yuki-back-top:active {
+  transform: translateY(0);
+}
+
+.yuki-back-top:focus-visible {
+  outline: var(--yuki-border-width-thin) solid transparent;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-back-top__arrow {
+  inline-size: var(--yuki-back-top-arrow-size);
+  block-size: var(--yuki-back-top-arrow-size);
+  border-block-start: var(--yuki-border-width-medium) solid currentColor;
+  border-inline-start: var(--yuki-border-width-medium) solid currentColor;
+  transform: translateY(var(--yuki-space-0-5)) rotate(45deg);
+}
+
+.yuki-back-top[data-size='sm'] {
+  --yuki-back-top-size: var(--yuki-control-height-md);
+}
+
+.yuki-back-top[data-size='lg'] {
+  --yuki-back-top-size: var(--yuki-control-height-xl);
+  --yuki-back-top-arrow-size: var(--yuki-space-2-5);
+}

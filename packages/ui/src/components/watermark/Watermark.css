@@ -1,0 +1,17 @@
+/* Watermark — repeated canvas pattern overlay. */
+.yuki-watermark {
+  position: relative;
+}
+
+.yuki-watermark__canvas {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.yuki-watermark__content {
+  position: relative;
+  z-index: 1;
+}

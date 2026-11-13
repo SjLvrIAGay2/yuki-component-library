@@ -1,0 +1,40 @@
+{
+  "name": "yuki-ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Yuki UI \u2014 a calm, token-driven React component library.",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @yuki-ui/docs",
+    "build": "npm run build:lib && npm run build:docs",
+    "build:lib": "npm run build -w @yuki-ui/react",
+    "build:docs": "npm run build -w @yuki-ui/docs",
+    "typecheck": "npm run typecheck -w @yuki-ui/react && npm run typecheck -w @yuki-ui/docs",
+    "gen": "node scripts/generate.mjs",
+    "check": "npm run typecheck && node scripts/ai-guide.mjs --check",
+    "preview:docs": "npm run preview -w @yuki-ui/docs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "vite-plugin-dts": "^4.3.0"
+  },
+  "overrides": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}

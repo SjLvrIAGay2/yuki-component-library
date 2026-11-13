@@ -1,0 +1,27 @@
+node_modules/
+dist/
+site-dist/
+coverage/
+.vite/
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+npm-debug.log*
+playwright-report/
+test-results/
+*.tgz
+
+# Local development and review files
+/backup/
+/.npmrc
+/DELIVERY.md
+/FOUNDATION.md
+/KNOWN_LIMITATIONS.md
+/SELF-CHECK.md
+/scripts/audit.mjs
+/scripts/check-tokens.mjs
+/scripts/report.mjs
+/packages/ui/vitest.config.ts
+/packages/ui/src/test/
+*.test.ts
+*.test.tsx

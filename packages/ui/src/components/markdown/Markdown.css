@@ -1,0 +1,110 @@
+.yuki-markdown {
+  color: var(--yuki-color-text);
+  font: var(--yuki-font-size-md)/var(--yuki-line-height-loose) var(--yuki-font-family-sans);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.yuki-markdown > :first-child {
+  margin-top: 0;
+}
+.yuki-markdown > :last-child {
+  margin-bottom: 0;
+}
+.yuki-markdown h1,
+.yuki-markdown h2,
+.yuki-markdown h3,
+.yuki-markdown h4,
+.yuki-markdown h5,
+.yuki-markdown h6 {
+  font-weight: var(--yuki-font-weight-semibold);
+  line-height: 1.4;
+  margin: 1.4em 0 0.6em;
+  color: var(--yuki-color-text);
+}
+.yuki-markdown h1 {
+  font-size: 1.9em;
+}
+.yuki-markdown h2 {
+  border-bottom: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  padding-bottom: var(--yuki-space-2);
+  font-size: 1.55em;
+}
+.yuki-markdown h3 {
+  font-size: 1.2em;
+}
+.yuki-markdown p {
+  margin: 0.8em 0;
+}
+.yuki-markdown a {
+  color: var(--yuki-color-text-link);
+  text-decoration: underline;
+  text-underline-offset: var(--yuki-space-1);
+}
+.yuki-markdown img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--yuki-radius-md);
+}
+.yuki-markdown blockquote {
+  margin: var(--yuki-space-4) 0;
+  border-inline-start: var(--yuki-border-width-thick) solid var(--yuki-color-primary);
+  color: var(--yuki-color-text);
+  background: var(--yuki-color-bg-canvas);
+  border-radius: 0 var(--yuki-radius-sm) var(--yuki-radius-sm) 0;
+  padding: var(--yuki-space-2) var(--yuki-space-4);
+}
+.yuki-markdown :not(pre) > code {
+  font: 0.9em/var(--yuki-line-height-relaxed) var(--yuki-font-family-mono);
+  background: var(--yuki-color-bg-subtle);
+  color: var(--yuki-color-text);
+  padding: var(--yuki-space-0-5) var(--yuki-space-1);
+  border-radius: var(--yuki-radius-xs);
+}
+.yuki-markdown .yuki-code-block {
+  margin: var(--yuki-space-4) 0;
+}
+.yuki-markdown ul,
+.yuki-markdown ol {
+  padding-inline-start: var(--yuki-space-6);
+}
+.yuki-markdown li {
+  margin: var(--yuki-space-1) 0;
+}
+.yuki-markdown .contains-task-list {
+  list-style: none;
+  padding-inline-start: var(--yuki-space-1);
+}
+.yuki-markdown input[type='checkbox'] {
+  accent-color: var(--yuki-color-primary);
+  margin-inline-end: var(--yuki-space-2);
+}
+.yuki-markdown hr {
+  border: 0;
+  border-top: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  margin: var(--yuki-space-6) 0;
+}
+.yuki-markdown__table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: var(--yuki-space-4) 0;
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  border-radius: var(--yuki-radius-md);
+}
+.yuki-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--yuki-font-size-xs);
+  text-align: left;
+}
+.yuki-markdown th,
+.yuki-markdown td {
+  padding: var(--yuki-space-2) var(--yuki-space-3);
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+}
+.yuki-markdown th {
+  font-weight: var(--yuki-font-weight-medium);
+  background: var(--yuki-color-bg-canvas);
+}
+.yuki-markdown del {
+  color: var(--yuki-color-text-secondary);
+}

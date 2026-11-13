@@ -1,0 +1,74 @@
+/* Scrollbar — custom overlay scrollbar wrapper. */
+.yuki-scrollbar {
+  position: relative;
+  overflow: hidden;
+}
+
+.yuki-scrollbar__view {
+  max-block-size: 100%;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.yuki-scrollbar__view::-webkit-scrollbar {
+  inline-size: 0;
+  block-size: 0;
+}
+
+.yuki-scrollbar__view:focus-visible {
+  outline: var(--yuki-border-width-thin) solid transparent;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-scrollbar__track {
+  position: absolute;
+  z-index: var(--yuki-z-sticky);
+  border-radius: var(--yuki-radius-full);
+  opacity: 0;
+  transition: opacity var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-scrollbar__track--vertical {
+  inset-block: var(--yuki-space-0-5);
+  inset-inline-end: var(--yuki-space-0-5);
+  inline-size: var(--yuki-scrollbar-size);
+}
+
+.yuki-scrollbar__track--horizontal {
+  inset-inline: var(--yuki-space-0-5);
+  inset-block-end: var(--yuki-space-0-5);
+  block-size: var(--yuki-scrollbar-size);
+}
+
+.yuki-scrollbar__thumb {
+  position: absolute;
+  border-radius: var(--yuki-radius-full);
+  background: var(--yuki-scrollbar-thumb);
+  transition: background-color var(--yuki-duration-fast) var(--yuki-easing-standard);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.yuki-scrollbar__thumb--vertical {
+  inset-inline: 0;
+  min-block-size: var(--yuki-space-5);
+}
+
+.yuki-scrollbar__thumb--horizontal {
+  inset-block: 0;
+  min-inline-size: var(--yuki-space-5);
+}
+
+.yuki-scrollbar__thumb:hover,
+.yuki-scrollbar[data-dragging='true'] .yuki-scrollbar__thumb {
+  background: var(--yuki-scrollbar-thumb-hover);
+}
+
+.yuki-scrollbar[data-visibility='always'] .yuki-scrollbar__track {
+  opacity: 1;
+}
+
+.yuki-scrollbar[data-visibility='hover']:hover .yuki-scrollbar__track,
+.yuki-scrollbar[data-visibility='hover'][data-dragging='true'] .yuki-scrollbar__track {
+  opacity: 1;
+}

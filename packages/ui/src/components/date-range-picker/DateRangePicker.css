@@ -1,0 +1,72 @@
+/*
+ * DateRangePicker layout. The calendar itself is shared with DatePicker
+ * (`.yuki-date-calendar`), so only the range-specific chrome lives here.
+ */
+
+.yuki-date-range-picker {
+  --yuki-date-range-picker-panel-padding: var(--yuki-space-3);
+  --yuki-date-range-picker-preset-gap: var(--yuki-space-1);
+  --yuki-date-range-picker-preset-padding: var(--yuki-space-0-5) var(--yuki-space-2);
+  --yuki-date-range-picker-separator-color: var(--yuki-color-text-tertiary);
+
+  min-width: var(--yuki-space-24);
+}
+
+.yuki-date-range-picker__value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  min-width: 0;
+}
+
+.yuki-date-range-picker__start,
+.yuki-date-range-picker__end {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-date-range-picker__separator {
+  flex: none;
+  color: var(--yuki-date-range-picker-separator-color);
+}
+
+.yuki-date-range-picker__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-2);
+  padding: var(--yuki-date-range-picker-panel-padding);
+}
+
+.yuki-date-range-picker__presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--yuki-date-range-picker-preset-gap);
+}
+
+.yuki-date-range-picker__preset {
+  padding: var(--yuki-date-range-picker-preset-padding);
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+  border-radius: var(--yuki-radius-sm);
+  background: var(--yuki-color-bg-surface);
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-xs);
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-date-range-picker__preset:hover {
+  border-color: var(--yuki-color-primary-border);
+  background: var(--yuki-color-primary-subtle);
+  color: var(--yuki-color-primary);
+}
+
+.yuki-date-range-picker__preset:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-date-range-picker__summary {
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-xs);
+}

@@ -1,0 +1,246 @@
+.yuki-color-picker,
+.yuki-color-picker__panel {
+  --yuki-color-picker-trigger-height: var(--yuki-control-height-md);
+  --yuki-color-picker-trigger-padding: var(--yuki-control-padding-md);
+  --yuki-color-picker-trigger-gap: var(--yuki-control-gap-sm);
+  --yuki-color-picker-trigger-radius: var(--yuki-radius-md);
+  --yuki-color-picker-trigger-bg: var(--yuki-color-bg-surface);
+  --yuki-color-picker-trigger-border: var(--yuki-color-border);
+  --yuki-color-picker-trigger-color: var(--yuki-color-text);
+  --yuki-color-picker-swatch-size: var(--yuki-icon-size-lg);
+  --yuki-color-picker-swatch-radius: var(--yuki-radius-sm);
+  --yuki-color-picker-swatch-border: var(--yuki-color-border-subtle);
+  --yuki-color-picker-value-size: var(--yuki-font-size-sm);
+  --yuki-color-picker-indicator-size: var(--yuki-icon-size-sm);
+  --yuki-color-picker-indicator-color: var(--yuki-color-text-tertiary);
+  --yuki-color-picker-panel-width: var(--yuki-popup-width-sm);
+  --yuki-color-picker-panel-padding: var(--yuki-space-3);
+  --yuki-color-picker-panel-gap: var(--yuki-space-3);
+  --yuki-color-picker-preset-columns: 6;
+  --yuki-color-picker-preset-size: var(--yuki-icon-size-xl);
+  --yuki-color-picker-preset-radius: var(--yuki-radius-sm);
+  --yuki-color-picker-preset-border: var(--yuki-color-border-subtle);
+  --yuki-color-picker-input-row-gap: var(--yuki-space-2);
+  --yuki-color-picker-preview-size: var(--yuki-control-height-sm);
+  --yuki-color-picker-preview-radius: var(--yuki-radius-sm);
+  --yuki-color-picker-alpha-gap: var(--yuki-space-2);
+  --yuki-color-picker-alpha-label-size: var(--yuki-font-size-xs);
+  --yuki-color-picker-alpha-label-color: var(--yuki-color-text-secondary);
+  --yuki-color-picker-alpha-value-color: var(--yuki-color-text-tertiary);
+}
+
+.yuki-color-picker {
+  position: relative;
+  display: inline-flex;
+  color: var(--yuki-color-picker-trigger-color);
+  font-size: var(--yuki-color-picker-value-size);
+}
+
+.yuki-color-picker--sm {
+  --yuki-color-picker-trigger-height: var(--yuki-control-height-sm);
+  --yuki-color-picker-trigger-padding: var(--yuki-control-padding-sm);
+  --yuki-color-picker-swatch-size: var(--yuki-icon-size-md);
+  --yuki-color-picker-value-size: var(--yuki-font-size-xs);
+}
+
+.yuki-color-picker--lg {
+  --yuki-color-picker-trigger-height: var(--yuki-control-height-lg);
+  --yuki-color-picker-trigger-padding: var(--yuki-control-padding-lg);
+  --yuki-color-picker-swatch-size: var(--yuki-icon-size-xl);
+  --yuki-color-picker-value-size: var(--yuki-font-size-md);
+}
+
+.yuki-color-picker[data-disabled] {
+  opacity: var(--yuki-opacity-disabled);
+}
+
+.yuki-color-picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-color-picker-trigger-gap);
+  box-sizing: border-box;
+  height: var(--yuki-color-picker-trigger-height);
+  padding-inline: var(--yuki-color-picker-trigger-padding);
+  margin: 0;
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-picker-trigger-border);
+  border-radius: var(--yuki-color-picker-trigger-radius);
+  background: var(--yuki-color-picker-trigger-bg);
+  color: inherit;
+  font: inherit;
+  font-size: var(--yuki-color-picker-value-size);
+  line-height: var(--yuki-line-height-none);
+  text-align: start;
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-color-picker__trigger:hover {
+  border-color: var(--yuki-color-border-strong);
+}
+
+.yuki-color-picker__trigger:focus-visible {
+  outline: none;
+  border-color: var(--yuki-color-primary);
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-color-picker[data-open] .yuki-color-picker__trigger {
+  border-color: var(--yuki-color-primary);
+}
+
+.yuki-color-picker[data-disabled] .yuki-color-picker__trigger {
+  cursor: not-allowed;
+}
+
+.yuki-color-picker__swatch {
+  flex: none;
+  width: var(--yuki-color-picker-swatch-size);
+  height: var(--yuki-color-picker-swatch-size);
+  border-radius: var(--yuki-color-picker-swatch-radius);
+  background-color: var(--yuki-color-bg-subtle);
+  background-image: linear-gradient(
+      45deg,
+      var(--yuki-color-bg-muted) 25%,
+      transparent 25%,
+      transparent 75%,
+      var(--yuki-color-bg-muted) 75%
+    ),
+    linear-gradient(
+      45deg,
+      var(--yuki-color-bg-muted) 25%,
+      transparent 25%,
+      transparent 75%,
+      var(--yuki-color-bg-muted) 75%
+    );
+  background-size: var(--yuki-space-2) var(--yuki-space-2);
+  background-position: 0 0, var(--yuki-space-1) var(--yuki-space-1);
+  box-shadow: inset 0 0 0 var(--yuki-border-width-thin)
+    var(--yuki-color-picker-swatch-border);
+}
+
+.yuki-color-picker__value {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.yuki-color-picker__value--placeholder {
+  color: var(--yuki-color-text-placeholder);
+}
+
+.yuki-color-picker__indicator {
+  flex: none;
+  width: var(--yuki-color-picker-indicator-size);
+  height: var(--yuki-color-picker-indicator-size);
+  color: var(--yuki-color-picker-indicator-color);
+}
+
+.yuki-color-picker__panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-color-picker-panel-gap);
+  width: var(--yuki-color-picker-panel-width);
+  max-width: 100%;
+  padding: var(--yuki-color-picker-panel-padding);
+}
+
+.yuki-color-picker__presets {
+  display: grid;
+  grid-template-columns: repeat(var(--yuki-color-picker-preset-columns), minmax(0, 1fr));
+  gap: var(--yuki-color-picker-input-row-gap);
+}
+
+.yuki-color-picker__preset {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: var(--yuki-color-picker-preset-size);
+  aspect-ratio: 1;
+  padding: 0;
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-picker-preset-border);
+  border-radius: var(--yuki-color-picker-preset-radius);
+  cursor: pointer;
+  transition: var(--yuki-transition-transform);
+}
+
+.yuki-color-picker__preset:hover {
+  transform: scale(1.08);
+}
+
+.yuki-color-picker__preset:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-color-picker__preset[data-selected] {
+  outline: var(--yuki-border-width-thick) solid var(--yuki-color-primary);
+  outline-offset: var(--yuki-space-0-5);
+}
+
+.yuki-color-picker__input-row {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-color-picker-input-row-gap);
+}
+
+.yuki-color-picker__preview {
+  flex: none;
+  width: var(--yuki-color-picker-preview-size);
+  height: var(--yuki-color-picker-preview-size);
+  border-radius: var(--yuki-color-picker-preview-radius);
+  background-color: var(--yuki-color-bg-subtle);
+  background-image: linear-gradient(
+      45deg,
+      var(--yuki-color-bg-muted) 25%,
+      transparent 25%,
+      transparent 75%,
+      var(--yuki-color-bg-muted) 75%
+    ),
+    linear-gradient(
+      45deg,
+      var(--yuki-color-bg-muted) 25%,
+      transparent 25%,
+      transparent 75%,
+      var(--yuki-color-bg-muted) 75%
+    );
+  background-size: var(--yuki-space-2) var(--yuki-space-2);
+  background-position: 0 0, var(--yuki-space-1) var(--yuki-space-1);
+  box-shadow: inset 0 0 0 var(--yuki-border-width-thin)
+    var(--yuki-color-picker-swatch-border);
+}
+
+.yuki-color-picker__input {
+  flex: 1;
+  min-width: 0;
+}
+
+.yuki-color-picker__alpha {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-color-picker-alpha-gap);
+  font-size: var(--yuki-color-picker-alpha-label-size);
+  color: var(--yuki-color-picker-alpha-label-color);
+}
+
+.yuki-color-picker__alpha-input {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  accent-color: var(--yuki-color-primary);
+}
+
+.yuki-color-picker__alpha-value {
+  min-width: var(--yuki-space-6);
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+  color: var(--yuki-color-picker-alpha-value-color);
+}
+
+.yuki-color-picker__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--yuki-color-picker-input-row-gap);
+}
+
+.yuki-color-picker__preview { position: relative; }
+.yuki-color-picker__native { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; opacity: 0; cursor: pointer; }
+.yuki-color-picker__preview:focus-within { box-shadow: var(--yuki-shadow-focus); }

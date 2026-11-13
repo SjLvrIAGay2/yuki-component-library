@@ -1,0 +1,30 @@
+.yuki-popover {
+  --yuki-popover-max-width: var(--yuki-popup-width-md);
+
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.yuki-popover__anchor {
+  display: inline-flex;
+  min-width: 0;
+}
+
+.yuki-popover__body {
+  padding: var(--yuki-space-3) var(--yuki-space-4);
+  max-width: var(--yuki-popover-max-width);
+}
+
+.yuki-popover__title {
+  margin-block-end: var(--yuki-space-1);
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-font-size-sm);
+  font-weight: var(--yuki-font-weight-semibold);
+  line-height: var(--yuki-line-height-tight);
+}
+
+.yuki-popover__content {
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+}

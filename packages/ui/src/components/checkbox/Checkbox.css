@@ -1,0 +1,151 @@
+/* =============================================================================
+ * Checkbox + CheckboxGroup
+ * ========================================================================== */
+
+.yuki-checkbox {
+  --yuki-checkbox-size: var(--yuki-icon-size-md);
+  --yuki-checkbox-radius: var(--yuki-radius-xs);
+  --yuki-checkbox-gap: var(--yuki-control-gap-sm);
+  --yuki-checkbox-font-size: var(--yuki-font-size-md);
+  --yuki-checkbox-bg: var(--yuki-color-bg-surface);
+  --yuki-checkbox-border: var(--yuki-color-border-strong);
+  --yuki-checkbox-color: var(--yuki-color-primary);
+  --yuki-checkbox-color-hover: var(--yuki-color-primary-hover);
+  --yuki-checkbox-mark: var(--yuki-color-text-inverse);
+  --yuki-checkbox-label: var(--yuki-color-text);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-checkbox-gap);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-checkbox-font-size);
+  line-height: var(--yuki-line-height-normal);
+  color: var(--yuki-checkbox-label);
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+}
+
+.yuki-checkbox__input {
+  position: absolute;
+  width: var(--yuki-checkbox-size);
+  height: var(--yuki-checkbox-size);
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.yuki-checkbox__control {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-checkbox-size);
+  height: var(--yuki-checkbox-size);
+  color: var(--yuki-checkbox-mark);
+  background: var(--yuki-checkbox-bg);
+  border: var(--yuki-border-width-thin) solid var(--yuki-checkbox-border);
+  border-radius: var(--yuki-checkbox-radius);
+  transition:
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    border-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    box-shadow var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-checkbox__mark {
+  width: 100%;
+  height: 100%;
+  padding: var(--yuki-space-0-5);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity var(--yuki-duration-fast) var(--yuki-easing-standard),
+    transform var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-checkbox__label {
+  display: inline-block;
+}
+
+/* Checked + indeterminate ------------------------------------------------- */
+.yuki-checkbox[data-checked='true'] .yuki-checkbox__control,
+.yuki-checkbox[data-indeterminate='true'] .yuki-checkbox__control {
+  background: var(--yuki-checkbox-color);
+  border-color: var(--yuki-checkbox-color);
+}
+
+.yuki-checkbox[data-checked='true'] .yuki-checkbox__mark,
+.yuki-checkbox[data-indeterminate='true'] .yuki-checkbox__mark {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Hover + focus ----------------------------------------------------------- */
+.yuki-checkbox:hover .yuki-checkbox__control {
+  border-color: var(--yuki-checkbox-color);
+}
+
+.yuki-checkbox[data-checked='true']:hover .yuki-checkbox__control,
+.yuki-checkbox[data-indeterminate='true']:hover .yuki-checkbox__control {
+  background: var(--yuki-checkbox-color-hover);
+  border-color: var(--yuki-checkbox-color-hover);
+}
+
+.yuki-checkbox__input:focus-visible + .yuki-checkbox__control {
+  outline: none;
+  border-color: var(--yuki-checkbox-color);
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+/* Disabled ---------------------------------------------------------------- */
+.yuki-checkbox[data-disabled='true'] {
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-checkbox[data-disabled='true'] .yuki-checkbox__control {
+  background: var(--yuki-color-bg-disabled);
+  border-color: var(--yuki-color-border-subtle);
+}
+
+.yuki-checkbox[data-disabled='true'][data-checked='true'] .yuki-checkbox__control,
+.yuki-checkbox[data-disabled='true'][data-indeterminate='true'] .yuki-checkbox__control {
+  background: var(--yuki-color-primary);
+  border-color: var(--yuki-color-primary);
+  opacity: var(--yuki-opacity-disabled);
+}
+
+.yuki-checkbox[data-disabled='true']:hover .yuki-checkbox__control {
+  border-color: var(--yuki-color-border-subtle);
+}
+
+/* Sizes ------------------------------------------------------------------- */
+.yuki-checkbox--sm {
+  --yuki-checkbox-size: var(--yuki-icon-size-sm);
+  --yuki-checkbox-font-size: var(--yuki-font-size-sm);
+  --yuki-checkbox-gap: var(--yuki-space-1-5);
+}
+
+.yuki-checkbox--lg {
+  --yuki-checkbox-size: var(--yuki-icon-size-lg);
+  --yuki-checkbox-font-size: var(--yuki-font-size-lg);
+  --yuki-checkbox-gap: var(--yuki-space-2-5);
+}
+
+/* Group ------------------------------------------------------------------- */
+.yuki-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--yuki-space-2) var(--yuki-space-4);
+  font-family: var(--yuki-font-family-sans);
+}
+
+.yuki-checkbox-group--vertical {
+  flex-direction: column;
+  gap: var(--yuki-space-2);
+}
+
+.yuki-checkbox-group__item {
+  display: inline-flex;
+}

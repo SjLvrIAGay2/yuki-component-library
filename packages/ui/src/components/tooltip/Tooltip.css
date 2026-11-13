@@ -1,0 +1,27 @@
+.yuki-tooltip {
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.yuki-tooltip__anchor {
+  display: inline-flex;
+  min-width: 0;
+}
+
+.yuki-tooltip__popup {
+  --yuki-popup-radius: var(--yuki-radius-md);
+
+  max-width: var(--yuki-popup-width-sm);
+  padding: var(--yuki-space-1-5) var(--yuki-space-2-5);
+  color: var(--yuki-color-text-inverse);
+  background: var(--yuki-color-bg-inverse);
+  border-color: transparent;
+  font-size: var(--yuki-font-size-xs);
+  line-height: var(--yuki-line-height-snug);
+}
+
+/* The arrow inherits the inverse surface of the tooltip bubble. */
+.yuki-tooltip__popup .yuki-popup__arrow {
+  background: var(--yuki-color-bg-inverse);
+  border-color: transparent;
+}

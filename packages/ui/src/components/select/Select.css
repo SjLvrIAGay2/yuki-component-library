@@ -1,0 +1,26 @@
+/*
+ * Select component tokens. The trigger/panel/option visuals live in
+ * select-shared.css so the whole form family stays consistent; this file only
+ * adds Select-specific layout.
+ */
+
+.yuki-select {
+  --yuki-select-min-width: var(--yuki-space-24);
+
+  min-width: var(--yuki-select-min-width);
+}
+
+/* Once the viewport limits the panel, wrap text inside the scrollable list. */
+.yuki-select-popup--content {
+  overflow-wrap: anywhere;
+}
+
+.yuki-select-popup--content .yuki-select-option__label {
+  white-space: normal;
+  text-overflow: clip;
+}
+
+.yuki-select-popup--content .yuki-select-option,
+.yuki-select-popup--content .yuki-select-group {
+  flex-shrink: 0;
+}

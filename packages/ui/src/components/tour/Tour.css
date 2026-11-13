@@ -1,0 +1,160 @@
+.yuki-tour {
+  --yuki-tour-width: var(--yuki-popup-width-md);
+  --yuki-tour-bg: var(--yuki-color-bg-elevated);
+  --yuki-tour-border: var(--yuki-color-border-subtle);
+  --yuki-tour-radius: var(--yuki-radius-lg);
+  --yuki-tour-shadow: var(--yuki-shadow-xl);
+  --yuki-tour-padding-block: var(--yuki-space-4);
+  --yuki-tour-padding-inline: var(--yuki-space-4);
+  --yuki-tour-gap: var(--yuki-space-2);
+  --yuki-tour-arrow-size: var(--yuki-space-2);
+  --yuki-tour-title-size: var(--yuki-font-size-md);
+  --yuki-tour-description-size: var(--yuki-font-size-sm);
+  --yuki-tour-mask-color: var(--yuki-mask-color);
+  --yuki-tour-spotlight-radius: var(--yuki-radius-sm);
+  --yuki-tour-spotlight-ring: var(--yuki-focus-ring-width);
+
+  font-family: var(--yuki-font-family-sans);
+}
+
+.yuki-tour__mask {
+  position: fixed;
+  z-index: var(--yuki-z-tour);
+  background-color: var(--yuki-tour-mask-color);
+  animation: yuki-fade-in var(--yuki-duration-base) var(--yuki-easing-enter);
+}
+
+.yuki-tour__mask--full {
+  inset: 0;
+}
+
+.yuki-tour__spotlight {
+  position: fixed;
+  z-index: var(--yuki-z-tour);
+  pointer-events: none;
+  border-radius: var(--yuki-tour-spotlight-radius);
+  box-shadow: 0 0 0 var(--yuki-tour-spotlight-ring) var(--yuki-color-primary-ring);
+  transition: top var(--yuki-duration-base) var(--yuki-easing-standard),
+    left var(--yuki-duration-base) var(--yuki-easing-standard),
+    width var(--yuki-duration-base) var(--yuki-easing-standard),
+    height var(--yuki-duration-base) var(--yuki-easing-standard);
+}
+
+.yuki-tour__popup {
+  position: fixed;
+  z-index: var(--yuki-z-tour);
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-tour-gap);
+  box-sizing: border-box;
+  width: var(--yuki-tour-width);
+  max-width: calc(100vw - var(--yuki-space-8));
+  padding-block: var(--yuki-tour-padding-block);
+  padding-inline: var(--yuki-tour-padding-inline);
+  border: var(--yuki-border-width-thin) solid var(--yuki-tour-border);
+  border-radius: var(--yuki-tour-radius);
+  background-color: var(--yuki-tour-bg);
+  box-shadow: var(--yuki-tour-shadow);
+  color: var(--yuki-color-text);
+  animation: yuki-tour-in var(--yuki-duration-base) var(--yuki-easing-enter);
+}
+
+.yuki-tour__popup:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-tour-shadow), var(--yuki-shadow-focus);
+}
+
+.yuki-tour__popup--centered {
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.yuki-tour__arrow {
+  position: absolute;
+  width: var(--yuki-tour-arrow-size);
+  height: var(--yuki-tour-arrow-size);
+  background-color: var(--yuki-tour-bg);
+  border: var(--yuki-border-width-thin) solid var(--yuki-tour-border);
+  transform: rotate(45deg);
+}
+
+.yuki-tour__popup[data-placement^='top'] .yuki-tour__arrow {
+  inset-block-end: calc(var(--yuki-tour-arrow-size) * -0.5);
+  border-block-start-color: transparent;
+  border-inline-start-color: transparent;
+}
+
+.yuki-tour__popup[data-placement^='bottom'] .yuki-tour__arrow {
+  inset-block-start: calc(var(--yuki-tour-arrow-size) * -0.5);
+  border-block-end-color: transparent;
+  border-inline-end-color: transparent;
+}
+
+.yuki-tour__popup[data-placement^='left'] .yuki-tour__arrow {
+  inset-inline-end: calc(var(--yuki-tour-arrow-size) * -0.5);
+  border-block-end-color: transparent;
+  border-inline-start-color: transparent;
+}
+
+.yuki-tour__popup[data-placement^='right'] .yuki-tour__arrow {
+  inset-inline-start: calc(var(--yuki-tour-arrow-size) * -0.5);
+  border-block-start-color: transparent;
+  border-inline-end-color: transparent;
+}
+
+.yuki-tour__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-1);
+}
+
+.yuki-tour__cover img {
+  display: block;
+  width: 100%;
+  border-radius: var(--yuki-radius-md);
+}
+
+.yuki-tour__title {
+  margin: 0;
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-tour-title-size);
+  font-weight: var(--yuki-font-weight-semibold);
+  line-height: var(--yuki-line-height-snug);
+}
+
+.yuki-tour__description {
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-tour-description-size);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-tour__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--yuki-space-2);
+  margin-block-start: var(--yuki-space-1);
+}
+
+.yuki-tour__indicator {
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.yuki-tour__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-1);
+}
+
+/* Opacity-only so the inline floating transform is never overridden. */
+@keyframes yuki-tour-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

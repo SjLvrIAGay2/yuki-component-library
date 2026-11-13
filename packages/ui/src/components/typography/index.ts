@@ -1,0 +1,17 @@
+export {
+  Paragraph,
+  Text,
+  Title,
+  Typography,
+  type ParagraphProps,
+  type TextProps,
+  type TitleProps,
+  type TypographyAlign,
+  type TypographyBaseProps,
+  type TypographyBaseProps as TypographyProps,
+  type TypographyClassNames,
+  type TypographySize,
+  type TypographyStyles,
+  type TypographyTone,
+  type TypographyWeight,
+} from './Typography';

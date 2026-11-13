@@ -1,0 +1,13 @@
+/* Affix — pinned content within a scroll container. */
+.yuki-affix {
+  position: relative;
+}
+
+.yuki-affix__element {
+  z-index: var(--yuki-z-sticky);
+  transition: box-shadow var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-affix[data-affixed='true'] > .yuki-affix__element {
+  box-shadow: var(--yuki-shadow-sm);
+}

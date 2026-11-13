@@ -1,0 +1,226 @@
+/* =============================================================================
+ * Input — component tokens
+ * All geometry and colour resolves through global tokens; sizes only remap
+ * the `--yuki-input-*` slots so users can restyle one instance via `styles`.
+ * ========================================================================== */
+
+.yuki-input {
+  --yuki-input-height: var(--yuki-control-height-md);
+  --yuki-input-padding-x: var(--yuki-control-padding-md);
+  --yuki-input-gap: var(--yuki-control-gap-md);
+  --yuki-input-font-size: var(--yuki-font-size-md);
+  --yuki-input-radius: var(--yuki-radius-md);
+  --yuki-input-icon-size: var(--yuki-icon-size-md);
+  --yuki-input-bg: var(--yuki-color-bg-surface);
+  --yuki-input-border: var(--yuki-color-border);
+  --yuki-input-fg: var(--yuki-color-text);
+  --yuki-input-placeholder: var(--yuki-color-text-placeholder);
+  --yuki-input-focus-border: var(--yuki-color-primary);
+  --yuki-input-focus-shadow: var(--yuki-shadow-focus);
+
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-input-font-size);
+  color: var(--yuki-input-fg);
+  vertical-align: middle;
+}
+
+.yuki-input__group {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--yuki-input-gap);
+  min-width: 0;
+  min-height: var(--yuki-input-height);
+  padding-inline: var(--yuki-input-padding-x);
+  background: var(--yuki-input-bg);
+  border: var(--yuki-border-width-thin) solid var(--yuki-input-border);
+  border-radius: var(--yuki-input-radius);
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-input__group:focus-within {
+  border-color: var(--yuki-input-focus-border);
+  box-shadow: var(--yuki-input-focus-shadow);
+}
+
+.yuki-input__control {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  color: inherit;
+  font: inherit;
+  line-height: var(--yuki-line-height-normal);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  appearance: none;
+}
+
+.yuki-input__control::placeholder {
+  color: var(--yuki-input-placeholder);
+  opacity: 1;
+}
+
+.yuki-input__control:disabled {
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-input[data-disabled='true'] .yuki-input__group {
+  background: var(--yuki-color-bg-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-input__prefix,
+.yuki-input__suffix {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  color: var(--yuki-color-text-tertiary);
+}
+
+.yuki-input__prefix > .yuki-icon,
+.yuki-input__suffix > .yuki-icon {
+  width: var(--yuki-input-icon-size);
+  height: var(--yuki-input-icon-size);
+}
+
+.yuki-input__clear {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-input-icon-size);
+  height: var(--yuki-input-icon-size);
+  padding: 0;
+  color: var(--yuki-color-text-tertiary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--yuki-radius-full);
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-input__clear > .yuki-icon {
+  width: var(--yuki-icon-size-xs);
+  height: var(--yuki-icon-size-xs);
+}
+
+.yuki-input__clear:hover {
+  color: var(--yuki-color-text);
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-input__clear:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+/* Addons ------------------------------------------------------------------ */
+.yuki-input__addon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  min-height: var(--yuki-input-height);
+  padding-inline: var(--yuki-control-padding-sm);
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+  white-space: nowrap;
+  background: var(--yuki-color-bg-subtle);
+  border: var(--yuki-border-width-thin) solid var(--yuki-input-border);
+  border-radius: var(--yuki-input-radius);
+}
+
+.yuki-input[data-has-addon-before='true'] .yuki-input__addon--before {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.yuki-input[data-has-addon-after='true'] .yuki-input__addon--after {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
+
+.yuki-input[data-has-addon-before='true'] .yuki-input__group {
+  margin-inline-start: calc(-1 * var(--yuki-border-width-thin));
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
+
+.yuki-input[data-has-addon-after='true'] .yuki-input__group {
+  margin-inline-end: calc(-1 * var(--yuki-border-width-thin));
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.yuki-input__count {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  margin-inline-start: var(--yuki-space-2);
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Sizes ------------------------------------------------------------------- */
+.yuki-input--sm {
+  --yuki-input-height: var(--yuki-control-height-sm);
+  --yuki-input-padding-x: var(--yuki-control-padding-sm);
+  --yuki-input-gap: var(--yuki-control-gap-sm);
+  --yuki-input-font-size: var(--yuki-font-size-sm);
+  --yuki-input-radius: var(--yuki-radius-sm);
+  --yuki-input-icon-size: var(--yuki-icon-size-sm);
+}
+
+.yuki-input--lg {
+  --yuki-input-height: var(--yuki-control-height-lg);
+  --yuki-input-padding-x: var(--yuki-control-padding-lg);
+  --yuki-input-gap: var(--yuki-control-gap-lg);
+  --yuki-input-font-size: var(--yuki-font-size-lg);
+  --yuki-input-radius: var(--yuki-radius-md);
+  --yuki-input-icon-size: var(--yuki-icon-size-lg);
+}
+
+/* Status ------------------------------------------------------------------ */
+.yuki-input[data-status='error'] {
+  --yuki-input-border: var(--yuki-color-danger);
+  --yuki-input-focus-border: var(--yuki-color-danger);
+  --yuki-input-focus-shadow: 0 0 0 var(--yuki-focus-ring-width)
+    color-mix(in srgb, var(--yuki-color-danger) 34%, transparent);
+}
+
+.yuki-input[data-status='warning'] {
+  --yuki-input-border: var(--yuki-color-warning-border);
+  --yuki-input-focus-border: var(--yuki-color-warning);
+  --yuki-input-focus-shadow: 0 0 0 var(--yuki-focus-ring-width)
+    color-mix(in srgb, var(--yuki-color-warning) 34%, transparent);
+}
+
+.yuki-input[data-status='success'] {
+  --yuki-input-border: var(--yuki-color-success-border);
+  --yuki-input-focus-border: var(--yuki-color-success);
+  --yuki-input-focus-shadow: 0 0 0 var(--yuki-focus-ring-width)
+    color-mix(in srgb, var(--yuki-color-success) 34%, transparent);
+}
+
+/* Modifiers --------------------------------------------------------------- */
+.yuki-input--borderless .yuki-input__group {
+  background: transparent;
+  border-color: transparent;
+}
+
+.yuki-input--borderless .yuki-input__group:focus-within {
+  border-color: var(--yuki-input-focus-border);
+  background: var(--yuki-input-bg);
+}

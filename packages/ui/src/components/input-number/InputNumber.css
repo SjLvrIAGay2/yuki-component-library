@@ -1,0 +1,184 @@
+/* =============================================================================
+ * InputNumber
+ * ========================================================================== */
+
+.yuki-input-number {
+  --yuki-input-number-height: var(--yuki-control-height-md);
+  --yuki-input-number-padding-x: var(--yuki-control-padding-md);
+  --yuki-input-number-gap: var(--yuki-control-gap-sm);
+  --yuki-input-number-font-size: var(--yuki-font-size-md);
+  --yuki-input-number-radius: var(--yuki-radius-sm);
+  --yuki-input-number-icon-size: var(--yuki-icon-size-md);
+  --yuki-input-number-bg: var(--yuki-color-bg-surface);
+  --yuki-input-number-border: var(--yuki-color-border);
+  --yuki-input-number-fg: var(--yuki-color-text);
+  --yuki-input-number-placeholder: var(--yuki-color-text-placeholder);
+  --yuki-input-number-focus-border: var(--yuki-color-primary);
+  --yuki-input-number-focus-shadow: var(--yuki-shadow-focus);
+
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
+  font-family: var(--yuki-font-family-sans);
+  vertical-align: middle;
+}
+
+.yuki-input-number__group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--yuki-input-number-bg);
+  border: var(--yuki-border-width-thin) solid var(--yuki-input-number-border);
+  border-radius: var(--yuki-input-number-radius);
+  transition:
+    border-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    box-shadow var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-input-number__group:hover {
+  border-color: var(--yuki-color-border-strong);
+}
+
+.yuki-input-number__group:focus-within {
+  border-color: var(--yuki-input-number-focus-border);
+  box-shadow: var(--yuki-input-number-focus-shadow);
+}
+
+.yuki-input-number__prefix,
+.yuki-input-number__suffix {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  padding-inline: var(--yuki-input-number-padding-x);
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-input-number-font-size);
+}
+
+.yuki-input-number__prefix {
+  padding-inline-end: 0;
+}
+
+.yuki-input-number__suffix {
+  padding-inline-start: 0;
+}
+
+.yuki-input-number__input {
+  flex: 1;
+  min-width: 0;
+  height: var(--yuki-input-number-height);
+  padding: 0 var(--yuki-input-number-padding-x);
+  color: var(--yuki-input-number-fg);
+  font-family: inherit;
+  font-size: var(--yuki-input-number-font-size);
+  font-variant-numeric: tabular-nums;
+  background: transparent;
+  border: 0;
+  outline: none;
+  appearance: textfield;
+}
+
+.yuki-input-number__input::placeholder {
+  color: var(--yuki-input-number-placeholder);
+}
+
+.yuki-input-number__input::-webkit-outer-spin-button,
+.yuki-input-number__input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.yuki-input-number__controls {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  border-inline-start: var(--yuki-border-width-thin) solid var(--yuki-input-number-border);
+}
+
+.yuki-input-number__arrow {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--yuki-input-number-icon-size) * 1.75);
+  padding: 0;
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-input-number-icon-size);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition:
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-input-number__arrow + .yuki-input-number__arrow {
+  border-inline-start: 0;
+  border-block-start: var(--yuki-border-width-thin) solid var(--yuki-input-number-border);
+}
+
+.yuki-input-number__arrow:hover:not(:disabled) {
+  color: var(--yuki-color-text);
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-input-number__arrow:disabled {
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-input-number__arrow svg {
+  width: var(--yuki-icon-size-xs);
+  height: var(--yuki-icon-size-xs);
+}
+
+/* Status ------------------------------------------------------------------ */
+.yuki-input-number[data-status='error'] {
+  --yuki-input-number-border: var(--yuki-color-danger);
+  --yuki-input-number-focus-border: var(--yuki-color-danger);
+  --yuki-input-number-focus-shadow: 0 0 0 var(--yuki-focus-ring-width)
+    color-mix(in srgb, var(--yuki-color-danger) 42%, transparent);
+}
+
+.yuki-input-number[data-status='warning'] {
+  --yuki-input-number-border: var(--yuki-color-warning);
+  --yuki-input-number-focus-border: var(--yuki-color-warning);
+  --yuki-input-number-focus-shadow: 0 0 0 var(--yuki-focus-ring-width)
+    color-mix(in srgb, var(--yuki-color-warning) 42%, transparent);
+}
+
+.yuki-input-number[data-status='success'] {
+  --yuki-input-number-border: var(--yuki-color-success);
+  --yuki-input-number-focus-border: var(--yuki-color-success);
+  --yuki-input-number-focus-shadow: 0 0 0 var(--yuki-focus-ring-width)
+    color-mix(in srgb, var(--yuki-color-success) 42%, transparent);
+}
+
+/* Disabled ---------------------------------------------------------------- */
+.yuki-input-number[data-disabled='true'] .yuki-input-number__group {
+  background: var(--yuki-color-bg-disabled);
+  border-color: var(--yuki-color-border-subtle);
+}
+
+.yuki-input-number[data-disabled='true'] .yuki-input-number__input,
+.yuki-input-number[data-disabled='true'] .yuki-input-number__prefix,
+.yuki-input-number[data-disabled='true'] .yuki-input-number__suffix {
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* Sizes ------------------------------------------------------------------- */
+.yuki-input-number--sm {
+  --yuki-input-number-height: var(--yuki-control-height-sm);
+  --yuki-input-number-padding-x: var(--yuki-control-padding-sm);
+  --yuki-input-number-font-size: var(--yuki-font-size-sm);
+  --yuki-input-number-icon-size: var(--yuki-icon-size-sm);
+}
+
+.yuki-input-number--lg {
+  --yuki-input-number-height: var(--yuki-control-height-lg);
+  --yuki-input-number-padding-x: var(--yuki-control-padding-lg);
+  --yuki-input-number-font-size: var(--yuki-font-size-lg);
+  --yuki-input-number-icon-size: var(--yuki-icon-size-lg);
+}

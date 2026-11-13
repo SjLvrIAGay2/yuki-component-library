@@ -1,0 +1,99 @@
+.yuki-typography {
+  margin: 0;
+  font-family: var(--yuki-font-family-sans);
+  font-size: inherit;
+  line-height: var(--yuki-line-height-normal);
+  color: var(--yuki-color-text);
+}
+
+/* Type scale */
+.yuki-typography--2xs { font-size: var(--yuki-font-size-2xs); }
+.yuki-typography--xs { font-size: var(--yuki-font-size-xs); }
+.yuki-typography--sm { font-size: var(--yuki-font-size-sm); }
+.yuki-typography--md { font-size: var(--yuki-font-size-md); }
+.yuki-typography--lg { font-size: var(--yuki-font-size-lg); }
+.yuki-typography--xl { font-size: var(--yuki-font-size-xl); }
+.yuki-typography--2xl { font-size: var(--yuki-font-size-2xl); }
+.yuki-typography--3xl { font-size: var(--yuki-font-size-3xl); }
+.yuki-typography--4xl { font-size: var(--yuki-font-size-4xl); }
+.yuki-typography--5xl { font-size: var(--yuki-font-size-5xl); }
+
+/* Weights */
+.yuki-typography--weight-regular { font-weight: var(--yuki-font-weight-regular); }
+.yuki-typography--weight-medium { font-weight: var(--yuki-font-weight-medium); }
+.yuki-typography--weight-semibold { font-weight: var(--yuki-font-weight-semibold); }
+.yuki-typography--weight-bold { font-weight: var(--yuki-font-weight-bold); }
+
+/* Tones */
+.yuki-typography--tone-secondary { color: var(--yuki-color-text-secondary); }
+.yuki-typography--tone-tertiary { color: var(--yuki-color-text-tertiary); }
+.yuki-typography--tone-primary { color: var(--yuki-color-primary); }
+.yuki-typography--tone-success { color: var(--yuki-color-success-hover); }
+.yuki-typography--tone-warning { color: var(--yuki-color-warning-hover); }
+.yuki-typography--tone-danger { color: var(--yuki-color-danger-hover); }
+.yuki-typography--tone-info { color: var(--yuki-color-info-hover); }
+.yuki-typography--tone-inverse { color: var(--yuki-color-text-inverse); }
+
+/* Headings */
+h1.yuki-typography,
+h2.yuki-typography,
+h3.yuki-typography,
+h4.yuki-typography,
+h5.yuki-typography,
+h6.yuki-typography {
+  line-height: var(--yuki-line-height-tight);
+  letter-spacing: var(--yuki-letter-spacing-tight);
+}
+
+/* Decoration & inline semantics */
+.yuki-typography--strong { font-weight: var(--yuki-font-weight-semibold); }
+.yuki-typography--italic { font-style: italic; }
+.yuki-typography--underline { text-decoration: underline; text-underline-offset: 0.2em; }
+.yuki-typography--strike { text-decoration: line-through; }
+.yuki-typography--underline.yuki-typography--strike {
+  text-decoration: underline line-through;
+}
+
+.yuki-typography--code {
+  padding-inline: var(--yuki-space-0-5);
+  border-radius: var(--yuki-radius-xs);
+  background: var(--yuki-color-bg-subtle);
+  font-family: var(--yuki-font-family-mono);
+}
+
+.yuki-typography--mark {
+  padding-inline: var(--yuki-space-0-5);
+  border-radius: var(--yuki-radius-xs);
+  background: var(--yuki-color-warning-subtle);
+  color: inherit;
+}
+
+/* Alignment */
+.yuki-typography--align-start { text-align: start; }
+.yuki-typography--align-center { text-align: center; }
+.yuki-typography--align-end { text-align: end; }
+.yuki-typography--align-justify { text-align: justify; }
+
+/* Truncation */
+.yuki-typography--truncate {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-typography--clamp {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--yuki-typography-lines);
+  line-clamp: var(--yuki-typography-lines);
+}
+
+.yuki-typography--gutter {
+  margin-bottom: var(--yuki-space-3);
+}
+
+p.yuki-typography {
+  line-height: var(--yuki-line-height-relaxed);
+}

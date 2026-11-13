@@ -1,0 +1,26 @@
+.yuki-container {
+  --yuki-container-gutter: var(--yuki-space-4);
+
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--yuki-container-gutter);
+}
+
+.yuki-container--center {
+  margin-inline: auto;
+}
+
+.yuki-container--sm { max-width: var(--yuki-breakpoint-sm); }
+.yuki-container--md { max-width: var(--yuki-breakpoint-md); }
+.yuki-container--lg { max-width: var(--yuki-breakpoint-lg); }
+.yuki-container--xl { max-width: var(--yuki-breakpoint-xl); }
+.yuki-container--2xl { max-width: var(--yuki-breakpoint-2xl); }
+.yuki-container--full,
+.yuki-container--fluid { max-width: none; }
+
+/* Tighten the gutter on small viewports; 30em mirrors --yuki-breakpoint-xs. */
+@media (max-width: 30em) {
+  .yuki-container {
+    --yuki-container-gutter: var(--yuki-space-3);
+  }
+}

@@ -1,0 +1,173 @@
+/*
+ * TreeSelect: a searchable tree inside the shared popup.
+ */
+
+.yuki-tree-select {
+  --yuki-tree-select-panel-padding: var(--yuki-space-1);
+  --yuki-tree-select-node-height: var(--yuki-space-8);
+  --yuki-tree-select-node-gap: var(--yuki-space-1);
+  --yuki-tree-select-tree-max-height: var(--yuki-space-64);
+  --yuki-tree-select-tree-width: var(--yuki-popup-width-xs);
+  --yuki-tree-select-checkbox-size: var(--yuki-icon-size-sm);
+  --yuki-tree-select-toggle-size: var(--yuki-icon-size-sm);
+
+  min-width: var(--yuki-popup-width-xs);
+}
+
+.yuki-tree-select__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  min-width: var(--yuki-tree-select-tree-width);
+  padding: var(--yuki-tree-select-panel-padding);
+}
+
+.yuki-tree-select__search {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  padding: var(--yuki-space-1);
+  color: var(--yuki-color-text-tertiary);
+}
+
+.yuki-tree-select__search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--yuki-color-text);
+  font: inherit;
+  font-size: var(--yuki-font-size-sm);
+}
+
+.yuki-tree-select__search-input::placeholder {
+  color: var(--yuki-color-text-placeholder);
+}
+
+.yuki-tree-select__tree {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  max-height: var(--yuki-tree-select-tree-max-height);
+  padding: var(--yuki-space-0-5);
+  overflow-y: auto;
+  border-radius: var(--yuki-radius-sm);
+  scrollbar-width: thin;
+}
+
+.yuki-tree-select__tree:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-tree-select__node {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  min-height: var(--yuki-tree-select-node-height);
+  padding-block: var(--yuki-space-1);
+  padding-inline-end: var(--yuki-space-2);
+  border-radius: var(--yuki-radius-sm);
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-font-size-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-tree-select__node--active {
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-tree-select__node--selected {
+  background: var(--yuki-color-primary-subtle);
+  color: var(--yuki-color-primary);
+}
+
+.yuki-tree-select__node--disabled {
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-tree-select__node--disabled:hover {
+  background: transparent;
+}
+
+.yuki-tree-select__node-toggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: max(var(--yuki-tree-select-toggle-size), var(--yuki-tree-select-node-height));
+  margin-block: calc(-1 * var(--yuki-space-1));
+  margin-inline-start: calc(-1 * var(--yuki-space-2));
+  margin-inline-end: calc(-1 * var(--yuki-space-1));
+  color: var(--yuki-color-text-tertiary);
+}
+
+.yuki-tree-select__node-toggle > .yuki-icon {
+  width: var(--yuki-tree-select-toggle-size);
+  height: var(--yuki-tree-select-toggle-size);
+  transition: var(--yuki-transition-transform);
+}
+
+.yuki-tree-select__node-toggle--empty {
+  visibility: hidden;
+}
+
+.yuki-tree-select__node[data-expanded='true'] .yuki-tree-select__node-toggle > .yuki-icon {
+  transform: rotate(90deg);
+}
+
+.yuki-tree-select__node-checkbox {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-tree-select-checkbox-size);
+  height: var(--yuki-tree-select-checkbox-size);
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border-strong);
+  border-radius: var(--yuki-radius-xs);
+  background: var(--yuki-color-bg-surface);
+  color: var(--yuki-color-primary-contrast);
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-tree-select__node-checkbox[data-checked] {
+  border-color: var(--yuki-color-primary);
+  background: var(--yuki-color-primary);
+}
+
+.yuki-tree-select__node--disabled .yuki-tree-select__node-checkbox {
+  border-color: var(--yuki-color-border);
+  background: var(--yuki-color-bg-disabled);
+}
+
+.yuki-tree-select__node-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.yuki-tree-select__node-label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-tree-select__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--yuki-space-1);
+}
+
+.yuki-tree-select__more {
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+}
+
+.yuki-tree-select__panel .yuki-select-status {
+  padding: var(--yuki-space-2) var(--yuki-space-3);
+}

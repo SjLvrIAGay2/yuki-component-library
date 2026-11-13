@@ -1,0 +1,141 @@
+/* =============================================================================
+ * Form + Form.Item + Form.List
+ * ========================================================================== */
+
+.yuki-form {
+  --yuki-form-gap: var(--yuki-space-4);
+  --yuki-form-label-gap: var(--yuki-space-2);
+  --yuki-form-label-width: auto;
+  --yuki-form-label-color: var(--yuki-color-text);
+  --yuki-form-extra-color: var(--yuki-color-text-tertiary);
+  --yuki-form-help-color: var(--yuki-color-text-tertiary);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-form-gap);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-font-size-md);
+  color: var(--yuki-color-text);
+}
+
+.yuki-form--inline {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--yuki-space-3) var(--yuki-space-4);
+}
+
+/* Item -------------------------------------------------------------------- */
+.yuki-form-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-form-label-gap);
+  min-width: 0;
+}
+
+.yuki-form-item__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-space-0-5);
+  color: var(--yuki-form-label-color);
+  font-size: var(--yuki-font-size-md);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-form-item__required {
+  color: var(--yuki-color-danger);
+}
+
+.yuki-form-item__colon {
+  color: var(--yuki-color-text-tertiary);
+}
+
+.yuki-form-item__control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-form-label-gap);
+  min-width: 0;
+}
+
+.yuki-form-item__help,
+.yuki-form-item__extra {
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+  color: var(--yuki-form-help-color);
+}
+
+.yuki-form-item__extra {
+  color: var(--yuki-form-extra-color);
+}
+
+.yuki-form-item[data-status='error'] .yuki-form-item__help {
+  color: var(--yuki-color-danger);
+}
+
+.yuki-form-item[data-status='warning'] .yuki-form-item__help {
+  color: var(--yuki-color-warning);
+}
+
+.yuki-form-item[data-status='success'] .yuki-form-item__help {
+  color: var(--yuki-color-success);
+}
+
+/* Horizontal / inline layouts --------------------------------------------- */
+.yuki-form-item--horizontal {
+  display: grid;
+  grid-template-columns: var(--yuki-form-label-width) minmax(0, 1fr);
+  column-gap: var(--yuki-space-3);
+  align-items: start;
+}
+
+.yuki-form-item--horizontal .yuki-form-item__label {
+  justify-content: flex-end;
+  padding-block-start: var(--yuki-space-1);
+  text-align: end;
+}
+
+.yuki-form-item--inline {
+  flex-direction: column;
+}
+
+.yuki-form--inline .yuki-form-item {
+  flex-direction: column;
+}
+
+.yuki-standalone-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--yuki-space-2);
+  font-family: var(--yuki-font-family-sans);
+}
+
+.yuki-standalone-field[hidden] {
+  display: none;
+}
+
+.yuki-standalone-field--inline {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.yuki-standalone-field__row {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-control-gap-sm);
+}
+
+.yuki-standalone-field__label {
+  font-size: var(--yuki-font-size-md);
+  color: var(--yuki-color-text);
+}
+
+.yuki-standalone-field__message {
+  margin: 0;
+  font-size: var(--yuki-font-size-sm);
+  color: var(--yuki-color-text-secondary);
+}
+
+.yuki-standalone-field__message[data-invalid] {
+  color: var(--yuki-color-danger);
+}

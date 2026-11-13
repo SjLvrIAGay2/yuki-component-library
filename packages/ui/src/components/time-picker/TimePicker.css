@@ -1,0 +1,128 @@
+/*
+ * TimePicker: three scrollable listbox columns inside the shared popup shell.
+ */
+
+.yuki-time-picker {
+  --yuki-time-picker-panel-padding: var(--yuki-space-2);
+  --yuki-time-picker-column-width: var(--yuki-space-10);
+  --yuki-time-picker-column-height: var(--yuki-space-16);
+  --yuki-time-picker-option-height: var(--yuki-space-8);
+  --yuki-time-picker-column-gap: var(--yuki-space-1);
+  --yuki-time-picker-header-color: var(--yuki-color-text-secondary);
+
+  min-width: var(--yuki-space-24);
+}
+
+.yuki-time-picker__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-2);
+  padding: var(--yuki-time-picker-panel-padding);
+}
+
+.yuki-time-picker__header {
+  color: var(--yuki-time-picker-header-color);
+  font-size: var(--yuki-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  letter-spacing: var(--yuki-letter-spacing-wide);
+}
+
+.yuki-time-picker__columns {
+  display: flex;
+  gap: var(--yuki-time-picker-column-gap);
+}
+
+.yuki-time-picker__column {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  min-width: var(--yuki-time-picker-column-width);
+}
+
+.yuki-time-picker__column-title {
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-font-size-2xs);
+  letter-spacing: var(--yuki-letter-spacing-wide);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.yuki-time-picker__column-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  max-height: var(--yuki-time-picker-column-height);
+  margin: 0;
+  padding: var(--yuki-space-0-5);
+  overflow-y: auto;
+  list-style: none;
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  border-radius: var(--yuki-radius-sm);
+  scrollbar-width: thin;
+}
+
+.yuki-time-picker__column-list:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-time-picker__option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--yuki-time-picker-option-height);
+  border-radius: var(--yuki-radius-xs);
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-time-picker__option:hover {
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-time-picker__option--selected {
+  background: var(--yuki-color-primary-subtle);
+  color: var(--yuki-color-primary);
+  font-weight: var(--yuki-font-weight-medium);
+}
+
+.yuki-time-picker__option--disabled {
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-time-picker__option--disabled:hover {
+  background: transparent;
+}
+
+.yuki-time-picker__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--yuki-space-1);
+  border-top: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+}
+
+.yuki-time-picker__now {
+  padding: var(--yuki-space-0-5) var(--yuki-space-2);
+  border: none;
+  border-radius: var(--yuki-radius-sm);
+  background: transparent;
+  color: var(--yuki-color-primary);
+  font-size: var(--yuki-font-size-sm);
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-time-picker__now:hover {
+  background: var(--yuki-color-primary-subtle);
+}
+
+.yuki-time-picker__now:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}

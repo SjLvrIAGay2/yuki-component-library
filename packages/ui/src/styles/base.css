@@ -1,0 +1,183 @@
+/* Yuki UI · baseline
+ * Components are self-contained: no global resets are forced on the host app.
+ * We only normalise the boxes that belong to Yuki UI. */
+
+[class^='yuki-'],
+[class*=' yuki-'] {
+  box-sizing: border-box;
+}
+
+[class^='yuki-']::before,
+[class^='yuki-']::after,
+[class*=' yuki-']::before,
+[class*=' yuki-']::after {
+  box-sizing: border-box;
+}
+
+.yuki-ui-root {
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-font-size-md);
+  line-height: var(--yuki-line-height-normal);
+  color: var(--yuki-color-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  accent-color: var(--yuki-color-primary);
+}
+
+.yuki-ui-root [hidden]:not([hidden="until-found"]),
+:where([class^='yuki-'], [class*=' yuki-'])[hidden]:not([hidden="until-found"]) {
+  display: none !important;
+}
+
+.yuki-ui-root [data-slot] {
+  min-width: 0;
+}
+
+.yuki-visually-hidden {
+  position: absolute;
+  width: var(--yuki-border-width-thin);
+  height: var(--yuki-border-width-thin);
+  padding: 0;
+  margin: calc(-1 * var(--yuki-border-width-thin));
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.yuki-focus-ring:focus-visible {
+  outline: var(--yuki-border-width-thin) solid transparent;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--yuki-scrollbar-thumb) transparent;
+}
+
+.yuki-scrollbar::-webkit-scrollbar {
+  width: var(--yuki-scrollbar-size);
+  height: var(--yuki-scrollbar-size);
+}
+
+.yuki-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--yuki-scrollbar-thumb);
+  border-radius: var(--yuki-radius-full);
+}
+
+.yuki-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Shared popup shell: keeps every overlay component visually identical. */
+.yuki-popup {
+  --yuki-popup-arrow-size: var(--yuki-space-2);
+
+  color: var(--yuki-color-text);
+  background: var(--yuki-popup-bg);
+  border: var(--yuki-border-width-thin) solid var(--yuki-popup-border);
+  border-radius: var(--yuki-popup-radius);
+  box-shadow: var(--yuki-popup-shadow);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-font-size-md);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-popup--animated {
+  animation: yuki-pop-in var(--yuki-duration-fast) var(--yuki-easing-enter);
+  transform-origin: center top;
+}
+
+.yuki-popup__arrow {
+  position: absolute;
+  width: var(--yuki-popup-arrow-size);
+  height: var(--yuki-popup-arrow-size);
+  background: var(--yuki-popup-bg);
+  border: var(--yuki-border-width-thin) solid var(--yuki-popup-border);
+  pointer-events: none;
+}
+
+.yuki-popup[data-placement^='top'] > .yuki-popup__arrow {
+  bottom: calc(-1 * var(--yuki-space-1));
+  border-top-color: transparent;
+  border-left-color: transparent;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.yuki-popup[data-placement^='bottom'] > .yuki-popup__arrow {
+  top: calc(-1 * var(--yuki-space-1));
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.yuki-popup[data-placement^='left'] > .yuki-popup__arrow {
+  right: calc(-1 * var(--yuki-space-1));
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.yuki-popup[data-placement^='right'] > .yuki-popup__arrow {
+  left: calc(-1 * var(--yuki-space-1));
+  border-top-color: transparent;
+  border-right-color: transparent;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* Shared enter/leave animations. */
+@keyframes yuki-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes yuki-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes yuki-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--yuki-space-1))) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes yuki-pop-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--yuki-space-1))) scale(0.98);
+  }
+}
+
+@keyframes yuki-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yuki-ui-root *,
+  [data-yuki-motion='off'] * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

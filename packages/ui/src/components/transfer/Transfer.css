@@ -1,0 +1,261 @@
+.yuki-transfer {
+  --yuki-transfer-gap: var(--yuki-space-3);
+  --yuki-transfer-column-gap: var(--yuki-space-2);
+  --yuki-transfer-column-bg: var(--yuki-color-bg-surface);
+  --yuki-transfer-column-border: var(--yuki-color-border);
+  --yuki-transfer-column-radius: var(--yuki-radius-lg);
+  --yuki-transfer-header-padding-block: var(--yuki-space-2);
+  --yuki-transfer-header-padding-inline: var(--yuki-space-3);
+  --yuki-transfer-header-bg: var(--yuki-color-bg-subtle);
+  --yuki-transfer-title-size: var(--yuki-font-size-sm);
+  --yuki-transfer-count-size: var(--yuki-font-size-xs);
+  --yuki-transfer-count-bg: var(--yuki-color-bg-muted);
+  --yuki-transfer-count-radius: var(--yuki-radius-full);
+  --yuki-transfer-search-padding-block: var(--yuki-space-2);
+  --yuki-transfer-search-padding-inline: var(--yuki-space-2);
+  --yuki-transfer-list-padding: var(--yuki-space-1-5);
+  --yuki-transfer-body-max-height: calc(var(--yuki-space-10) * 8);
+  --yuki-transfer-item-gap: var(--yuki-space-2);
+  --yuki-transfer-item-padding-block: var(--yuki-space-1-5);
+  --yuki-transfer-item-padding-inline: var(--yuki-space-2);
+  --yuki-transfer-item-radius: var(--yuki-radius-md);
+  --yuki-transfer-item-bg-hover: var(--yuki-color-bg-hover);
+  --yuki-transfer-item-bg-selected: var(--yuki-color-primary-subtle);
+  --yuki-transfer-item-bg-selected-hover: var(--yuki-color-primary-subtle-hover);
+  --yuki-transfer-item-label-size: var(--yuki-font-size-sm);
+  --yuki-transfer-item-description-size: var(--yuki-font-size-xs);
+  --yuki-transfer-item-description-color: var(--yuki-color-text-tertiary);
+  --yuki-transfer-empty-padding-block: var(--yuki-space-8);
+  --yuki-transfer-empty-padding-inline: var(--yuki-space-3);
+  --yuki-transfer-empty-color: var(--yuki-color-text-tertiary);
+  --yuki-transfer-empty-size: var(--yuki-font-size-sm);
+
+  display: flex;
+  align-items: stretch;
+  gap: var(--yuki-transfer-gap);
+  min-width: 0;
+  color: var(--yuki-color-text);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-font-size-md);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-transfer[data-size='sm'] {
+  --yuki-transfer-gap: var(--yuki-space-2);
+  --yuki-transfer-header-padding-block: var(--yuki-space-1-5);
+  --yuki-transfer-header-padding-inline: var(--yuki-space-2);
+  --yuki-transfer-title-size: var(--yuki-font-size-xs);
+  --yuki-transfer-item-padding-block: var(--yuki-space-1);
+  --yuki-transfer-item-padding-inline: var(--yuki-space-1-5);
+  --yuki-transfer-item-label-size: var(--yuki-font-size-xs);
+  --yuki-transfer-empty-padding-block: var(--yuki-space-6);
+  --yuki-transfer-empty-size: var(--yuki-font-size-xs);
+}
+
+.yuki-transfer[data-size='lg'] {
+  --yuki-transfer-gap: var(--yuki-space-4);
+  --yuki-transfer-header-padding-block: var(--yuki-space-2-5);
+  --yuki-transfer-header-padding-inline: var(--yuki-space-4);
+  --yuki-transfer-title-size: var(--yuki-font-size-md);
+  --yuki-transfer-item-padding-block: var(--yuki-space-2);
+  --yuki-transfer-item-padding-inline: var(--yuki-space-3);
+  --yuki-transfer-item-label-size: var(--yuki-font-size-md);
+  --yuki-transfer-item-description-size: var(--yuki-font-size-sm);
+  --yuki-transfer-empty-padding-block: var(--yuki-space-10);
+  --yuki-transfer-empty-size: var(--yuki-font-size-md);
+}
+
+.yuki-transfer[data-disabled] {
+  opacity: var(--yuki-opacity-disabled);
+}
+
+.yuki-transfer__column {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: var(--yuki-border-width-thin) solid var(--yuki-transfer-column-border);
+  border-radius: var(--yuki-transfer-column-radius);
+  background-color: var(--yuki-transfer-column-bg);
+}
+
+.yuki-transfer__header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--yuki-transfer-column-gap);
+  padding-block: var(--yuki-transfer-header-padding-block);
+  padding-inline: var(--yuki-transfer-header-padding-inline);
+  border-block-end: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  background-color: var(--yuki-transfer-header-bg);
+}
+
+.yuki-transfer__select-all {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+}
+
+.yuki-transfer__title {
+  flex: 1 1 auto;
+  overflow: hidden;
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-transfer-title-size);
+  font-weight: var(--yuki-font-weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-transfer__count {
+  flex: none;
+  min-width: var(--yuki-control-height-xs);
+  padding-inline: var(--yuki-space-1-5);
+  border-radius: var(--yuki-transfer-count-radius);
+  background-color: var(--yuki-transfer-count-bg);
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-transfer-count-size);
+  font-weight: var(--yuki-font-weight-medium);
+  line-height: var(--yuki-line-height-tight);
+  text-align: center;
+}
+
+.yuki-transfer__search {
+  flex: none;
+  padding-block: var(--yuki-transfer-search-padding-block);
+  padding-inline: var(--yuki-transfer-search-padding-inline);
+  border-block-end: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+}
+
+.yuki-transfer__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: var(--yuki-transfer-body-max-height);
+  overflow-y: auto;
+}
+
+.yuki-transfer__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  margin: 0;
+  padding: var(--yuki-transfer-list-padding);
+  list-style: none;
+}
+
+.yuki-transfer__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--yuki-transfer-item-gap);
+  padding-block: var(--yuki-transfer-item-padding-block);
+  padding-inline: var(--yuki-transfer-item-padding-inline);
+  border-radius: var(--yuki-transfer-item-radius);
+  background-color: transparent;
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-transfer__item:hover {
+  background-color: var(--yuki-transfer-item-bg-hover);
+}
+
+.yuki-transfer__item:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-transfer__item--selected,
+.yuki-transfer__item[data-selected] {
+  background-color: var(--yuki-transfer-item-bg-selected);
+}
+
+.yuki-transfer__item--selected:hover,
+.yuki-transfer__item[data-selected]:hover {
+  background-color: var(--yuki-transfer-item-bg-selected-hover);
+}
+
+.yuki-transfer__item--disabled,
+.yuki-transfer__item[data-disabled] {
+  cursor: not-allowed;
+  opacity: var(--yuki-opacity-muted);
+}
+
+.yuki-transfer__item--disabled:hover,
+.yuki-transfer__item[data-disabled]:hover {
+  background-color: transparent;
+}
+
+.yuki-transfer__item-checkbox {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  padding-block-start: var(--yuki-space-0-5);
+}
+
+.yuki-transfer__item-label,
+.yuki-transfer__item-description {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.yuki-transfer__item-label {
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-transfer-item-label-size);
+}
+
+.yuki-transfer__item-description {
+  grid-column: 2;
+  color: var(--yuki-transfer-item-description-color);
+  font-size: var(--yuki-transfer-item-description-size);
+}
+
+.yuki-transfer__empty {
+  padding-block: var(--yuki-transfer-empty-padding-block);
+  padding-inline: var(--yuki-transfer-empty-padding-inline);
+  color: var(--yuki-transfer-empty-color);
+  font-size: var(--yuki-transfer-empty-size);
+  text-align: center;
+}
+
+.yuki-transfer__operations {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--yuki-transfer-column-gap);
+}
+
+.yuki-transfer__operation {
+  display: inline-flex;
+}
+
+/* A separate action row gives both lists enough room on narrow screens. */
+@media (max-width: 30rem) {
+  .yuki-transfer {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .yuki-transfer__operations {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    flex-direction: row;
+  }
+
+  .yuki-transfer__header {
+    flex-wrap: wrap;
+    gap: var(--yuki-space-1);
+    padding-inline: var(--yuki-space-2);
+  }
+
+  .yuki-transfer__title {
+    flex-basis: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}

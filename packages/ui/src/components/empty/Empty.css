@@ -1,0 +1,76 @@
+.yuki-empty {
+  --yuki-empty-illustration-size: var(--yuki-space-20);
+  --yuki-empty-gap: var(--yuki-space-3);
+  --yuki-empty-padding-block: var(--yuki-space-8);
+  --yuki-empty-padding-inline: var(--yuki-space-4);
+  --yuki-empty-description-color: var(--yuki-color-text-secondary);
+  --yuki-empty-description-size: var(--yuki-font-size-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--yuki-empty-gap);
+  box-sizing: border-box;
+  padding-block: var(--yuki-empty-padding-block);
+  padding-inline: var(--yuki-empty-padding-inline);
+  text-align: center;
+  font-family: var(--yuki-font-family-sans);
+  color: var(--yuki-empty-description-color);
+}
+
+.yuki-empty--sm {
+  --yuki-empty-illustration-size: var(--yuki-space-14);
+  --yuki-empty-gap: var(--yuki-space-2);
+  --yuki-empty-padding-block: var(--yuki-space-4);
+  --yuki-empty-padding-inline: var(--yuki-space-3);
+}
+
+.yuki-empty--lg {
+  --yuki-empty-illustration-size: var(--yuki-space-24);
+  --yuki-empty-gap: var(--yuki-space-4);
+  --yuki-empty-padding-block: var(--yuki-space-12);
+  --yuki-empty-description-size: var(--yuki-font-size-md);
+}
+
+.yuki-empty__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  max-width: 100%;
+}
+
+.yuki-empty__illustration {
+  display: block;
+  width: var(--yuki-empty-illustration-size);
+  height: auto;
+}
+
+.yuki-empty__image-el {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.yuki-empty__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-empty-illustration-size);
+  line-height: var(--yuki-line-height-none);
+}
+
+.yuki-empty__description {
+  font-size: var(--yuki-empty-description-size);
+  line-height: var(--yuki-line-height-normal);
+  color: var(--yuki-empty-description-color);
+}
+
+.yuki-empty__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--yuki-space-2);
+}

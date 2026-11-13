@@ -1,0 +1,131 @@
+.yuki-grid {
+  --yuki-grid-columns: 12;
+  --yuki-grid-gap: var(--yuki-space-4);
+
+  display: grid;
+  grid-template-columns: repeat(var(--yuki-grid-columns), minmax(0, 1fr));
+  gap: var(--yuki-grid-row-gap, var(--yuki-grid-gap)) var(--yuki-grid-column-gap, var(--yuki-grid-gap));
+  width: 100%;
+  min-width: 0;
+}
+
+.yuki-grid--align-start { align-items: start; }
+.yuki-grid--align-center { align-items: center; }
+.yuki-grid--align-end { align-items: end; }
+.yuki-grid--align-stretch { align-items: stretch; }
+
+.yuki-grid--justify-start { justify-items: start; }
+.yuki-grid--justify-center { justify-items: center; }
+.yuki-grid--justify-end { justify-items: end; }
+.yuki-grid--justify-stretch { justify-items: stretch; }
+.yuki-grid--justify-between { justify-content: space-between; }
+.yuki-grid--justify-around { justify-content: space-around; }
+
+.yuki-grid__item {
+  min-width: 0;
+}
+
+/* Base spans 1–12 */
+.yuki-grid__item--span-1 { grid-column: span 1 / span 1; }
+.yuki-grid__item--span-2 { grid-column: span 2 / span 2; }
+.yuki-grid__item--span-3 { grid-column: span 3 / span 3; }
+.yuki-grid__item--span-4 { grid-column: span 4 / span 4; }
+.yuki-grid__item--span-5 { grid-column: span 5 / span 5; }
+.yuki-grid__item--span-6 { grid-column: span 6 / span 6; }
+.yuki-grid__item--span-7 { grid-column: span 7 / span 7; }
+.yuki-grid__item--span-8 { grid-column: span 8 / span 8; }
+.yuki-grid__item--span-9 { grid-column: span 9 / span 9; }
+.yuki-grid__item--span-10 { grid-column: span 10 / span 10; }
+.yuki-grid__item--span-11 { grid-column: span 11 / span 11; }
+.yuki-grid__item--span-12 { grid-column: span 12 / span 12; }
+
+/* Explicit start columns 1–12 */
+.yuki-grid__item--start-1 { grid-column-start: 1; }
+.yuki-grid__item--start-2 { grid-column-start: 2; }
+.yuki-grid__item--start-3 { grid-column-start: 3; }
+.yuki-grid__item--start-4 { grid-column-start: 4; }
+.yuki-grid__item--start-5 { grid-column-start: 5; }
+.yuki-grid__item--start-6 { grid-column-start: 6; }
+.yuki-grid__item--start-7 { grid-column-start: 7; }
+.yuki-grid__item--start-8 { grid-column-start: 8; }
+.yuki-grid__item--start-9 { grid-column-start: 9; }
+.yuki-grid__item--start-10 { grid-column-start: 10; }
+.yuki-grid__item--start-11 { grid-column-start: 11; }
+.yuki-grid__item--start-12 { grid-column-start: 12; }
+
+/* Breakpoints mirror tokens.css (480/640/768/1024/1280/1536 at 16px root).
+   Media queries cannot read custom properties; em units keep them zoom-safe. */
+@media (min-width: 30em) {
+  .yuki-grid__item--xs-span-1 { grid-column: span 1 / span 1; }
+  .yuki-grid__item--xs-span-2 { grid-column: span 2 / span 2; }
+  .yuki-grid__item--xs-span-3 { grid-column: span 3 / span 3; }
+  .yuki-grid__item--xs-span-4 { grid-column: span 4 / span 4; }
+  .yuki-grid__item--xs-span-5 { grid-column: span 5 / span 5; }
+  .yuki-grid__item--xs-span-6 { grid-column: span 6 / span 6; }
+  .yuki-grid__item--xs-span-7 { grid-column: span 7 / span 7; }
+  .yuki-grid__item--xs-span-8 { grid-column: span 8 / span 8; }
+  .yuki-grid__item--xs-span-9 { grid-column: span 9 / span 9; }
+  .yuki-grid__item--xs-span-10 { grid-column: span 10 / span 10; }
+  .yuki-grid__item--xs-span-11 { grid-column: span 11 / span 11; }
+  .yuki-grid__item--xs-span-12 { grid-column: span 12 / span 12; }
+}
+
+@media (min-width: 40em) {
+  .yuki-grid__item--sm-span-1 { grid-column: span 1 / span 1; }
+  .yuki-grid__item--sm-span-2 { grid-column: span 2 / span 2; }
+  .yuki-grid__item--sm-span-3 { grid-column: span 3 / span 3; }
+  .yuki-grid__item--sm-span-4 { grid-column: span 4 / span 4; }
+  .yuki-grid__item--sm-span-5 { grid-column: span 5 / span 5; }
+  .yuki-grid__item--sm-span-6 { grid-column: span 6 / span 6; }
+  .yuki-grid__item--sm-span-7 { grid-column: span 7 / span 7; }
+  .yuki-grid__item--sm-span-8 { grid-column: span 8 / span 8; }
+  .yuki-grid__item--sm-span-9 { grid-column: span 9 / span 9; }
+  .yuki-grid__item--sm-span-10 { grid-column: span 10 / span 10; }
+  .yuki-grid__item--sm-span-11 { grid-column: span 11 / span 11; }
+  .yuki-grid__item--sm-span-12 { grid-column: span 12 / span 12; }
+}
+
+@media (min-width: 48em) {
+  .yuki-grid__item--md-span-1 { grid-column: span 1 / span 1; }
+  .yuki-grid__item--md-span-2 { grid-column: span 2 / span 2; }
+  .yuki-grid__item--md-span-3 { grid-column: span 3 / span 3; }
+  .yuki-grid__item--md-span-4 { grid-column: span 4 / span 4; }
+  .yuki-grid__item--md-span-5 { grid-column: span 5 / span 5; }
+  .yuki-grid__item--md-span-6 { grid-column: span 6 / span 6; }
+  .yuki-grid__item--md-span-7 { grid-column: span 7 / span 7; }
+  .yuki-grid__item--md-span-8 { grid-column: span 8 / span 8; }
+  .yuki-grid__item--md-span-9 { grid-column: span 9 / span 9; }
+  .yuki-grid__item--md-span-10 { grid-column: span 10 / span 10; }
+  .yuki-grid__item--md-span-11 { grid-column: span 11 / span 11; }
+  .yuki-grid__item--md-span-12 { grid-column: span 12 / span 12; }
+}
+
+@media (min-width: 64em) {
+  .yuki-grid__item--lg-span-1 { grid-column: span 1 / span 1; }
+  .yuki-grid__item--lg-span-2 { grid-column: span 2 / span 2; }
+  .yuki-grid__item--lg-span-3 { grid-column: span 3 / span 3; }
+  .yuki-grid__item--lg-span-4 { grid-column: span 4 / span 4; }
+  .yuki-grid__item--lg-span-5 { grid-column: span 5 / span 5; }
+  .yuki-grid__item--lg-span-6 { grid-column: span 6 / span 6; }
+  .yuki-grid__item--lg-span-7 { grid-column: span 7 / span 7; }
+  .yuki-grid__item--lg-span-8 { grid-column: span 8 / span 8; }
+  .yuki-grid__item--lg-span-9 { grid-column: span 9 / span 9; }
+  .yuki-grid__item--lg-span-10 { grid-column: span 10 / span 10; }
+  .yuki-grid__item--lg-span-11 { grid-column: span 11 / span 11; }
+  .yuki-grid__item--lg-span-12 { grid-column: span 12 / span 12; }
+}
+
+@media (min-width: 80em) {
+  .yuki-grid__item--xl-span-1 { grid-column: span 1 / span 1; }
+  .yuki-grid__item--xl-span-2 { grid-column: span 2 / span 2; }
+  .yuki-grid__item--xl-span-3 { grid-column: span 3 / span 3; }
+  .yuki-grid__item--xl-span-4 { grid-column: span 4 / span 4; }
+  .yuki-grid__item--xl-span-5 { grid-column: span 5 / span 5; }
+  .yuki-grid__item--xl-span-6 { grid-column: span 6 / span 6; }
+  .yuki-grid__item--xl-span-7 { grid-column: span 7 / span 7; }
+  .yuki-grid__item--xl-span-8 { grid-column: span 8 / span 8; }
+  .yuki-grid__item--xl-span-9 { grid-column: span 9 / span 9; }
+  .yuki-grid__item--xl-span-10 { grid-column: span 10 / span 10; }
+  .yuki-grid__item--xl-span-11 { grid-column: span 11 / span 11; }
+  .yuki-grid__item--xl-span-12 { grid-column: span 12 / span 12; }
+}

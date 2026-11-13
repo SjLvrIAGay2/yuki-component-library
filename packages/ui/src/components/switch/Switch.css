@@ -1,0 +1,164 @@
+/* =============================================================================
+ * Switch
+ * ========================================================================== */
+
+.yuki-switch {
+  --yuki-switch-height: var(--yuki-icon-size-xl);
+  --yuki-switch-width: calc(var(--yuki-switch-height) * 1.75);
+  --yuki-switch-bg: var(--yuki-color-bg-muted);
+  --yuki-switch-bg-hover: var(--yuki-color-border-strong);
+  --yuki-switch-on-bg: var(--yuki-color-primary);
+  --yuki-switch-on-bg-hover: var(--yuki-color-primary-hover);
+  --yuki-switch-handle-bg: var(--yuki-color-primary-contrast);
+  --yuki-switch-label: var(--yuki-color-text-secondary);
+  --yuki-switch-on-label: var(--yuki-color-primary-contrast);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-font-size-2xs);
+  line-height: var(--yuki-line-height-none);
+  cursor: pointer;
+  user-select: none;
+}
+
+.yuki-switch__input {
+  position: absolute;
+  width: var(--yuki-switch-width);
+  height: var(--yuki-switch-height);
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.yuki-switch__track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-switch-width);
+  min-width: var(--yuki-switch-width);
+  height: var(--yuki-switch-height);
+  padding-inline: var(--yuki-space-1);
+  background: var(--yuki-switch-bg);
+  border-radius: var(--yuki-radius-full);
+  transition: background-color var(--yuki-motion-duration, var(--yuki-duration-base)) var(--yuki-motion-easing, var(--yuki-easing-standard)) var(--yuki-motion-delay, 0s);
+}
+
+.yuki-switch[data-has-label='true'] .yuki-switch__track {
+  width: auto;
+  padding-inline-start: calc(var(--yuki-switch-height) + var(--yuki-space-0-5));
+  padding-inline-end: var(--yuki-space-2);
+}
+
+.yuki-switch[data-has-label='true'][data-checked='true'] .yuki-switch__track {
+  padding-inline-start: var(--yuki-space-2);
+  padding-inline-end: calc(var(--yuki-switch-height) + var(--yuki-space-0-5));
+}
+
+.yuki-switch[data-has-label='true'][data-checked='true'] .yuki-switch__handle {
+  inset-inline-start: auto;
+  inset-inline-end: var(--yuki-space-0-5);
+  transform: translateY(-50%);
+}
+
+.yuki-switch__handle {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: var(--yuki-space-0-5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(
+    var(--yuki-switch-height) - 2 * var(--yuki-space-0-5) - 2 * var(--yuki-border-width-thin)
+  );
+  height: calc(
+    var(--yuki-switch-height) - 2 * var(--yuki-space-0-5) - 2 * var(--yuki-border-width-thin)
+  );
+  background: var(--yuki-switch-handle-bg);
+  border-radius: var(--yuki-radius-full);
+  box-shadow: var(--yuki-shadow-xs);
+  transform: translateY(-50%);
+  transition: transform var(--yuki-motion-duration, var(--yuki-duration-base)) var(--yuki-motion-easing, var(--yuki-easing-standard)) var(--yuki-motion-delay, 0s);
+}
+
+/* Both states size the same grid cell, even when one label is empty. */
+.yuki-switch__label {
+  display: grid;
+  min-width: 0;
+  text-align: center;
+  color: var(--yuki-switch-label);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.yuki-switch__label > span {
+  grid-area: 1 / 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yuki-switch__label > [data-visible='false'] {
+  visibility: hidden;
+}
+
+/* Checked ----------------------------------------------------------------- */
+.yuki-switch[data-checked='true'] .yuki-switch__track {
+  background: var(--yuki-switch-on-bg);
+}
+
+.yuki-switch[data-checked='true'] .yuki-switch__label {
+  color: var(--yuki-switch-on-label);
+}
+
+.yuki-switch[data-checked='true'] .yuki-switch__handle {
+  transform: translate(calc(var(--yuki-switch-width) - var(--yuki-switch-height)), -50%);
+}
+
+/* Hover + focus ----------------------------------------------------------- */
+.yuki-switch:hover .yuki-switch__track {
+  background: var(--yuki-switch-bg-hover);
+}
+
+.yuki-switch[data-checked='true']:hover .yuki-switch__track {
+  background: var(--yuki-switch-on-bg-hover);
+}
+
+.yuki-switch__input:focus-visible + .yuki-switch__track {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+/* Disabled / loading ------------------------------------------------------ */
+.yuki-switch[data-disabled='true'] {
+  cursor: not-allowed;
+  opacity: var(--yuki-opacity-disabled);
+}
+
+.yuki-switch[data-loading='true'] .yuki-switch__handle {
+  color: var(--yuki-color-primary);
+}
+
+.yuki-switch__loading {
+  display: inline-flex;
+  color: var(--yuki-switch-on-bg);
+}
+
+.yuki-switch__loading > .yuki-icon {
+  width: var(--yuki-icon-size-xs);
+  height: var(--yuki-icon-size-xs);
+}
+
+/* Sizes ------------------------------------------------------------------- */
+.yuki-switch--sm {
+  --yuki-switch-height: var(--yuki-icon-size-lg);
+  --yuki-switch-width: calc(var(--yuki-switch-height) * 1.7);
+}
+
+.yuki-switch--lg {
+  --yuki-switch-height: var(--yuki-icon-size-2xl);
+  --yuki-switch-width: calc(var(--yuki-switch-height) * 1.8);
+}

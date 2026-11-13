@@ -1,0 +1,81 @@
+/* Anchor — scroll-spy navigation. */
+.yuki-anchor {
+  --yuki-anchor-font-size: var(--yuki-font-size-sm);
+  --yuki-anchor-link-color: var(--yuki-color-text-secondary);
+  --yuki-anchor-link-hover-color: var(--yuki-color-text);
+  --yuki-anchor-active-color: var(--yuki-color-primary);
+  --yuki-anchor-indicator-color: var(--yuki-color-primary);
+  --yuki-anchor-link-padding-block: var(--yuki-space-1);
+  --yuki-anchor-link-padding-inline: var(--yuki-space-3);
+  --yuki-anchor-sub-indent: var(--yuki-space-3);
+  --yuki-anchor-radius: var(--yuki-radius-sm);
+
+  display: block;
+  font-size: var(--yuki-anchor-font-size);
+}
+
+.yuki-anchor__list,
+.yuki-anchor__sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.yuki-anchor__item {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.yuki-anchor__link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding-block: var(--yuki-anchor-link-padding-block);
+  padding-inline: var(--yuki-anchor-link-padding-inline);
+  border-radius: var(--yuki-anchor-radius);
+  color: var(--yuki-anchor-link-color);
+  line-height: var(--yuki-line-height-snug);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition:
+    color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-anchor__link:hover {
+  background: var(--yuki-color-bg-hover);
+  color: var(--yuki-anchor-link-hover-color);
+}
+
+.yuki-anchor__link:focus-visible {
+  outline: var(--yuki-border-width-thin) solid transparent;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-anchor__link--active {
+  color: var(--yuki-anchor-active-color);
+  font-weight: var(--yuki-font-weight-medium);
+}
+
+.yuki-anchor__link--active::before {
+  position: absolute;
+  inset-block: var(--yuki-space-1);
+  inset-inline-start: 0;
+  inline-size: var(--yuki-border-width-medium);
+  border-radius: var(--yuki-radius-full);
+  background: var(--yuki-anchor-indicator-color);
+  content: '';
+}
+
+.yuki-anchor__sub-list {
+  padding-inline-start: var(--yuki-anchor-sub-indent);
+  font-size: var(--yuki-font-size-2xs);
+}
+
+.yuki-anchor__item[data-active] > .yuki-anchor__sub-list .yuki-anchor__link {
+  color: var(--yuki-anchor-link-color);
+}

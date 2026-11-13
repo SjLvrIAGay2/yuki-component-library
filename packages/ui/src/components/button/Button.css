@@ -1,0 +1,299 @@
+/* =============================================================================
+ * Button — component tokens
+ * Every visual value below resolves to a global token. The six tones only
+ * remap a small set of `--yuki-btn-*` slots; variants consume those slots.
+ * ========================================================================== */
+
+.yuki-btn {
+  /* size ramp (overridden by --sm / --lg) */
+  --yuki-btn-height: var(--yuki-control-height-md);
+  --yuki-btn-padding-x: var(--yuki-control-padding-md);
+  --yuki-btn-gap: var(--yuki-control-gap-md);
+  --yuki-btn-font-size: var(--yuki-font-size-md);
+  --yuki-btn-icon-size: var(--yuki-icon-size-md);
+  --yuki-btn-radius: var(--yuki-radius-md);
+
+  /* tone defaults: primary */
+  --yuki-btn-solid-bg: var(--yuki-color-primary);
+  --yuki-btn-solid-bg-hover: var(--yuki-color-primary-hover);
+  --yuki-btn-solid-bg-active: var(--yuki-color-primary-active);
+  --yuki-btn-solid-fg: var(--yuki-color-primary-contrast);
+  --yuki-btn-soft-bg: var(--yuki-color-primary-subtle);
+  --yuki-btn-soft-bg-hover: var(--yuki-color-primary-subtle-hover);
+  --yuki-btn-soft-fg: var(--yuki-color-primary);
+  --yuki-btn-outline-border: var(--yuki-color-primary-border);
+  --yuki-btn-outline-fg: var(--yuki-color-primary);
+  --yuki-btn-ghost-fg: var(--yuki-color-primary);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--yuki-btn-gap);
+  height: var(--yuki-btn-height);
+  padding-inline: var(--yuki-btn-padding-x);
+  border: var(--yuki-border-width-thin) solid transparent;
+  border-radius: var(--yuki-btn-radius);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-btn-font-size);
+  font-weight: var(--yuki-font-weight-medium);
+  line-height: var(--yuki-line-height-none);
+  white-space: nowrap;
+  vertical-align: middle;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: var(--yuki-transition-colors), box-shadow var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-btn:disabled {
+  opacity: var(--yuki-opacity-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-btn-icon-size);
+  height: var(--yuki-btn-icon-size);
+  flex: none;
+}
+
+.yuki-btn__icon > .yuki-icon {
+  width: var(--yuki-btn-icon-size);
+  height: var(--yuki-btn-icon-size);
+}
+
+.yuki-btn__label {
+  display: inline-block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yuki-btn__spinner {
+  width: var(--yuki-btn-icon-size);
+  height: var(--yuki-btn-icon-size);
+  flex: none;
+  border: var(--yuki-border-width-thick) solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--yuki-radius-full);
+  animation: yuki-spin var(--yuki-duration-slower) linear infinite;
+}
+
+.yuki-btn__spinner[data-yuki-motion-preset='spin'] {
+  animation-duration: var(--yuki-motion-duration);
+  animation-delay: var(--yuki-motion-delay);
+}
+
+.yuki-btn--loading .yuki-btn__label {
+  opacity: var(--yuki-opacity-muted);
+}
+
+/* ---------------------------------------------------------------------------
+ * Sizes
+ * ------------------------------------------------------------------------ */
+.yuki-btn--sm {
+  --yuki-btn-height: var(--yuki-control-height-sm);
+  --yuki-btn-padding-x: var(--yuki-control-padding-sm);
+  --yuki-btn-gap: var(--yuki-control-gap-xs);
+  --yuki-btn-font-size: var(--yuki-font-size-sm);
+  --yuki-btn-icon-size: var(--yuki-icon-size-sm);
+  --yuki-btn-radius: var(--yuki-radius-sm);
+}
+
+.yuki-btn--lg {
+  --yuki-btn-height: var(--yuki-control-height-lg);
+  --yuki-btn-padding-x: var(--yuki-control-padding-lg);
+  --yuki-btn-gap: var(--yuki-control-gap-md);
+  --yuki-btn-font-size: var(--yuki-font-size-lg);
+  --yuki-btn-icon-size: var(--yuki-icon-size-lg);
+  --yuki-btn-radius: var(--yuki-radius-md);
+}
+
+/* ---------------------------------------------------------------------------
+ * Tones — remap slots only.
+ * `-hover` doubles as the solid fill for status hues so small text keeps
+ * AA contrast on light surfaces; hover/active darken through color-mix.
+ * ------------------------------------------------------------------------ */
+.yuki-btn--neutral {
+  --yuki-btn-solid-bg: var(--yuki-color-bg-inverse);
+  --yuki-btn-solid-bg-hover: color-mix(in srgb, var(--yuki-color-bg-inverse) 88%, var(--yuki-color-bg-surface));
+  --yuki-btn-solid-bg-active: color-mix(in srgb, var(--yuki-color-bg-inverse) 78%, var(--yuki-color-bg-surface));
+  --yuki-btn-solid-fg: var(--yuki-color-text-inverse);
+  --yuki-btn-soft-bg: var(--yuki-color-bg-subtle);
+  --yuki-btn-soft-bg-hover: var(--yuki-color-bg-hover);
+  --yuki-btn-soft-fg: var(--yuki-color-text);
+  --yuki-btn-outline-border: var(--yuki-color-border-strong);
+  --yuki-btn-outline-fg: var(--yuki-color-text);
+  --yuki-btn-ghost-fg: var(--yuki-color-text);
+}
+
+.yuki-btn--success {
+  --yuki-btn-solid-bg: var(--yuki-color-success-hover);
+  --yuki-btn-solid-bg-hover: color-mix(in srgb, var(--yuki-color-success-hover) 86%, var(--yuki-color-text));
+  --yuki-btn-solid-bg-active: color-mix(in srgb, var(--yuki-color-success-hover) 74%, var(--yuki-color-text));
+  --yuki-btn-solid-fg: var(--yuki-color-success-contrast);
+  --yuki-btn-soft-bg: var(--yuki-color-success-subtle);
+  --yuki-btn-soft-bg-hover: color-mix(in srgb, var(--yuki-color-success-subtle) 84%, var(--yuki-color-success));
+  --yuki-btn-soft-fg: var(--yuki-color-success-hover);
+  --yuki-btn-outline-border: var(--yuki-color-success-border);
+  --yuki-btn-outline-fg: var(--yuki-color-success-hover);
+  --yuki-btn-ghost-fg: var(--yuki-color-success-hover);
+}
+
+.yuki-btn--warning {
+  --yuki-btn-solid-bg: var(--yuki-color-warning-hover);
+  --yuki-btn-solid-bg-hover: color-mix(in srgb, var(--yuki-color-warning-hover) 86%, var(--yuki-color-text));
+  --yuki-btn-solid-bg-active: color-mix(in srgb, var(--yuki-color-warning-hover) 74%, var(--yuki-color-text));
+  --yuki-btn-solid-fg: var(--yuki-color-warning-contrast);
+  --yuki-btn-soft-bg: var(--yuki-color-warning-subtle);
+  --yuki-btn-soft-bg-hover: color-mix(in srgb, var(--yuki-color-warning-subtle) 84%, var(--yuki-color-warning));
+  --yuki-btn-soft-fg: var(--yuki-color-warning-hover);
+  --yuki-btn-outline-border: var(--yuki-color-warning-border);
+  --yuki-btn-outline-fg: var(--yuki-color-warning-hover);
+  --yuki-btn-ghost-fg: var(--yuki-color-warning-hover);
+}
+
+.yuki-btn--danger {
+  --yuki-btn-solid-bg: var(--yuki-color-danger-hover);
+  --yuki-btn-solid-bg-hover: color-mix(in srgb, var(--yuki-color-danger-hover) 86%, var(--yuki-color-text));
+  --yuki-btn-solid-bg-active: color-mix(in srgb, var(--yuki-color-danger-hover) 74%, var(--yuki-color-text));
+  --yuki-btn-solid-fg: var(--yuki-color-danger-contrast);
+  --yuki-btn-soft-bg: var(--yuki-color-danger-subtle);
+  --yuki-btn-soft-bg-hover: color-mix(in srgb, var(--yuki-color-danger-subtle) 84%, var(--yuki-color-danger));
+  --yuki-btn-soft-fg: var(--yuki-color-danger-hover);
+  --yuki-btn-outline-border: var(--yuki-color-danger-border);
+  --yuki-btn-outline-fg: var(--yuki-color-danger-hover);
+  --yuki-btn-ghost-fg: var(--yuki-color-danger-hover);
+}
+
+.yuki-btn--info {
+  --yuki-btn-solid-bg: var(--yuki-color-info-hover);
+  --yuki-btn-solid-bg-hover: color-mix(in srgb, var(--yuki-color-info-hover) 86%, var(--yuki-color-text));
+  --yuki-btn-solid-bg-active: color-mix(in srgb, var(--yuki-color-info-hover) 74%, var(--yuki-color-text));
+  --yuki-btn-solid-fg: var(--yuki-color-info-contrast);
+  --yuki-btn-soft-bg: var(--yuki-color-info-subtle);
+  --yuki-btn-soft-bg-hover: color-mix(in srgb, var(--yuki-color-info-subtle) 84%, var(--yuki-color-info));
+  --yuki-btn-soft-fg: var(--yuki-color-info-hover);
+  --yuki-btn-outline-border: var(--yuki-color-info-border);
+  --yuki-btn-outline-fg: var(--yuki-color-info-hover);
+  --yuki-btn-ghost-fg: var(--yuki-color-info-hover);
+}
+
+/* ---------------------------------------------------------------------------
+ * Variants
+ * ------------------------------------------------------------------------ */
+.yuki-btn--solid {
+  background: var(--yuki-btn-solid-bg);
+  border-color: var(--yuki-btn-solid-bg);
+  color: var(--yuki-btn-solid-fg);
+}
+
+.yuki-btn--solid:not(:disabled):hover {
+  background: var(--yuki-btn-solid-bg-hover);
+  border-color: var(--yuki-btn-solid-bg-hover);
+}
+
+.yuki-btn--solid:not(:disabled):active {
+  background: var(--yuki-btn-solid-bg-active);
+  border-color: var(--yuki-btn-solid-bg-active);
+}
+
+.yuki-btn--soft {
+  background: var(--yuki-btn-soft-bg);
+  color: var(--yuki-btn-soft-fg);
+}
+
+.yuki-btn--soft:not(:disabled):hover {
+  background: var(--yuki-btn-soft-bg-hover);
+}
+
+.yuki-btn--soft:not(:disabled):active {
+  background: var(--yuki-btn-soft-bg-hover);
+}
+
+.yuki-btn--outline {
+  background: transparent;
+  border-color: var(--yuki-btn-outline-border);
+  color: var(--yuki-btn-outline-fg);
+}
+
+.yuki-btn--outline:not(:disabled):hover {
+  background: var(--yuki-btn-soft-bg);
+  border-color: var(--yuki-btn-outline-fg);
+}
+
+.yuki-btn--outline:not(:disabled):active {
+  background: var(--yuki-btn-soft-bg-hover);
+}
+
+.yuki-btn--ghost,
+.yuki-btn--text {
+  background: transparent;
+  color: var(--yuki-btn-ghost-fg);
+}
+
+.yuki-btn--ghost:not(:disabled):hover,
+.yuki-btn--text:not(:disabled):hover {
+  background: var(--yuki-btn-soft-bg);
+}
+
+.yuki-btn--ghost:not(:disabled):active,
+.yuki-btn--text:not(:disabled):active {
+  background: var(--yuki-btn-soft-bg-hover);
+}
+
+.yuki-btn--text {
+  --yuki-btn-padding-x: var(--yuki-control-gap-xs);
+  border-color: transparent;
+}
+
+.yuki-btn--link {
+  height: auto;
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  color: var(--yuki-color-text-link);
+}
+
+.yuki-btn--link:not(:disabled):hover {
+  color: var(--yuki-color-text-link-hover);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* ---------------------------------------------------------------------------
+ * Shapes / layout modifiers
+ * ------------------------------------------------------------------------ */
+.yuki-btn--block {
+  display: flex;
+  width: 100%;
+}
+
+.yuki-btn--round {
+  border-radius: var(--yuki-radius-full);
+}
+
+.yuki-btn--circle,
+.yuki-btn--square,
+.yuki-btn--icon-only {
+  width: var(--yuki-btn-height);
+  padding-inline: 0;
+  flex: none;
+}
+
+.yuki-btn--circle {
+  border-radius: var(--yuki-radius-full);
+}
+
+.yuki-btn--square {
+  border-radius: var(--yuki-btn-radius);
+}

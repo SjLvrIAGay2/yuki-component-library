@@ -1,0 +1,80 @@
+.yuki-accordion {
+  width: 100%;
+  font-family: var(--yuki-font-family-sans);
+  background: var(--yuki-color-bg-surface);
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+  border-radius: var(--yuki-radius-lg);
+  overflow: hidden;
+}
+.yuki-accordion-item {
+  border-bottom: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+}
+.yuki-accordion-header {
+  margin: 0;
+}
+.yuki-accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--yuki-color-text);
+  font: 500 var(--yuki-font-size-sm)/1.6 var(--yuki-font-family-sans);
+  text-align: left;
+  cursor: pointer;
+  padding: var(--yuki-space-3) var(--yuki-space-4);
+  gap: var(--yuki-space-2);
+}
+.yuki-accordion-indicator {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--yuki-color-text-secondary);
+  transition: var(--yuki-transition-transform);
+}
+.yuki-accordion-trigger[data-state='open'] .yuki-accordion-indicator {
+  transform: rotate(180deg);
+}
+.yuki-accordion-trigger:disabled {
+  opacity: var(--yuki-opacity-disabled);
+  cursor: not-allowed;
+}
+.yuki-accordion-content {
+  overflow: hidden;
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+}
+/* Fractional grid tracks follow the live body height, including on the first forced mount. */
+.yuki-accordion-content.yuki-motion[data-yuki-motion-preset='collapse'] {
+  display: grid;
+  grid-template-rows: 1fr;
+  animation-name: yuki-accordion-expand;
+}
+.yuki-accordion-content.yuki-motion[data-yuki-motion-preset='collapse'][data-state='closed'] {
+  animation-name: yuki-accordion-collapse;
+}
+.yuki-accordion-content__clip {
+  min-height: 0;
+  overflow: hidden;
+}
+.yuki-accordion-content__body {
+  padding: 0 var(--yuki-space-4) var(--yuki-space-4);
+}
+@keyframes yuki-accordion-expand {
+  from { grid-template-rows: 0fr; opacity: 0; }
+  to { grid-template-rows: 1fr; opacity: 1; }
+}
+@keyframes yuki-accordion-collapse {
+  from { grid-template-rows: 1fr; opacity: 1; }
+  to { grid-template-rows: 0fr; opacity: 0; }
+}
+.yuki-accordion-content[hidden] {
+  display: none !important;
+}
+.yuki-accordion-item:last-child {
+  border-bottom: 0;
+}
+.yuki-accordion-trigger:hover {
+  background: var(--yuki-color-bg-hover);
+}

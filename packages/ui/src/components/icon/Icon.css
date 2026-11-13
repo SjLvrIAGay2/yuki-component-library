@@ -1,0 +1,13 @@
+.yuki-icon {
+  display: inline-block;
+  width: var(--yuki-icon-size-md);
+  height: var(--yuki-icon-size-md);
+  flex-shrink: 0;
+  vertical-align: middle;
+  color: inherit;
+  pointer-events: none;
+}
+
+.yuki-icon--spin {
+  animation: yuki-spin var(--yuki-duration-slower) linear infinite;
+}

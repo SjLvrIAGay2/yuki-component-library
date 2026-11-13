@@ -1,0 +1,135 @@
+.yuki-document-viewer {
+  width: 100%;
+  min-width: 0;
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  color: var(--yuki-color-text);
+  font: var(--yuki-font-size-sm)/var(--yuki-line-height-relaxed) var(--yuki-font-family-sans);
+  overflow: hidden;
+  border-radius: var(--yuki-radius-lg);
+  background: var(--yuki-color-bg-surface);
+}
+.yuki-document-viewer__header {
+  display: flex;
+  gap: var(--yuki-space-3);
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  color: var(--yuki-color-text-secondary);
+  background: var(--yuki-color-bg-canvas);
+  padding: var(--yuki-space-3) var(--yuki-space-4);
+  font-size: var(--yuki-font-size-md);
+}
+.yuki-document-viewer__header > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.yuki-document-viewer__header > span:last-child {
+  font-size: var(--yuki-font-size-2xs);
+  flex-shrink: 0;
+}
+.yuki-document-viewer__body {
+  padding: var(--yuki-space-6);
+  max-height: 42.5rem;
+  overflow: auto;
+  font-size: var(--yuki-font-size-md);
+}
+.yuki-document-viewer__loading {
+  padding: var(--yuki-space-6);
+  color: var(--yuki-color-text-secondary);
+  margin: 0;
+  text-align: center;
+}
+.yuki-document-viewer__empty {
+  padding: var(--yuki-space-6);
+  text-align: center;
+}
+.yuki-document-viewer__error {
+  color: var(--yuki-color-danger);
+  padding: var(--yuki-space-4);
+  overflow-wrap: anywhere;
+}
+.yuki-document-viewer > .yuki-code-block {
+  border: 0;
+  border-radius: 0;
+}
+.yuki-pdf__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--yuki-space-1);
+  align-items: center;
+  padding: var(--yuki-space-1-5) var(--yuki-space-2-5);
+  border-bottom: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  font-size: var(--yuki-font-size-2xs);
+}
+.yuki-pdf__toolbar-spacer {
+  flex: 1;
+}
+.yuki-pdf__zoom {
+  border: 0;
+  border-radius: var(--yuki-radius-xs);
+  padding: var(--yuki-space-1);
+  background: transparent;
+  color: var(--yuki-color-text-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+.yuki-pdf__viewport {
+  /* Keep the absolute accessible status inside this scroll container, not the dialog. */
+  position: relative;
+  overflow: auto;
+  /* Classic scrollbars must not change the width used to fit the PDF page. */
+  scrollbar-gutter: stable;
+  max-height: 43.75rem;
+  background: var(--yuki-color-bg-subtle);
+  padding: var(--yuki-space-4);
+}
+.yuki-pdf__page {
+  position: relative;
+  margin: 0 auto;
+  background: var(--yuki-graphite-0);
+  color-scheme: light;
+  box-shadow: var(--yuki-shadow-sm);
+}
+.yuki-pdf__page canvas {
+  display: block;
+}
+.yuki-pdf__text {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  line-height: 1;
+  text-align: initial;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+.yuki-pdf__text :is(span, br) {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0 0;
+  user-select: text;
+}
+.yuki-pdf__text > :not(.markedContent),
+.yuki-pdf__text .markedContent span:not(.markedContent) {
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+.yuki-pdf__text ::selection {
+  background: var(--yuki-color-primary-ring);
+}
+.yuki-pdf__password {
+  display: grid;
+  gap: var(--yuki-space-4);
+  padding: var(--yuki-space-6);
+  max-width: 22.5rem;
+  margin: 0 auto;
+}

@@ -1,0 +1,88 @@
+.yuki-spin {
+  --yuki-spin-ring-size: var(--yuki-icon-size-xl);
+  --yuki-spin-ring-width: var(--yuki-border-width-thick);
+  --yuki-spin-gap: var(--yuki-space-2);
+  --yuki-spin-mask-bg: color-mix(in srgb, var(--yuki-color-bg-elevated) 72%, transparent);
+  --yuki-spin-tip-color: var(--yuki-color-text-secondary);
+  --yuki-spin-tip-size: var(--yuki-font-size-sm);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--yuki-spin-gap);
+  color: var(--yuki-color-primary);
+  font-family: var(--yuki-font-family-sans);
+}
+
+.yuki-spin[data-size='sm'] {
+  --yuki-spin-ring-size: var(--yuki-icon-size-md);
+  --yuki-spin-tip-size: var(--yuki-font-size-xs);
+}
+
+.yuki-spin[data-size='lg'] {
+  --yuki-spin-ring-size: var(--yuki-icon-size-2xl);
+  --yuki-spin-tip-size: var(--yuki-font-size-md);
+}
+
+.yuki-spin--nested {
+  position: relative;
+  display: block;
+}
+
+.yuki-spin__content {
+  display: block;
+}
+
+.yuki-spin__indicator-wrap,
+.yuki-spin__status {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--yuki-spin-gap);
+}
+
+.yuki-spin__indicator {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  font-size: var(--yuki-spin-ring-size);
+  line-height: var(--yuki-line-height-none);
+}
+
+.yuki-spin__ring {
+  display: block;
+  width: var(--yuki-spin-ring-size);
+  height: var(--yuki-spin-ring-size);
+  border: var(--yuki-spin-ring-width) solid var(--yuki-color-border-strong);
+  border-block-start-color: currentColor;
+  border-radius: var(--yuki-radius-full);
+  animation: yuki-spin var(--yuki-duration-slower) linear infinite;
+}
+
+.yuki-spin__tip {
+  color: var(--yuki-spin-tip-color);
+  font-size: var(--yuki-spin-tip-size);
+  line-height: var(--yuki-line-height-snug);
+}
+
+.yuki-spin__mask {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  background-color: var(--yuki-spin-mask-bg);
+  backdrop-filter: blur(var(--yuki-backdrop-blur-xs));
+  z-index: var(--yuki-z-sticky);
+}
+
+.yuki-spin--fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: var(--yuki-z-modal);
+  background-color: color-mix(in srgb, var(--yuki-color-bg-canvas) 72%, transparent);
+  backdrop-filter: blur(var(--yuki-backdrop-blur-xs));
+}

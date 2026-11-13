@@ -1,0 +1,39 @@
+.yuki-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: var(--yuki-font-family-sans);
+  color: var(--yuki-color-text);
+  padding: var(--yuki-space-6) var(--yuki-space-4);
+  gap: var(--yuki-space-2);
+}
+.yuki-empty-state__icon {
+  display: grid;
+  place-items: center;
+  color: var(--yuki-color-text-secondary);
+  width: var(--yuki-space-16);
+  height: var(--yuki-space-16);
+  border-radius: 50%;
+  margin: 0;
+  background: var(--yuki-color-bg-subtle);
+}
+.yuki-empty-state__icon svg {
+  width: var(--yuki-space-7);
+  height: var(--yuki-space-7);
+}
+.yuki-empty-state__title {
+  font-size: var(--yuki-font-size-md);
+  font-weight: var(--yuki-font-weight-medium);
+  margin: 0;
+}
+.yuki-empty-state__description {
+  color: var(--yuki-color-text-secondary);
+  max-width: var(--yuki-popup-width-md);
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+  margin: 0;
+}
+.yuki-empty-state__action {
+  margin-top: var(--yuki-space-2);
+}

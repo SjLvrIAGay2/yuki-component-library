@@ -1,0 +1,12 @@
+.yuki-image-viewer {
+  display: block;
+  max-width: 100%;
+  margin: auto;
+  object-fit: contain;
+  border-radius: var(--yuki-radius-md);
+}
+.yuki-image-viewer:not([width]):not([height]) {
+  width: 100%;
+  height: auto;
+}
+.yuki-image-viewer[hidden] { display: none; }

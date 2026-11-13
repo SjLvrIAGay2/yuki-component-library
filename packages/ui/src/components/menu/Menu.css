@@ -1,0 +1,296 @@
+/* Menu — navigation list with inline, vertical and horizontal modes. */
+.yuki-menu {
+  --yuki-menu-item-height: var(--yuki-control-height-md);
+  --yuki-menu-item-gap: var(--yuki-space-2);
+  --yuki-menu-item-padding-inline: var(--yuki-space-3);
+  --yuki-menu-font-size: var(--yuki-font-size-sm);
+  --yuki-menu-icon-size: var(--yuki-icon-size-sm);
+  --yuki-menu-radius: var(--yuki-radius-sm);
+  --yuki-menu-color: var(--yuki-color-text-secondary);
+  --yuki-menu-hover-color: var(--yuki-color-text);
+  --yuki-menu-hover-bg: var(--yuki-color-bg-hover);
+  --yuki-menu-active-bg: var(--yuki-color-bg-active);
+  --yuki-menu-selected-color: var(--yuki-color-primary);
+  --yuki-menu-selected-bg: var(--yuki-color-primary-subtle);
+  --yuki-menu-danger-color: var(--yuki-color-danger);
+  --yuki-menu-danger-bg: var(--yuki-color-danger-subtle);
+  --yuki-menu-indicator-color: var(--yuki-color-primary);
+  --yuki-menu-indicator-size: var(--yuki-border-width-thick);
+  --yuki-menu-divider-color: var(--yuki-color-divider);
+  --yuki-menu-group-color: var(--yuki-color-text-tertiary);
+  --yuki-menu-submenu-min-width: var(--yuki-popup-width-xs);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  min-width: 0;
+  margin: 0;
+  padding: var(--yuki-space-1);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-menu-font-size);
+  color: var(--yuki-menu-color);
+  list-style: none;
+}
+
+.yuki-menu[data-size='sm'] {
+  --yuki-menu-item-height: var(--yuki-control-height-sm);
+  --yuki-menu-font-size: var(--yuki-font-size-xs);
+  --yuki-menu-icon-size: var(--yuki-icon-size-xs);
+}
+
+.yuki-menu[data-size='lg'] {
+  --yuki-menu-item-height: var(--yuki-control-height-lg);
+  --yuki-menu-font-size: var(--yuki-font-size-md);
+  --yuki-menu-icon-size: var(--yuki-icon-size-md);
+}
+
+.yuki-menu[data-mode='horizontal'] {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  padding: 0;
+}
+
+.yuki-menu[data-collapsed] {
+  align-items: center;
+  padding-inline: var(--yuki-space-1);
+}
+
+/* Row ---------------------------------------------------------------------- */
+.yuki-menu__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-menu-item-gap);
+  width: 100%;
+  min-width: 0;
+  min-height: var(--yuki-menu-item-height);
+  padding: 0 var(--yuki-menu-item-padding-inline);
+  font: inherit;
+  font-size: var(--yuki-menu-font-size);
+  color: inherit;
+  text-align: start;
+  text-decoration: none;
+  white-space: nowrap;
+  background: transparent;
+  border: 0;
+  border-radius: var(--yuki-menu-radius);
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-menu__item:hover {
+  color: var(--yuki-menu-hover-color);
+  background: var(--yuki-menu-hover-bg);
+}
+
+.yuki-menu__item:active {
+  background: var(--yuki-menu-active-bg);
+}
+
+.yuki-menu__item:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-menu__item[data-selected] {
+  font-weight: var(--yuki-font-weight-medium);
+  color: var(--yuki-menu-selected-color);
+  background: var(--yuki-menu-selected-bg);
+}
+
+.yuki-menu__item[data-selected]:hover {
+  background: var(--yuki-color-primary-subtle);
+}
+
+.yuki-menu__item[data-danger] {
+  color: var(--yuki-menu-danger-color);
+}
+
+.yuki-menu__item[data-danger]:hover {
+  background: var(--yuki-menu-danger-bg);
+}
+
+.yuki-menu__item[aria-disabled='true'] {
+  color: var(--yuki-color-text-disabled);
+  background: transparent;
+  cursor: not-allowed;
+  opacity: var(--yuki-opacity-disabled);
+}
+
+/* Selected indicator for vertical / inline menus. */
+.yuki-menu[data-mode='vertical'] .yuki-menu__item[data-selected]::before,
+.yuki-menu[data-mode='inline'] .yuki-menu__item[data-selected]::before {
+  content: '';
+  position: absolute;
+  inset-block: var(--yuki-space-1);
+  inset-inline-start: 0;
+  width: var(--yuki-menu-indicator-size);
+  background: var(--yuki-menu-indicator-color);
+  border-radius: var(--yuki-radius-full);
+}
+
+/* Horizontal rows sit on a bar; the indicator is a bottom rule. */
+.yuki-menu[data-mode='horizontal'] .yuki-menu__item {
+  width: auto;
+  border-radius: var(--yuki-menu-radius) var(--yuki-menu-radius) 0 0;
+}
+
+.yuki-menu[data-mode='horizontal'] .yuki-menu__item[data-selected] {
+  background: transparent;
+}
+
+.yuki-menu[data-mode='horizontal'] .yuki-menu__item[data-selected]::before {
+  content: '';
+  position: absolute;
+  inset-inline: var(--yuki-menu-item-padding-inline);
+  inset-block-end: 0;
+  height: var(--yuki-menu-indicator-size);
+  background: var(--yuki-menu-indicator-color);
+  border-radius: var(--yuki-radius-full);
+}
+
+/* Inline submenu rows are indented to show hierarchy. */
+.yuki-menu__submenu-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.yuki-menu__submenu > .yuki-menu__submenu-list {
+  padding-inline-start: var(--yuki-space-4);
+}
+
+.yuki-menu__submenu-list[hidden] {
+  display: none;
+}
+
+/* Icon / label / extra ------------------------------------------------------ */
+.yuki-menu__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-menu-icon-size);
+  height: var(--yuki-menu-icon-size);
+  color: currentColor;
+}
+
+.yuki-menu__icon > .yuki-icon {
+  width: var(--yuki-menu-icon-size);
+  height: var(--yuki-menu-icon-size);
+}
+
+.yuki-menu__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-menu__extra {
+  flex: none;
+  margin-inline-start: auto;
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-font-size-2xs);
+  font-weight: var(--yuki-font-weight-regular);
+}
+
+/* Collapsed rail: keep text-only items identifiable and icon labels accessible. */
+.yuki-menu[data-collapsed] .yuki-menu__item {
+  width: var(--yuki-menu-item-height);
+  padding-inline: 0;
+  justify-content: center;
+}
+
+.yuki-menu[data-collapsed] .yuki-menu__label {
+  text-align: center;
+}
+
+.yuki-menu[data-collapsed] .yuki-menu__icon + .yuki-menu__label {
+  position: absolute;
+  width: var(--yuki-border-width-thin);
+  height: var(--yuki-border-width-thin);
+  clip-path: inset(50%);
+}
+
+.yuki-menu[data-collapsed] .yuki-menu__extra,
+.yuki-menu[data-collapsed] .yuki-menu__arrow {
+  display: none;
+}
+
+.yuki-menu[data-collapsed] .yuki-menu__item[data-selected]::before {
+  inset-block: var(--yuki-space-1);
+}
+
+/* Chevron ------------------------------------------------------------------ */
+.yuki-menu__arrow {
+  flex: none;
+  width: var(--yuki-space-2);
+  height: var(--yuki-space-2);
+  margin-inline-start: auto;
+  border: solid currentColor;
+  border-width: 0 var(--yuki-border-width-thin) var(--yuki-border-width-thin) 0;
+  transform: rotate(-45deg);
+  transition: var(--yuki-transition-transform);
+}
+
+.yuki-menu[data-mode='horizontal'] .yuki-menu__arrow {
+  transform: rotate(45deg);
+}
+
+.yuki-menu[data-mode='horizontal'] .yuki-menu__submenu[data-open] .yuki-menu__arrow {
+  transform: rotate(-135deg);
+}
+
+.yuki-menu[data-mode='vertical'] .yuki-menu__submenu[data-open] .yuki-menu__arrow,
+.yuki-menu[data-mode='inline'] .yuki-menu__submenu[data-open] > .yuki-menu__item .yuki-menu__arrow {
+  transform: rotate(45deg);
+}
+
+/* Group & divider ---------------------------------------------------------- */
+.yuki-menu__group {
+  list-style: none;
+}
+
+.yuki-menu__group-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.yuki-menu__group-title {
+  padding: var(--yuki-space-2) var(--yuki-menu-item-padding-inline) var(--yuki-space-1);
+  color: var(--yuki-menu-group-color);
+  font-size: var(--yuki-font-size-2xs);
+  font-weight: var(--yuki-font-weight-medium);
+}
+
+.yuki-menu__divider {
+  flex: none;
+  height: var(--yuki-border-width-thin);
+  margin-block: var(--yuki-space-1);
+  margin-inline: var(--yuki-menu-item-padding-inline);
+  background: var(--yuki-menu-divider-color);
+  list-style: none;
+}
+
+.yuki-menu[data-mode='horizontal'] .yuki-menu__divider {
+  width: var(--yuki-border-width-thin);
+  height: var(--yuki-menu-item-height);
+  margin-block: 0;
+  margin-inline: var(--yuki-space-1);
+}
+
+/* Floating submenu --------------------------------------------------------- */
+.yuki-menu__submenu-popup {
+  min-width: var(--yuki-menu-submenu-min-width);
+  padding: var(--yuki-space-1);
+}

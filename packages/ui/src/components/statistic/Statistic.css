@@ -1,0 +1,82 @@
+.yuki-statistic {
+  --yuki-statistic-title-size: var(--yuki-font-size-sm);
+  --yuki-statistic-title-color: var(--yuki-color-text-secondary);
+  --yuki-statistic-value-size: var(--yuki-font-size-2xl);
+  --yuki-statistic-value-weight: var(--yuki-font-weight-semibold);
+  --yuki-statistic-value-color: var(--yuki-color-text);
+  --yuki-statistic-affix-size: var(--yuki-font-size-md);
+  --yuki-statistic-affix-color: var(--yuki-color-text-secondary);
+  --yuki-statistic-gap: var(--yuki-space-1);
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--yuki-statistic-gap);
+  box-sizing: border-box;
+  min-width: 0;
+  font-family: var(--yuki-font-family-sans);
+  color: var(--yuki-statistic-value-color);
+}
+
+.yuki-statistic--sm {
+  --yuki-statistic-title-size: var(--yuki-font-size-xs);
+  --yuki-statistic-value-size: var(--yuki-font-size-xl);
+  --yuki-statistic-affix-size: var(--yuki-font-size-sm);
+}
+
+.yuki-statistic--lg {
+  --yuki-statistic-title-size: var(--yuki-font-size-md);
+  --yuki-statistic-value-size: var(--yuki-font-size-3xl);
+  --yuki-statistic-affix-size: var(--yuki-font-size-lg);
+}
+
+.yuki-statistic__title {
+  color: var(--yuki-statistic-title-color);
+  font-size: var(--yuki-statistic-title-size);
+  font-weight: var(--yuki-font-weight-regular);
+  line-height: var(--yuki-line-height-snug);
+}
+
+.yuki-statistic__content {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--yuki-statistic-gap);
+  min-width: 0;
+  color: var(--yuki-statistic-value-color);
+}
+
+.yuki-statistic__value {
+  font-size: var(--yuki-statistic-value-size);
+  font-weight: var(--yuki-statistic-value-weight);
+  line-height: var(--yuki-line-height-tight);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  word-break: break-word;
+}
+
+.yuki-statistic__prefix,
+.yuki-statistic__suffix {
+  color: var(--yuki-statistic-affix-color);
+  font-size: var(--yuki-statistic-affix-size);
+  font-weight: var(--yuki-font-weight-regular);
+  line-height: var(--yuki-line-height-snug);
+}
+
+.yuki-statistic__loading {
+  display: inline-block;
+  width: var(--yuki-space-16);
+  height: var(--yuki-space-6);
+  border-radius: var(--yuki-radius-sm);
+  background: var(--yuki-color-bg-muted);
+  animation: yuki-statistic-pulse var(--yuki-duration-slower)
+    var(--yuki-easing-standard) infinite;
+}
+
+@keyframes yuki-statistic-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: var(--yuki-opacity-disabled);
+  }
+}

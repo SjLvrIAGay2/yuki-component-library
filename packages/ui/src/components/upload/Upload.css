@@ -1,0 +1,326 @@
+.yuki-upload {
+  --yuki-upload-gap: var(--yuki-space-3);
+  --yuki-upload-trigger-gap: var(--yuki-space-2);
+  --yuki-upload-item-gap: var(--yuki-space-2);
+  --yuki-upload-item-padding-block: var(--yuki-space-1-5);
+  --yuki-upload-item-padding-inline: var(--yuki-space-2-5);
+  --yuki-upload-item-radius: var(--yuki-radius-md);
+  --yuki-upload-item-bg: var(--yuki-color-bg-subtle);
+  --yuki-upload-thumb-size: var(--yuki-icon-size-3xl);
+  --yuki-upload-thumb-radius: var(--yuki-radius-sm);
+  --yuki-upload-dropzone-padding-block: var(--yuki-space-6);
+  --yuki-upload-dropzone-padding-inline: var(--yuki-space-4);
+  --yuki-upload-dropzone-radius: var(--yuki-radius-lg);
+  --yuki-upload-dropzone-bg: var(--yuki-color-bg-subtle);
+  --yuki-upload-dropzone-bg-active: var(--yuki-color-primary-subtle);
+  --yuki-upload-dropzone-border: var(--yuki-color-border-strong);
+  --yuki-upload-icon-size: var(--yuki-icon-size-xl);
+  --yuki-upload-icon-color: var(--yuki-color-text-tertiary);
+  --yuki-upload-tip-color: var(--yuki-color-text-secondary);
+  --yuki-upload-tip-size: var(--yuki-font-size-sm);
+  --yuki-upload-file-size: var(--yuki-font-size-sm);
+  --yuki-upload-meta-size: var(--yuki-font-size-xs);
+  --yuki-upload-overlay-image-radius: var(--yuki-radius-lg);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-upload-gap);
+  min-width: 0;
+  color: var(--yuki-color-text);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-font-size-md);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-upload[data-size='sm'] {
+  --yuki-upload-gap: var(--yuki-space-2);
+  --yuki-upload-item-gap: var(--yuki-space-1-5);
+  --yuki-upload-item-padding-block: var(--yuki-space-1);
+  --yuki-upload-item-padding-inline: var(--yuki-space-2);
+  --yuki-upload-thumb-size: var(--yuki-icon-size-2xl);
+  --yuki-upload-dropzone-padding-block: var(--yuki-space-4);
+  --yuki-upload-icon-size: var(--yuki-icon-size-lg);
+  --yuki-upload-tip-size: var(--yuki-font-size-xs);
+  --yuki-upload-file-size: var(--yuki-font-size-xs);
+}
+
+.yuki-upload[data-size='lg'] {
+  --yuki-upload-gap: var(--yuki-space-4);
+  --yuki-upload-item-gap: var(--yuki-space-3);
+  --yuki-upload-item-padding-block: var(--yuki-space-2);
+  --yuki-upload-item-padding-inline: var(--yuki-space-3);
+  --yuki-upload-thumb-size: var(--yuki-space-12);
+  --yuki-upload-dropzone-padding-block: var(--yuki-space-8);
+  --yuki-upload-icon-size: var(--yuki-icon-size-2xl);
+  --yuki-upload-tip-size: var(--yuki-font-size-md);
+  --yuki-upload-file-size: var(--yuki-font-size-md);
+}
+
+.yuki-upload[data-disabled] {
+  cursor: not-allowed;
+  opacity: var(--yuki-opacity-disabled);
+}
+
+.yuki-upload__trigger {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--yuki-upload-trigger-gap);
+}
+
+.yuki-upload__trigger[role='button'] {
+  align-self: flex-start;
+  padding: var(--yuki-space-1) var(--yuki-space-2);
+  border-radius: var(--yuki-radius-md);
+  cursor: pointer;
+}
+
+.yuki-upload__trigger[role='button']:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-upload__hint {
+  color: var(--yuki-upload-tip-color);
+  font-size: var(--yuki-upload-tip-size);
+}
+
+.yuki-upload__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--yuki-space-2);
+  padding-block: var(--yuki-upload-dropzone-padding-block);
+  padding-inline: var(--yuki-upload-dropzone-padding-inline);
+  border: var(--yuki-border-width-thin) dashed var(--yuki-upload-dropzone-border);
+  border-radius: var(--yuki-upload-dropzone-radius);
+  background-color: var(--yuki-upload-dropzone-bg);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-upload__dropzone:hover {
+  border-color: var(--yuki-color-primary-border);
+  background-color: var(--yuki-color-bg-hover);
+}
+
+.yuki-upload__dropzone--dragging {
+  border-color: var(--yuki-color-primary);
+  background-color: var(--yuki-upload-dropzone-bg-active);
+}
+
+.yuki-upload__dropzone:focus-visible {
+  outline: none;
+  border-color: var(--yuki-color-primary);
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-upload[data-dragging] .yuki-upload__dropzone {
+  border-style: solid;
+}
+
+.yuki-upload__icon {
+  display: inline-flex;
+  color: var(--yuki-upload-icon-color);
+  font-size: var(--yuki-upload-icon-size);
+  line-height: var(--yuki-line-height-none);
+}
+
+.yuki-upload__tip {
+  margin: 0;
+  color: var(--yuki-upload-tip-color);
+  font-size: var(--yuki-upload-tip-size);
+}
+
+.yuki-upload__input {
+  position: absolute;
+  width: var(--yuki-border-width-thin);
+  height: var(--yuki-border-width-thin);
+  padding: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.yuki-upload__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-1-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.yuki-upload__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--yuki-upload-item-gap);
+  padding-block: var(--yuki-upload-item-padding-block);
+  padding-inline: var(--yuki-upload-item-padding-inline);
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  border-radius: var(--yuki-upload-item-radius);
+  background-color: var(--yuki-upload-item-bg);
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-upload__item:hover {
+  border-color: var(--yuki-color-border);
+}
+
+.yuki-upload__item[data-status='error'] {
+  border-color: var(--yuki-color-danger-border);
+  background-color: var(--yuki-color-danger-subtle);
+}
+
+.yuki-upload__item[data-status='uploading'] {
+  border-color: var(--yuki-color-primary-border);
+}
+
+.yuki-upload__thumbnail {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-upload-thumb-size);
+  height: var(--yuki-upload-thumb-size);
+  padding: 0;
+  overflow: hidden;
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+  border-radius: var(--yuki-upload-thumb-radius);
+  background-color: var(--yuki-color-bg-muted);
+  cursor: zoom-in;
+}
+
+.yuki-upload__thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.yuki-upload__thumbnail:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-upload__file {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  min-width: 0;
+}
+
+.yuki-upload__file-name {
+  overflow: hidden;
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-upload-file-size);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-upload__file-size {
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-upload-meta-size);
+}
+
+.yuki-upload__item[data-status='error'] .yuki-upload__file-size {
+  color: var(--yuki-color-danger-hover);
+}
+
+.yuki-upload__progress {
+  display: block;
+  flex: 1 0 100%;
+  order: 1;
+  min-width: 0;
+}
+
+.yuki-upload__actions {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--yuki-space-0-5);
+}
+
+.yuki-upload__action {
+  display: inline-flex;
+  align-items: center;
+}
+
+.yuki-upload__overlay {
+  /* The overlay is portaled to the popup container, outside the root, so it
+     re-declares the token with the same default. Root-level overrides still
+     win for the in-flow parts of the component. */
+  --yuki-upload-overlay-image-radius: var(--yuki-radius-lg);
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--yuki-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--yuki-space-6);
+  background-color: var(--yuki-color-bg-overlay);
+  animation: yuki-fade-in var(--yuki-duration-fast) var(--yuki-easing-enter);
+}
+
+.yuki-upload__overlay-close {
+  position: absolute;
+  inset-block-start: var(--yuki-space-4);
+  inset-inline-end: var(--yuki-space-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-control-height-md);
+  height: var(--yuki-control-height-md);
+  padding: 0;
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+  border-radius: var(--yuki-radius-full);
+  background-color: var(--yuki-color-bg-elevated);
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-icon-size-md);
+  cursor: pointer;
+  box-shadow: var(--yuki-shadow-md);
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-upload__overlay-close:hover {
+  background-color: var(--yuki-color-bg-hover);
+}
+
+.yuki-upload__overlay-close:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-upload__overlay-image {
+  display: block;
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: var(--yuki-upload-overlay-image-radius);
+  background-color: var(--yuki-color-bg-surface);
+  box-shadow: var(--yuki-shadow-xl);
+  object-fit: contain;
+}
+
+.yuki-batch-upload__trigger {
+  position: relative;
+  align-self: flex-start;
+  overflow: hidden;
+}
+
+.yuki-batch-upload__trigger:focus-within {
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-batch-upload__trigger input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: inherit;
+}

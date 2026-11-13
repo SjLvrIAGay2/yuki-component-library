@@ -1,0 +1,92 @@
+.yuki-divider {
+  --yuki-divider-color: var(--yuki-color-divider);
+  --yuki-divider-style: solid;
+
+  box-sizing: border-box;
+  margin: 0;
+  border: 0;
+  color: var(--yuki-color-text-tertiary);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-font-size-xs);
+  line-height: var(--yuki-line-height-none);
+}
+
+.yuki-divider--strong {
+  --yuki-divider-color: var(--yuki-color-border-strong);
+}
+
+.yuki-divider--dashed {
+  --yuki-divider-style: dashed;
+}
+
+.yuki-divider--dotted {
+  --yuki-divider-style: dotted;
+}
+
+/* Horizontal, no label: a single hairline. */
+.yuki-divider--horizontal {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-3);
+  width: 100%;
+  height: 0;
+  border-top: var(--yuki-border-width-thin) var(--yuki-divider-style) var(--yuki-divider-color);
+}
+
+.yuki-divider--horizontal.yuki-divider--with-label {
+  height: auto;
+  border-top: 0;
+  white-space: nowrap;
+}
+
+.yuki-divider--horizontal.yuki-divider--with-label::before,
+.yuki-divider--horizontal.yuki-divider--with-label::after {
+  content: '';
+  flex: 1 1 auto;
+  border-top: var(--yuki-border-width-thin) var(--yuki-divider-style) var(--yuki-divider-color);
+}
+
+.yuki-divider--horizontal.yuki-divider--label-start::before {
+  flex: 0 0 var(--yuki-space-6);
+}
+
+.yuki-divider--horizontal.yuki-divider--label-end::after {
+  flex: 0 0 var(--yuki-space-6);
+}
+
+.yuki-divider__label {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: var(--yuki-space-1);
+  color: var(--yuki-color-text-tertiary);
+}
+
+/* Vertical: stretches inside flex layouts, or a 1em minimum standalone. */
+.yuki-divider--vertical {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  gap: var(--yuki-space-2);
+  width: 0;
+  min-height: var(--yuki-space-4);
+  margin-inline: var(--yuki-space-2);
+  border-left: var(--yuki-border-width-thin) var(--yuki-divider-style) var(--yuki-divider-color);
+}
+
+.yuki-divider--vertical.yuki-divider--with-label {
+  width: auto;
+  border-left: 0;
+}
+
+.yuki-divider--vertical.yuki-divider--with-label::before,
+.yuki-divider--vertical.yuki-divider--with-label::after {
+  content: '';
+  flex: 1 1 auto;
+  border-left: var(--yuki-border-width-thin) var(--yuki-divider-style) var(--yuki-divider-color);
+}
+
+.yuki-divider--vertical.yuki-divider--label-start::before,
+.yuki-divider--vertical.yuki-divider--label-end::after {
+  flex: 0 0 var(--yuki-space-4);
+}

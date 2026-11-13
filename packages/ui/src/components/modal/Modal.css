@@ -1,0 +1,165 @@
+.yuki-modal {
+  --yuki-modal-bg: var(--yuki-color-bg-elevated);
+  --yuki-modal-border: var(--yuki-color-border-subtle);
+  --yuki-modal-shadow: var(--yuki-shadow-xl);
+  --yuki-modal-radius: var(--yuki-radius-lg);
+  --yuki-modal-padding-block: var(--yuki-space-4);
+  --yuki-modal-padding-inline: var(--yuki-space-5);
+  --yuki-modal-gap: var(--yuki-space-2);
+  --yuki-modal-header-gap: var(--yuki-space-3);
+  --yuki-modal-title-size: var(--yuki-font-size-lg);
+  --yuki-modal-body-size: var(--yuki-font-size-md);
+  --yuki-modal-width: var(--yuki-popup-width-md);
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--yuki-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--yuki-space-4);
+  overflow: auto;
+  font-family: var(--yuki-font-family-sans);
+}
+
+.yuki-modal[data-centered='false'] {
+  align-items: flex-start;
+  padding-block-start: var(--yuki-space-16);
+}
+
+.yuki-modal__mask {
+  position: absolute;
+  inset: 0;
+  background-color: var(--yuki-mask-color);
+  animation: yuki-fade-in var(--yuki-duration-base) var(--yuki-easing-enter);
+}
+
+.yuki-modal__dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--yuki-modal-width);
+  max-height: calc(100vh - var(--yuki-space-8));
+  overflow: hidden;
+  border: var(--yuki-border-width-thin) solid var(--yuki-modal-border);
+  border-radius: var(--yuki-modal-radius);
+  background-color: var(--yuki-modal-bg);
+  box-shadow: var(--yuki-modal-shadow);
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-modal-body-size);
+  animation: yuki-modal-in var(--yuki-duration-base) var(--yuki-easing-enter);
+}
+
+.yuki-modal__dialog:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-modal__header {
+  display: flex;
+  flex: none;
+  align-items: flex-start;
+  gap: var(--yuki-modal-header-gap);
+  padding-block: var(--yuki-modal-padding-block);
+  padding-inline: var(--yuki-modal-padding-inline);
+}
+
+.yuki-modal__title {
+  flex: 1 1 auto;
+  margin: 0;
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-modal-title-size);
+  font-weight: var(--yuki-font-weight-semibold);
+  line-height: var(--yuki-line-height-snug);
+  word-break: break-word;
+}
+
+.yuki-modal__close {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-control-height-sm);
+  height: var(--yuki-control-height-sm);
+  padding: 0;
+  border: 0;
+  border-radius: var(--yuki-radius-sm);
+  background: none;
+  color: var(--yuki-color-text-tertiary);
+  cursor: pointer;
+  transition: color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-modal__close:hover {
+  background-color: var(--yuki-color-bg-hover);
+  color: var(--yuki-color-text);
+}
+
+.yuki-modal__close:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-modal__body {
+  flex: 1 1 auto;
+  padding-block: 0 var(--yuki-modal-padding-block);
+  padding-inline: var(--yuki-modal-padding-inline);
+  overflow: auto;
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-modal-body-size);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-modal__description {
+  margin: 0 0 var(--yuki-modal-gap);
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-modal__footer {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--yuki-modal-gap);
+  padding-block: var(--yuki-modal-padding-block);
+  padding-inline: var(--yuki-modal-padding-inline);
+  border-block-start: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+}
+
+@keyframes yuki-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--yuki-space-2)) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.yuki-modal-confirm {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--yuki-space-3);
+}
+
+.yuki-modal-confirm__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  line-height: var(--yuki-line-height-none);
+}
+
+.yuki-modal-confirm__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+  word-break: break-word;
+}

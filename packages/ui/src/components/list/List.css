@@ -1,0 +1,221 @@
+/* =============================================================================
+ * List — component tokens
+ * Everything below resolves to a global token; only layout values are local.
+ * ========================================================================== */
+
+.yuki-list {
+  --yuki-list-item-padding-y: var(--yuki-space-3);
+  --yuki-list-item-padding-x: var(--yuki-space-4);
+  --yuki-list-gap: var(--yuki-space-3);
+  --yuki-list-font-size: var(--yuki-font-size-md);
+  --yuki-list-radius: var(--yuki-radius-lg);
+
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  color: var(--yuki-color-text);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-list-font-size);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-list--sm {
+  --yuki-list-item-padding-y: var(--yuki-space-2);
+  --yuki-list-item-padding-x: var(--yuki-space-3);
+  --yuki-list-gap: var(--yuki-space-2);
+  --yuki-list-font-size: var(--yuki-font-size-sm);
+  --yuki-list-radius: var(--yuki-radius-md);
+}
+
+.yuki-list--lg {
+  --yuki-list-item-padding-y: var(--yuki-space-4);
+  --yuki-list-item-padding-x: var(--yuki-space-5);
+  --yuki-list-gap: var(--yuki-space-4);
+  --yuki-list-font-size: var(--yuki-font-size-lg);
+  --yuki-list-radius: var(--yuki-radius-lg);
+}
+
+.yuki-list--bordered {
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border);
+  border-radius: var(--yuki-list-radius);
+  background: var(--yuki-color-bg-surface);
+  overflow: hidden;
+}
+
+.yuki-list__header,
+.yuki-list__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-2);
+  padding-block: var(--yuki-list-item-padding-y);
+  padding-inline: var(--yuki-list-item-padding-x);
+  color: var(--yuki-color-text);
+  font-weight: var(--yuki-font-weight-semibold);
+}
+
+.yuki-list__header {
+  border-block-end: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+}
+
+.yuki-list__footer {
+  border-block-start: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+  color: var(--yuki-color-text-secondary);
+  font-weight: var(--yuki-font-weight-regular);
+}
+
+.yuki-list__content {
+  position: relative;
+  min-width: 0;
+}
+
+.yuki-list__viewport {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.yuki-list__virtual-spacer {
+  position: relative;
+  width: 100%;
+}
+
+.yuki-list__items {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.yuki-list__items--grid {
+  flex-direction: row;
+}
+
+.yuki-list__item {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-list-gap);
+  min-width: 0;
+  padding-block: var(--yuki-list-item-padding-y);
+  padding-inline: var(--yuki-list-item-padding-x);
+  color: var(--yuki-color-text);
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-list__item--split + .yuki-list__item--split {
+  border-block-start: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+}
+
+.yuki-list__item--bordered + .yuki-list__item--bordered {
+  border-block-start: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+}
+
+.yuki-list__item--interactive {
+  cursor: pointer;
+}
+
+.yuki-list__item--interactive:hover {
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-list__item--interactive:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-list__item--vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.yuki-list__item--virtual {
+  will-change: transform;
+}
+
+.yuki-list__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  color: var(--yuki-color-text-secondary);
+}
+
+.yuki-list__item-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-1);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.yuki-list__item-title {
+  color: var(--yuki-color-text);
+  font-weight: var(--yuki-font-weight-medium);
+  line-height: var(--yuki-line-height-snug);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-list__item-description,
+.yuki-list__item-meta {
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-list__item-meta {
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-font-size-xs);
+}
+
+.yuki-list__item-extra,
+.yuki-list__item-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-space-2);
+  flex: none;
+  margin-inline-start: auto;
+  color: var(--yuki-color-text-secondary);
+}
+
+.yuki-list__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--yuki-control-height-xl);
+  padding-block: var(--yuki-space-8);
+  padding-inline: var(--yuki-list-item-padding-x);
+  color: var(--yuki-color-text-tertiary);
+  font-size: var(--yuki-font-size-sm);
+  text-align: center;
+}
+
+.yuki-list__loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--yuki-space-2);
+  background: var(--yuki-color-bg-glass);
+  color: var(--yuki-color-text-secondary);
+  backdrop-filter: blur(var(--yuki-backdrop-blur));
+}
+
+.yuki-list__spinner {
+  width: var(--yuki-icon-size-md);
+  height: var(--yuki-icon-size-md);
+  border: var(--yuki-border-width-thick) solid var(--yuki-color-border);
+  border-top-color: var(--yuki-color-primary);
+  border-radius: var(--yuki-radius-full);
+  animation: yuki-spin var(--yuki-duration-slower) linear infinite;
+}
+
+.yuki-list__pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding-block: var(--yuki-space-3);
+  padding-inline: var(--yuki-list-item-padding-x);
+  border-block-start: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+}

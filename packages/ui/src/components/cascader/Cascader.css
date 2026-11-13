@@ -1,0 +1,147 @@
+/*
+ * Cascader: a horizontal strip of listbox columns inside the shared popup.
+ */
+
+.yuki-cascader {
+  --yuki-cascader-column-width: var(--yuki-space-40);
+  --yuki-cascader-column-height: var(--yuki-space-64);
+  --yuki-cascader-option-height: var(--yuki-space-8);
+  --yuki-cascader-separator-color: var(--yuki-color-text-tertiary);
+
+  min-width: var(--yuki-space-24);
+}
+
+.yuki-cascader__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-1);
+  min-width: var(--yuki-cascader-column-width);
+  max-width: calc(100vw - var(--yuki-space-5));
+}
+
+.yuki-cascader__columns {
+  overflow-x: auto;
+  display: flex;
+  gap: var(--yuki-space-1);
+  padding: var(--yuki-space-1);
+}
+
+.yuki-cascader__column {
+  display: flex;
+  flex: 1 0 var(--yuki-cascader-column-width);
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  width: var(--yuki-cascader-column-width);
+  max-height: var(--yuki-cascader-column-height);
+  margin: 0;
+  padding: var(--yuki-space-0-5);
+  overflow-y: auto;
+  list-style: none;
+  border-radius: var(--yuki-radius-sm);
+  scrollbar-width: thin;
+}
+
+.yuki-cascader__column + .yuki-cascader__column {
+  border-left: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+}
+
+.yuki-cascader__column:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-cascader__option {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  min-height: var(--yuki-cascader-option-height);
+  padding: var(--yuki-space-1) var(--yuki-space-2);
+  border-radius: var(--yuki-radius-sm);
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-font-size-sm);
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-cascader__option--active {
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-cascader__option--selected {
+  background: var(--yuki-color-primary-subtle);
+  color: var(--yuki-color-primary);
+  font-weight: var(--yuki-font-weight-medium);
+}
+
+.yuki-cascader__option--disabled {
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-cascader__option--disabled:hover {
+  background: transparent;
+}
+
+.yuki-cascader__option-label {
+  flex: 1 0 var(--yuki-cascader-column-width);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yuki-cascader__option-expand,
+.yuki-cascader__option-check {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  color: var(--yuki-color-text-tertiary);
+}
+
+.yuki-cascader__option--selected .yuki-cascader__option-check {
+  color: var(--yuki-color-primary);
+}
+
+.yuki-cascader__separator {
+  color: var(--yuki-cascader-separator-color);
+  white-space: pre;
+}
+
+.yuki-cascader__search {
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  padding: var(--yuki-space-1) var(--yuki-space-2);
+  border-bottom: var(--yuki-border-width-thin) solid var(--yuki-color-divider);
+  color: var(--yuki-color-text-tertiary);
+}
+
+.yuki-cascader__search-input {
+  flex: 1 0 var(--yuki-cascader-column-width);
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--yuki-color-text);
+  font: inherit;
+  font-size: var(--yuki-font-size-sm);
+}
+
+.yuki-cascader__search-input::placeholder {
+  color: var(--yuki-color-text-placeholder);
+}
+
+.yuki-cascader__results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-space-0-5);
+  max-height: var(--yuki-cascader-column-height);
+  margin: 0;
+  padding: var(--yuki-space-1);
+  overflow-y: auto;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+.yuki-cascader__panel .yuki-select-status {
+  padding: var(--yuki-space-2) var(--yuki-space-3);
+}

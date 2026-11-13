@@ -1,0 +1,193 @@
+.yuki-collapse {
+  --yuki-collapse-bg: var(--yuki-color-bg-surface);
+  --yuki-collapse-border-color: var(--yuki-color-border-subtle);
+  --yuki-collapse-radius: var(--yuki-radius-md);
+  --yuki-collapse-header-padding-block: var(--yuki-space-3);
+  --yuki-collapse-header-padding-inline: var(--yuki-space-4);
+  --yuki-collapse-header-gap: var(--yuki-control-gap-md);
+  --yuki-collapse-header-font-size: var(--yuki-font-size-sm);
+  --yuki-collapse-header-color: var(--yuki-color-text);
+  --yuki-collapse-content-padding-inline: var(--yuki-space-4);
+  --yuki-collapse-content-padding-block-end: var(--yuki-space-4);
+  --yuki-collapse-content-font-size: var(--yuki-font-size-sm);
+  --yuki-collapse-icon-color: var(--yuki-color-text-tertiary);
+  --yuki-collapse-icon-size: var(--yuki-icon-size-sm);
+  --yuki-collapse-duration: var(--yuki-duration-base);
+  --yuki-collapse-easing: var(--yuki-easing-enter);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--yuki-collapse-radius);
+  background: var(--yuki-collapse-bg);
+  color: var(--yuki-color-text);
+  font-family: var(--yuki-font-family-sans);
+}
+
+.yuki-collapse--sm {
+  --yuki-collapse-header-padding-block: var(--yuki-space-2);
+  --yuki-collapse-header-padding-inline: var(--yuki-space-3);
+  --yuki-collapse-header-font-size: var(--yuki-font-size-xs);
+  --yuki-collapse-content-padding-inline: var(--yuki-space-3);
+  --yuki-collapse-content-padding-block-end: var(--yuki-space-3);
+  --yuki-collapse-content-font-size: var(--yuki-font-size-xs);
+  --yuki-collapse-icon-size: var(--yuki-icon-size-xs);
+}
+
+.yuki-collapse--lg {
+  --yuki-collapse-header-padding-block: var(--yuki-space-4);
+  --yuki-collapse-header-padding-inline: var(--yuki-space-5);
+  --yuki-collapse-header-font-size: var(--yuki-font-size-md);
+  --yuki-collapse-content-padding-inline: var(--yuki-space-5);
+  --yuki-collapse-content-padding-block-end: var(--yuki-space-5);
+  --yuki-collapse-content-font-size: var(--yuki-font-size-md);
+  --yuki-collapse-icon-size: var(--yuki-icon-size-md);
+}
+
+.yuki-collapse[data-bordered] {
+  border: var(--yuki-border-width-thin) solid var(--yuki-collapse-border-color);
+}
+
+.yuki-collapse[data-bordered] > .yuki-collapse__item + .yuki-collapse__item {
+  border-block-start: var(--yuki-border-width-thin) solid
+    var(--yuki-collapse-border-color);
+}
+
+.yuki-collapse--ghost {
+  --yuki-collapse-bg: transparent;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.yuki-collapse__item {
+  min-width: 0;
+}
+
+/* The trigger covers the header; a sibling action stays independently interactive. */
+.yuki-collapse__trigger {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  border-radius: inherit;
+  padding: 0;
+  background: transparent;
+  cursor: inherit;
+}
+
+.yuki-collapse__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--yuki-collapse-header-gap);
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding-block: var(--yuki-collapse-header-padding-block);
+  padding-inline: var(--yuki-collapse-header-padding-inline);
+  border: none;
+  border-radius: inherit;
+  background: transparent;
+  color: var(--yuki-collapse-header-color);
+  font-family: inherit;
+  font-size: var(--yuki-collapse-header-font-size);
+  font-weight: var(--yuki-font-weight-medium);
+  line-height: var(--yuki-line-height-snug);
+  text-align: start;
+  cursor: pointer;
+  transition: background-color var(--yuki-collapse-duration)
+    var(--yuki-collapse-easing);
+}
+
+.yuki-collapse__header:has(.yuki-collapse__trigger:hover) {
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-collapse__trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-collapse__header:has(.yuki-collapse__trigger:disabled) {
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-collapse__header:has(.yuki-collapse__trigger:disabled:hover) {
+  background: transparent;
+}
+
+.yuki-collapse__expand-icon {
+  pointer-events: none;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--yuki-collapse-icon-size);
+  color: var(--yuki-collapse-icon-color);
+  transition:
+    transform var(--yuki-collapse-duration) var(--yuki-collapse-easing),
+    color var(--yuki-collapse-duration) var(--yuki-collapse-easing);
+}
+
+.yuki-collapse__item[data-open] > .yuki-collapse__header
+  .yuki-collapse__expand-icon {
+  transform: rotate(90deg);
+  color: var(--yuki-color-text);
+}
+
+.yuki-collapse__title {
+  pointer-events: none;
+  flex: 1;
+  min-width: 0;
+}
+
+.yuki-collapse__extra {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  color: var(--yuki-color-text-secondary);
+  font-size: inherit;
+  font-weight: var(--yuki-font-weight-regular);
+}
+
+.yuki-collapse--expand-end .yuki-collapse__expand-icon {
+  order: 3;
+}
+
+.yuki-collapse__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows var(--yuki-collapse-duration) var(--yuki-collapse-easing),
+    visibility 0s var(--yuki-collapse-duration);
+}
+
+.yuki-collapse__item[data-open] > .yuki-collapse__panel {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition:
+    grid-template-rows var(--yuki-collapse-duration) var(--yuki-collapse-easing),
+    visibility 0s;
+}
+
+.yuki-collapse__panel-inner {
+  min-height: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.yuki-collapse__content {
+  padding-block-end: var(--yuki-collapse-content-padding-block-end);
+  padding-inline: var(--yuki-collapse-content-padding-inline);
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-collapse-content-font-size);
+  line-height: var(--yuki-line-height-normal);
+}
+
+.yuki-collapse[data-motion='off'] .yuki-collapse__panel,
+.yuki-collapse[data-motion='off'] .yuki-collapse__expand-icon,
+.yuki-collapse[data-motion='off'] .yuki-collapse__header {
+  transition: none;
+}

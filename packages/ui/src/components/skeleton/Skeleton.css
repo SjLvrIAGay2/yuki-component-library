@@ -1,0 +1,100 @@
+.yuki-skeleton {
+  --yuki-skeleton-avatar-size: var(--yuki-space-10);
+  --yuki-skeleton-title-height: var(--yuki-space-4);
+  --yuki-skeleton-row-height: var(--yuki-space-3);
+  --yuki-skeleton-gap: var(--yuki-space-3);
+  --yuki-skeleton-line-gap: var(--yuki-space-2);
+  --yuki-skeleton-block-bg: var(--yuki-color-bg-muted);
+  --yuki-skeleton-radius: var(--yuki-radius-xs);
+  display: flex;
+  gap: var(--yuki-skeleton-gap);
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--yuki-font-family-sans);
+}
+
+.yuki-skeleton__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--yuki-skeleton-gap);
+  min-width: 0;
+}
+
+.yuki-skeleton__avatar {
+  display: block;
+  flex: none;
+  width: var(--yuki-skeleton-avatar-size);
+  height: var(--yuki-skeleton-avatar-size);
+  border-radius: var(--yuki-radius-full);
+  background: var(--yuki-skeleton-block-bg);
+}
+
+.yuki-skeleton__avatar[data-shape='square'] {
+  border-radius: var(--yuki-radius-md);
+}
+
+.yuki-skeleton__avatar--sm {
+  --yuki-skeleton-avatar-size: var(--yuki-space-8);
+}
+
+.yuki-skeleton__avatar--lg {
+  --yuki-skeleton-avatar-size: var(--yuki-space-12);
+}
+
+.yuki-skeleton__title {
+  display: block;
+  width: 38%;
+  height: var(--yuki-skeleton-title-height);
+  border-radius: var(--yuki-skeleton-radius);
+  background: var(--yuki-skeleton-block-bg);
+}
+
+.yuki-skeleton__paragraph {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-skeleton-line-gap);
+}
+
+.yuki-skeleton__row {
+  display: block;
+  width: 100%;
+  height: var(--yuki-skeleton-row-height);
+  border-radius: var(--yuki-skeleton-radius);
+  background: var(--yuki-skeleton-block-bg);
+}
+
+.yuki-skeleton__row:last-child {
+  width: 68%;
+}
+
+.yuki-skeleton--round .yuki-skeleton__title,
+.yuki-skeleton--round .yuki-skeleton__row {
+  border-radius: var(--yuki-radius-full);
+}
+
+.yuki-skeleton--active .yuki-skeleton__avatar,
+.yuki-skeleton--active .yuki-skeleton__title,
+.yuki-skeleton--active .yuki-skeleton__row {
+  animation: yuki-skeleton-pulse var(--yuki-duration-slower)
+    var(--yuki-easing-standard) infinite;
+}
+
+@keyframes yuki-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: var(--yuki-opacity-disabled);
+  }
+}
+
+.yuki-skeleton__block {
+  display: block;
+  height: var(--yuki-skeleton-title-height);
+  background: var(--yuki-skeleton-block-bg);
+  border-radius: var(--yuki-skeleton-radius);
+}
+.yuki-skeleton__block[data-shape='circle'] { border-radius: var(--yuki-radius-full); }

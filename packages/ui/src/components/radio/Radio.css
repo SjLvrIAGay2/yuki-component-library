@@ -1,0 +1,163 @@
+/* =============================================================================
+ * Radio + RadioGroup
+ * ========================================================================== */
+
+.yuki-radio {
+  --yuki-radio-size: var(--yuki-icon-size-md);
+  --yuki-radio-dot-size: calc(var(--yuki-radio-size) * 0.5);
+  --yuki-radio-gap: var(--yuki-control-gap-sm);
+  --yuki-radio-font-size: var(--yuki-font-size-md);
+  --yuki-radio-bg: var(--yuki-color-bg-surface);
+  --yuki-radio-border: var(--yuki-color-border-strong);
+  --yuki-radio-color: var(--yuki-color-primary);
+  --yuki-radio-color-hover: var(--yuki-color-primary-hover);
+  --yuki-radio-dot: var(--yuki-color-primary);
+  --yuki-radio-label: var(--yuki-color-text);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-radio-gap);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-radio-font-size);
+  line-height: var(--yuki-line-height-normal);
+  color: var(--yuki-radio-label);
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+}
+
+.yuki-radio__input {
+  position: absolute;
+  width: var(--yuki-radio-size);
+  height: var(--yuki-radio-size);
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.yuki-radio__control {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-radio-size);
+  height: var(--yuki-radio-size);
+  background: var(--yuki-radio-bg);
+  border: var(--yuki-border-width-thin) solid var(--yuki-radio-border);
+  border-radius: var(--yuki-radius-full);
+  transition:
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    border-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    box-shadow var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-radio__dot {
+  width: var(--yuki-radio-dot-size);
+  height: var(--yuki-radio-dot-size);
+  background: var(--yuki-radio-dot);
+  border-radius: var(--yuki-radius-full);
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity var(--yuki-duration-fast) var(--yuki-easing-standard),
+    transform var(--yuki-duration-fast) var(--yuki-easing-bounce);
+}
+
+.yuki-radio__label {
+  display: inline-block;
+}
+
+/* Checked ----------------------------------------------------------------- */
+.yuki-radio[data-checked='true'] .yuki-radio__control {
+  border-color: var(--yuki-radio-color);
+}
+
+.yuki-radio[data-checked='true'] .yuki-radio__dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Hover + focus ----------------------------------------------------------- */
+.yuki-radio:hover .yuki-radio__control {
+  border-color: var(--yuki-radio-color);
+}
+
+.yuki-radio[data-checked='true']:hover .yuki-radio__control {
+  border-color: var(--yuki-radio-color-hover);
+}
+
+.yuki-radio__input:focus-visible + .yuki-radio__control {
+  outline: none;
+  border-color: var(--yuki-radio-color);
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+/* Disabled ---------------------------------------------------------------- */
+.yuki-radio[data-disabled='true'] {
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-radio[data-disabled='true'] .yuki-radio__control {
+  background: var(--yuki-color-bg-disabled);
+  border-color: var(--yuki-color-border-subtle);
+}
+
+.yuki-radio[data-disabled='true'] .yuki-radio__dot {
+  background: var(--yuki-color-text-disabled);
+}
+
+.yuki-radio[data-disabled='true']:hover .yuki-radio__control {
+  border-color: var(--yuki-color-border-subtle);
+}
+
+/* Sizes ------------------------------------------------------------------- */
+.yuki-radio--sm {
+  --yuki-radio-size: var(--yuki-icon-size-sm);
+  --yuki-radio-font-size: var(--yuki-font-size-sm);
+  --yuki-radio-gap: var(--yuki-space-1-5);
+}
+
+.yuki-radio--lg {
+  --yuki-radio-size: var(--yuki-icon-size-lg);
+  --yuki-radio-font-size: var(--yuki-font-size-lg);
+  --yuki-radio-gap: var(--yuki-space-2-5);
+}
+
+/* Group ------------------------------------------------------------------- */
+.yuki-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--yuki-space-2) var(--yuki-space-4);
+  font-family: var(--yuki-font-family-sans);
+}
+
+.yuki-radio-group--vertical {
+  flex-direction: column;
+  gap: var(--yuki-space-2);
+}
+
+.yuki-radio-group__item {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+
+.yuki-radio-group__description,
+.yuki-radio-group__message {
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+}
+
+.yuki-radio-group__description {
+  padding-inline-start: calc(var(--yuki-icon-size-md) + var(--yuki-space-2));
+}
+
+.yuki-radio-group__message {
+  flex-basis: 100%;
+}
+
+.yuki-radio-group__message[data-error='true'] {
+  color: var(--yuki-color-danger);
+}

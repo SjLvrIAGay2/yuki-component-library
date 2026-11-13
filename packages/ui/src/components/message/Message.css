@@ -1,0 +1,154 @@
+.yuki-message {
+  --yuki-message-bg: var(--yuki-color-bg-elevated);
+  --yuki-message-fg: var(--yuki-color-text);
+  --yuki-message-border: var(--yuki-color-border-subtle);
+  --yuki-message-shadow: var(--yuki-shadow-md);
+  --yuki-message-tone: var(--yuki-color-info);
+  --yuki-message-padding-block: var(--yuki-space-2);
+  --yuki-message-padding-inline: var(--yuki-space-3);
+  --yuki-message-gap: var(--yuki-space-2);
+  --yuki-message-radius: var(--yuki-radius-md);
+  --yuki-message-font-size: var(--yuki-font-size-sm);
+  --yuki-message-max-width: var(--yuki-popup-width-lg);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-message-gap);
+  max-width: var(--yuki-message-max-width);
+  padding-block: var(--yuki-message-padding-block);
+  padding-inline: var(--yuki-message-padding-inline);
+  border: var(--yuki-border-width-thin) solid var(--yuki-message-border);
+  border-radius: var(--yuki-message-radius);
+  background-color: var(--yuki-message-bg);
+  box-shadow: var(--yuki-message-shadow);
+  color: var(--yuki-message-fg);
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-message-font-size);
+  line-height: var(--yuki-line-height-snug);
+  pointer-events: auto;
+  animation: yuki-message-in var(--yuki-duration-fast) var(--yuki-easing-enter);
+}
+
+.yuki-message--success {
+  --yuki-message-tone: var(--yuki-color-success);
+}
+
+.yuki-message--error {
+  --yuki-message-tone: var(--yuki-color-danger);
+}
+
+.yuki-message--warning {
+  --yuki-message-tone: var(--yuki-color-warning);
+}
+
+.yuki-message--info {
+  --yuki-message-tone: var(--yuki-color-info);
+}
+
+.yuki-message--loading {
+  --yuki-message-tone: var(--yuki-color-primary);
+}
+
+.yuki-message__icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--yuki-message-tone);
+  font-size: var(--yuki-icon-size-md);
+  line-height: var(--yuki-line-height-none);
+}
+
+.yuki-message__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.yuki-message__action {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--yuki-space-1);
+}
+
+.yuki-message__close {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-control-height-xs);
+  height: var(--yuki-control-height-xs);
+  margin-inline-end: calc(var(--yuki-space-1) * -1);
+  padding: 0;
+  border: 0;
+  border-radius: var(--yuki-radius-sm);
+  background: none;
+  color: inherit;
+  opacity: var(--yuki-opacity-muted);
+  cursor: pointer;
+  transition: opacity var(--yuki-duration-fast) var(--yuki-easing-standard),
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-message__close:hover {
+  opacity: 1;
+  background-color: var(--yuki-color-bg-hover);
+}
+
+.yuki-message__close:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-message-list {
+  position: fixed;
+  inset-inline: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--yuki-space-2);
+  z-index: var(--yuki-z-toast);
+  padding-inline: var(--yuki-space-4);
+  pointer-events: none;
+}
+
+.yuki-message-list[data-placement='top'] {
+  inset-block-start: var(--yuki-space-6);
+}
+
+.yuki-message-list[data-placement='topLeft'] {
+  inset-block-start: var(--yuki-space-6);
+  align-items: flex-start;
+}
+
+.yuki-message-list[data-placement='topRight'] {
+  inset-block-start: var(--yuki-space-6);
+  align-items: flex-end;
+}
+
+.yuki-message-list[data-placement='bottom'] {
+  inset-block-end: var(--yuki-space-6);
+  flex-direction: column-reverse;
+}
+
+.yuki-message-list[data-placement='bottomLeft'] {
+  inset-block-end: var(--yuki-space-6);
+  flex-direction: column-reverse;
+  align-items: flex-start;
+}
+
+.yuki-message-list[data-placement='bottomRight'] {
+  inset-block-end: var(--yuki-space-6);
+  flex-direction: column-reverse;
+  align-items: flex-end;
+}
+
+@keyframes yuki-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--yuki-space-2) * -1));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

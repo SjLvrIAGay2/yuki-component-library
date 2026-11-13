@@ -1,0 +1,157 @@
+.yuki-badge {
+  --yuki-badge-height: var(--yuki-space-5);
+  --yuki-badge-min-width: var(--yuki-space-5);
+  --yuki-badge-padding-x: var(--yuki-space-1-5);
+  --yuki-badge-radius: var(--yuki-radius-full);
+  --yuki-badge-font-size: var(--yuki-font-size-2xs);
+  --yuki-badge-dot-size: var(--yuki-space-2);
+  --yuki-badge-bg: var(--yuki-color-danger-hover);
+  --yuki-badge-fg: var(--yuki-color-danger-contrast);
+  --yuki-badge-text-color: var(--yuki-color-text-secondary);
+  --yuki-badge-offset-x: 0;
+  --yuki-badge-offset-y: 0;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  font-family: var(--yuki-font-family-sans);
+  font-size: var(--yuki-badge-font-size);
+  line-height: var(--yuki-line-height-none);
+  color: var(--yuki-badge-text-color);
+}
+
+.yuki-badge--sm {
+  --yuki-badge-height: var(--yuki-space-4);
+  --yuki-badge-min-width: var(--yuki-space-4);
+  --yuki-badge-padding-x: var(--yuki-space-1);
+}
+
+.yuki-badge--lg {
+  --yuki-badge-height: var(--yuki-space-6);
+  --yuki-badge-min-width: var(--yuki-space-6);
+  --yuki-badge-padding-x: var(--yuki-space-2);
+  --yuki-badge-font-size: var(--yuki-font-size-xs);
+  --yuki-badge-dot-size: var(--yuki-space-2-5);
+}
+
+.yuki-badge__indicator {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: var(--yuki-badge-min-width);
+  height: var(--yuki-badge-height);
+  padding-inline: var(--yuki-badge-padding-x);
+  border-radius: var(--yuki-badge-radius);
+  background: var(--yuki-badge-bg);
+  color: var(--yuki-badge-fg);
+  font-size: var(--yuki-badge-font-size);
+  font-weight: var(--yuki-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  box-shadow: 0 0 0 var(--yuki-border-width-thin) var(--yuki-color-bg-surface);
+  transform: translate(
+    calc(50% + var(--yuki-badge-offset-x)),
+    calc(-50% + var(--yuki-badge-offset-y))
+  );
+  transition:
+    background-color var(--yuki-duration-fast) var(--yuki-easing-standard),
+    color var(--yuki-duration-fast) var(--yuki-easing-standard);
+}
+
+.yuki-badge__count {
+  display: inline-block;
+}
+
+/* 圆点模式：只保留一个点 */
+.yuki-badge--dot .yuki-badge__indicator {
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.yuki-badge__dot {
+  display: block;
+  width: var(--yuki-badge-dot-size);
+  height: var(--yuki-badge-dot-size);
+  border-radius: var(--yuki-radius-full);
+  background: var(--yuki-badge-bg);
+  box-shadow: 0 0 0 var(--yuki-border-width-thin) var(--yuki-color-bg-surface);
+}
+
+/* 无 children：徽标本身作为独立元素展示 */
+.yuki-badge--standalone .yuki-badge__indicator {
+  position: static;
+  transform: none;
+}
+
+/* 状态文本模式：圆点 + 文案 */
+.yuki-badge--status .yuki-badge__indicator {
+  gap: var(--yuki-control-gap-xs);
+  min-width: 0;
+  height: auto;
+  padding-inline: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--yuki-badge-text-color);
+  font-size: var(--yuki-font-size-sm);
+  font-weight: var(--yuki-font-weight-regular);
+}
+
+.yuki-badge--status .yuki-badge__dot {
+  box-shadow: none;
+}
+
+.yuki-badge--status .yuki-badge__text {
+  color: var(--yuki-badge-text-color);
+  line-height: var(--yuki-line-height-snug);
+}
+
+/* 状态色 */
+.yuki-badge--default {
+  --yuki-badge-bg: var(--yuki-color-text-disabled);
+}
+
+.yuki-badge--processing {
+  --yuki-badge-bg: var(--yuki-color-primary);
+}
+
+.yuki-badge--success {
+  --yuki-badge-bg: var(--yuki-color-success-hover);
+}
+
+.yuki-badge--warning {
+  --yuki-badge-bg: var(--yuki-color-warning-hover);
+}
+
+.yuki-badge--danger {
+  --yuki-badge-bg: var(--yuki-color-danger-hover);
+}
+
+.yuki-badge--info {
+  --yuki-badge-bg: var(--yuki-color-info-hover);
+}
+
+.yuki-badge--processing .yuki-badge__dot {
+  animation: yuki-badge-pulse var(--yuki-duration-slower)
+    var(--yuki-easing-standard) infinite;
+}
+
+@keyframes yuki-badge-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: var(--yuki-opacity-muted);
+    transform: scale(0.82);
+  }
+}

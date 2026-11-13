@@ -1,0 +1,128 @@
+.yuki-qrcode {
+  --yuki-qrcode-fg: var(--yuki-color-text);
+  --yuki-qrcode-bg: var(--yuki-color-bg-surface);
+  --yuki-qrcode-radius: var(--yuki-radius-md);
+  --yuki-qrcode-padding: var(--yuki-space-3);
+  --yuki-qrcode-logo-bg: var(--yuki-color-bg-surface);
+  --yuki-qrcode-logo-radius: var(--yuki-radius-sm);
+  --yuki-qrcode-logo-padding: var(--yuki-space-0-5);
+  --yuki-qrcode-logo-size: var(--yuki-control-height-xl);
+  --yuki-qrcode-status-bg: var(--yuki-color-bg-glass);
+  --yuki-qrcode-status-color: var(--yuki-color-text-secondary);
+  --yuki-qrcode-duration: var(--yuki-duration-base);
+  --yuki-qrcode-easing: var(--yuki-easing-standard);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--yuki-qrcode-bg);
+  border-radius: var(--yuki-qrcode-radius);
+  color: var(--yuki-qrcode-status-color);
+}
+
+.yuki-qrcode--bordered {
+  padding: var(--yuki-qrcode-padding);
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+}
+
+.yuki-qrcode__canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.yuki-qrcode__logo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-qrcode-logo-size);
+  height: var(--yuki-qrcode-logo-size);
+  margin: auto;
+  padding: var(--yuki-qrcode-logo-padding);
+  background-color: var(--yuki-qrcode-logo-bg);
+  border-radius: var(--yuki-qrcode-logo-radius);
+}
+
+.yuki-qrcode__logo img,
+.yuki-qrcode__logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.yuki-qrcode__status {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--yuki-space-2);
+  padding: var(--yuki-space-3);
+  background-color: var(--yuki-qrcode-status-bg);
+  color: var(--yuki-qrcode-status-color);
+  font-size: var(--yuki-font-size-xs);
+  text-align: center;
+  backdrop-filter: blur(var(--yuki-backdrop-blur));
+  animation: yuki-fade-in var(--yuki-duration-fast) var(--yuki-qrcode-easing);
+}
+
+.yuki-qrcode__status-text {
+  line-height: var(--yuki-line-height-snug);
+}
+
+.yuki-qrcode__spinner {
+  width: var(--yuki-icon-size-lg);
+  height: var(--yuki-icon-size-lg);
+}
+
+.yuki-qrcode__refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--yuki-space-1);
+  height: var(--yuki-control-height-sm);
+  padding-inline: var(--yuki-control-padding-sm);
+  border: var(--yuki-border-width-thin) solid var(--yuki-color-border-subtle);
+  border-radius: var(--yuki-radius-sm);
+  background-color: var(--yuki-color-bg-surface);
+  color: var(--yuki-color-text);
+  font-family: inherit;
+  font-size: var(--yuki-font-size-xs);
+  cursor: pointer;
+  transition:
+    background-color var(--yuki-duration-fast) var(--yuki-qrcode-easing),
+    border-color var(--yuki-duration-fast) var(--yuki-qrcode-easing),
+    box-shadow var(--yuki-duration-fast) var(--yuki-qrcode-easing);
+}
+
+.yuki-qrcode__refresh:hover {
+  background-color: var(--yuki-color-bg-hover);
+  border-color: var(--yuki-color-border-strong);
+}
+
+.yuki-qrcode__refresh:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-qrcode__refresh svg {
+  width: var(--yuki-icon-size-sm);
+  height: var(--yuki-icon-size-sm);
+}
+
+.yuki-qrcode__error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-qrcode-logo-size);
+  height: var(--yuki-qrcode-logo-size);
+  color: var(--yuki-color-warning-hover);
+}
+
+.yuki-qrcode__error svg {
+  width: var(--yuki-icon-size-xl);
+  height: var(--yuki-icon-size-xl);
+}

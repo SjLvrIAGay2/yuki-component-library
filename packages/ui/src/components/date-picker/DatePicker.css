@@ -1,0 +1,199 @@
+/*
+ * DatePicker tokens + the shared calendar visuals. DateRangePicker reuses the
+ * `.yuki-date-calendar` contract so both pickers look identical.
+ */
+
+.yuki-date-picker {
+  --yuki-date-picker-panel-padding: var(--yuki-space-3);
+  --yuki-date-picker-footer-gap: var(--yuki-space-2);
+  --yuki-date-picker-footer-padding-top: var(--yuki-space-2);
+  --yuki-date-picker-footer-border: var(--yuki-color-divider);
+
+  min-width: var(--yuki-space-24);
+}
+
+.yuki-date-picker__panel {
+  padding: var(--yuki-date-picker-panel-padding);
+}
+
+.yuki-date-picker__today {
+  padding: var(--yuki-space-1) var(--yuki-space-2);
+  border: none;
+  border-radius: var(--yuki-radius-sm);
+  background: transparent;
+  color: var(--yuki-color-primary);
+  font-size: var(--yuki-font-size-sm);
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-date-picker__today:hover {
+  background: var(--yuki-color-primary-subtle);
+}
+
+.yuki-date-picker__today:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+/* ---------------------------------------------------------- shared calendar */
+
+.yuki-date-calendar {
+  --yuki-date-calendar-day-size: var(--yuki-control-height-sm);
+  --yuki-date-calendar-gap: var(--yuki-space-0-5);
+  --yuki-date-calendar-nav-size: var(--yuki-control-height-sm);
+  --yuki-date-calendar-title-color: var(--yuki-color-text);
+  --yuki-date-calendar-weekday-color: var(--yuki-color-text-tertiary);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-date-calendar-gap);
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-font-size-sm);
+}
+
+.yuki-date-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--yuki-space-2);
+  margin-bottom: var(--yuki-space-1);
+}
+
+.yuki-date-calendar__title {
+  color: var(--yuki-date-calendar-title-color);
+  font-size: var(--yuki-font-size-sm);
+  font-weight: var(--yuki-font-weight-semibold);
+  text-align: center;
+}
+
+.yuki-date-calendar__nav {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-date-calendar-nav-size);
+  height: var(--yuki-date-calendar-nav-size);
+  border: none;
+  border-radius: var(--yuki-radius-sm);
+  background: transparent;
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-lg);
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-date-calendar__nav:hover {
+  background: var(--yuki-color-bg-hover);
+  color: var(--yuki-color-text);
+}
+
+.yuki-date-calendar__nav:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-date-calendar__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-date-calendar-gap);
+}
+
+.yuki-date-calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, var(--yuki-date-calendar-day-size));
+  gap: var(--yuki-date-calendar-gap);
+}
+
+.yuki-date-calendar__weekday {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--yuki-space-5);
+  color: var(--yuki-date-calendar-weekday-color);
+  font-size: var(--yuki-font-size-xs);
+  font-weight: var(--yuki-font-weight-medium);
+}
+
+.yuki-date-calendar__row {
+  display: grid;
+  grid-template-columns: repeat(7, var(--yuki-date-calendar-day-size));
+  gap: var(--yuki-date-calendar-gap);
+}
+
+.yuki-date-calendar__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.yuki-date-calendar__day {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--yuki-date-calendar-day-size);
+  height: var(--yuki-date-calendar-day-size);
+  padding: 0;
+  border: var(--yuki-border-width-thin) solid transparent;
+  border-radius: var(--yuki-radius-sm);
+  background: transparent;
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--yuki-transition-colors);
+}
+
+.yuki-date-calendar__day:hover {
+  background: var(--yuki-color-bg-hover);
+}
+
+.yuki-date-calendar__day:focus-visible {
+  outline: none;
+  box-shadow: var(--yuki-shadow-focus);
+}
+
+.yuki-date-calendar__day--outside {
+  color: var(--yuki-color-text-tertiary);
+}
+
+.yuki-date-calendar__day--today {
+  border-color: var(--yuki-color-primary-border);
+}
+
+.yuki-date-calendar__day--selected,
+.yuki-date-calendar__day--range-start,
+.yuki-date-calendar__day--range-end {
+  background: var(--yuki-color-primary);
+  color: var(--yuki-color-primary-contrast);
+  font-weight: var(--yuki-font-weight-medium);
+}
+
+.yuki-date-calendar__day--selected:hover,
+.yuki-date-calendar__day--range-start:hover,
+.yuki-date-calendar__day--range-end:hover {
+  background: var(--yuki-color-primary-hover);
+}
+
+.yuki-date-calendar__day--range {
+  background: var(--yuki-color-primary-subtle);
+  color: var(--yuki-color-primary);
+}
+
+.yuki-date-calendar__day:disabled {
+  background: transparent;
+  color: var(--yuki-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.yuki-date-calendar__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--yuki-date-picker-footer-gap);
+  margin-top: var(--yuki-space-2);
+  padding-top: var(--yuki-date-picker-footer-padding-top);
+  border-top: var(--yuki-border-width-thin) solid var(--yuki-date-picker-footer-border);
+}

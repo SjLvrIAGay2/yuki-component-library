@@ -1,0 +1,158 @@
+.yuki-motion {
+  animation-duration: var(--yuki-motion-duration, var(--yuki-duration-base));
+  animation-delay: var(--yuki-motion-delay, 0ms);
+  animation-timing-function: var(--yuki-motion-easing, var(--yuki-easing-standard));
+  animation-fill-mode: both;
+}
+.yuki-motion[data-yuki-motion-preset='fade'] {
+  animation-name: yuki-motion-fade-in;
+}
+.yuki-motion[data-yuki-motion-preset='scale'] {
+  animation-name: yuki-motion-scale-in;
+}
+.yuki-motion[data-yuki-motion-preset='slide'] {
+  animation-name: yuki-motion-slide-in;
+}
+.yuki-motion[data-yuki-motion-preset='collapse'] {
+  animation-name: yuki-motion-collapse-in;
+  --yuki-motion-height: var(--radix-accordion-content-height, auto);
+}
+.yuki-motion[data-yuki-motion-preset='custom'] {
+  animation-name: var(--yuki-motion-enter, yuki-motion-fade-in);
+}
+.yuki-motion[data-yuki-presence][data-state='closed'] {
+  pointer-events: none;
+}
+.yuki-motion[data-yuki-presence][data-state='closed'][data-yuki-motion-preset='fade'] {
+  animation-name: yuki-motion-fade-out;
+}
+.yuki-motion[data-yuki-presence][data-state='closed'][data-yuki-motion-preset='scale'] {
+  animation-name: yuki-motion-scale-out;
+}
+.yuki-motion[data-yuki-presence][data-state='closed'][data-yuki-motion-preset='slide'] {
+  animation-name: yuki-motion-slide-out;
+}
+.yuki-motion[data-yuki-presence][data-state='closed'][data-yuki-motion-preset='collapse'] {
+  animation-name: yuki-motion-collapse-out;
+}
+.yuki-motion[data-yuki-presence][data-state='closed'][data-yuki-motion-preset='custom'] {
+  animation-name: var(--yuki-motion-exit, yuki-motion-fade-out);
+}
+.yuki-motion[data-yuki-motion-preset='spin'] {
+  animation-name: yuki-spin;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.yuki-motion[data-yuki-motion-preset='shimmer'] {
+  animation-name: yuki-motion-shimmer;
+  animation-iteration-count: infinite;
+}
+.yuki-motion[data-yuki-motion-preset='feedback'] {
+  animation-name: none;
+  transition: scale var(--yuki-motion-duration, var(--yuki-duration-base)) var(--yuki-motion-easing, ease);
+}
+.yuki-motion[data-yuki-motion-preset='feedback']:active:not(:disabled) {
+  scale: 0.98;
+}
+.yuki-motion[data-yuki-motion-preset='none'],
+[data-yuki-motion='off'],
+[data-yuki-motion='off'] * {
+  animation: none !important;
+  transition: none !important;
+}
+.yuki-motion[hidden],
+.yuki-force-hidden {
+  display: none !important;
+}
+@keyframes yuki-motion-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes yuki-motion-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes yuki-motion-scale-in {
+  from {
+    opacity: 0;
+    scale: var(--yuki-motion-scale, 0.96);
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes yuki-motion-scale-out {
+  from {
+    opacity: 1;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: var(--yuki-motion-scale, 0.96);
+  }
+}
+@keyframes yuki-motion-slide-in {
+  from {
+    opacity: 0;
+    translate: var(--yuki-motion-x, 0) var(--yuki-motion-y, var(--yuki-space-2));
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes yuki-motion-slide-out {
+  from {
+    opacity: 1;
+    translate: 0 0;
+  }
+  to {
+    opacity: 0;
+    translate: var(--yuki-motion-x, 0) var(--yuki-motion-y, var(--yuki-space-2));
+  }
+}
+@keyframes yuki-motion-collapse-in {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--yuki-motion-height);
+    opacity: 1;
+  }
+}
+@keyframes yuki-motion-collapse-out {
+  from {
+    height: var(--yuki-motion-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+@keyframes yuki-motion-shimmer {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yuki-motion,
+  .yuki-motion * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

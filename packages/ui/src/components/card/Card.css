@@ -1,0 +1,165 @@
+.yuki-card {
+  --yuki-card-bg: var(--yuki-color-bg-surface);
+  --yuki-card-border-color: var(--yuki-color-border-subtle);
+  --yuki-card-radius: var(--yuki-radius-lg);
+  --yuki-card-padding: var(--yuki-space-4);
+  --yuki-card-gap: var(--yuki-space-2);
+  --yuki-card-title-size: var(--yuki-font-size-md);
+  --yuki-card-shadow: var(--yuki-shadow-xs);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  overflow: hidden;
+  border: var(--yuki-border-width-thin) solid var(--yuki-card-border-color);
+  border-radius: var(--yuki-card-radius);
+  background: var(--yuki-card-bg);
+  color: var(--yuki-color-text);
+  font-family: var(--yuki-font-family-sans);
+  transition:
+    border-color var(--yuki-duration-base) var(--yuki-easing-standard),
+    box-shadow var(--yuki-duration-base) var(--yuki-easing-standard),
+    transform var(--yuki-duration-base) var(--yuki-easing-standard);
+}
+
+.yuki-card--sm {
+  --yuki-card-padding: var(--yuki-space-3);
+  --yuki-card-gap: var(--yuki-space-1-5);
+  --yuki-card-title-size: var(--yuki-font-size-sm);
+}
+
+.yuki-card--lg {
+  --yuki-card-padding: var(--yuki-space-5);
+  --yuki-card-gap: var(--yuki-space-2-5);
+  --yuki-card-title-size: var(--yuki-font-size-lg);
+}
+
+.yuki-card--elevated {
+  border-color: transparent;
+  box-shadow: var(--yuki-card-shadow);
+}
+
+.yuki-card--ghost {
+  border-color: transparent;
+  background: transparent;
+}
+
+.yuki-card--hoverable:hover {
+  border-color: var(--yuki-color-border);
+  box-shadow: var(--yuki-shadow-sm);
+  transform: translateY(calc(var(--yuki-space-0-5) * -1));
+}
+
+.yuki-card__cover {
+  display: block;
+  overflow: hidden;
+  background: var(--yuki-color-bg-subtle);
+}
+
+.yuki-card__cover > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.yuki-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--yuki-space-2);
+  padding: var(--yuki-card-padding);
+  padding-block-end: 0;
+}
+
+.yuki-card__title {
+  flex: 1;
+  min-width: 0;
+  color: var(--yuki-color-text);
+  font-size: var(--yuki-card-title-size);
+  font-weight: var(--yuki-font-weight-semibold);
+  line-height: var(--yuki-line-height-snug);
+}
+
+.yuki-card__extra {
+  display: flex;
+  flex: none;
+  align-items: center;
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+}
+
+.yuki-card__body {
+  min-width: 0;
+  padding: var(--yuki-card-padding);
+}
+
+.yuki-card__footer {
+  padding: var(--yuki-card-padding);
+  border-block-start: var(--yuki-border-width-thin) solid
+    var(--yuki-color-border-subtle);
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+}
+
+.yuki-card__actions {
+  display: flex;
+  align-items: stretch;
+  border-block-start: var(--yuki-border-width-thin) solid
+    var(--yuki-color-border-subtle);
+}
+
+.yuki-card__action {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--yuki-space-1);
+  min-width: 0;
+  padding-block: var(--yuki-space-2-5);
+  color: var(--yuki-color-text-secondary);
+  font-size: var(--yuki-font-size-sm);
+}
+
+.yuki-card__action + .yuki-card__action {
+  border-inline-start: var(--yuki-border-width-thin) solid
+    var(--yuki-color-border-subtle);
+}
+
+.yuki-card__loading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--yuki-card-gap);
+}
+
+.yuki-card__loading-line {
+  display: block;
+  height: var(--yuki-space-3);
+  border-radius: var(--yuki-radius-xs);
+  background: var(--yuki-color-bg-muted);
+  animation: yuki-card-pulse var(--yuki-duration-slower)
+    var(--yuki-easing-standard) infinite;
+}
+
+.yuki-card__loading-line:nth-child(2) {
+  width: 82%;
+}
+
+.yuki-card__loading-line:nth-child(3) {
+  width: 58%;
+}
+
+@keyframes yuki-card-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: var(--yuki-opacity-disabled);
+  }
+}
+
+.yuki-card__header:has(.yuki-card__description) { flex-direction: column; }
+.yuki-card__title:is(h1, h2, h3, h4, h5, h6), .yuki-card__description { margin: 0; }
+.yuki-card__description { color: var(--yuki-color-text-secondary); font-size: var(--yuki-font-size-sm); }
