@@ -23,6 +23,22 @@ order: 4
 
 <Demo id="message/02-custom" />
 
+## 跟踪异步任务
+
+用一条消息展示加载和完成状态。`message.promise` 返回的 Promise 会传递业务操作的结果或错误。相同 key 的新任务接管提示后，旧任务完成也不会覆盖新提示。
+
+```tsx
+import { message } from '@yuki-ui/react';
+
+export function saveProject(save: () => Promise<{ name: string }>) {
+  return message.promise(save(), {
+    loading: '正在保存',
+    success: project => project.name + ' 已保存',
+    error: '保存失败',
+  }, { key: 'save-project' });
+}
+```
+
 ## API
 
 ### 组件
@@ -47,6 +63,7 @@ order: 4
 | `message.open(options \| ReactNode)` | 打开一条消息，返回 `{ id, close, update }` |
 | `message.success / error / info / warning(content, options?)` | 语义快捷方法 |
 | `message.loading(content, options?)` | 加载提示，默认不自动关闭 |
+| `message.promise(task, { loading, success, error }, options?)` | 用一条消息跟踪 Promise 的进度，返回保留原结果或错误的 Promise |
 | `message.destroy(id?)` | 关闭指定消息；不传 id 关闭全部 |
 | `message.config({ duration?, placement?, maxCount?, closable? })` | 合并全局默认值 |
 

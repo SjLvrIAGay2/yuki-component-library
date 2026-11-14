@@ -25,6 +25,8 @@ order: 2
 
 <Demo id="textarea/02-custom" />
 
+自动高度会在内容变化、可用宽度变化和字体加载后重新计算。用 `onHeightChange(height, { rowHeight })` 同步需要跟随输入框变化的相邻布局。关闭自动高度后可继续使用原来的控件高度设置。
+
 ## API
 
 | 属性 | 说明 | 类型 | 默认值 |
@@ -34,6 +36,7 @@ order: 2
 | onChange | 值变化时触发 | `(value: string, event?) => void` | — |
 | rows | 可见行数 | `number` | `3` |
 | autoSize | 自适应高度 | `boolean ｜ { minRows?, maxRows? }` | `false` |
+| onHeightChange | 自动计算的高度变化时触发，高度和行高均以 px 计 | `(height: number, metrics: { rowHeight: number }) => void` | — |
 | size | 尺寸 | `sm ｜ md ｜ lg` | 继承 ConfigProvider |
 | status | 校验状态 | `default ｜ error ｜ warning ｜ success` | `default` |
 | allowClear | 显示清除按钮 | `boolean` | `false` |

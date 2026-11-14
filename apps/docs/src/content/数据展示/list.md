@@ -21,6 +21,12 @@ order: 2
 
 <Demo id="list/02-custom" />
 
+## 滚动续载
+
+`onEndReached` 在列表末尾接近视口时请求下一批。获取数据时传 `loading`，追加数据后会重新判断是否需要续载。已读完时移除回调。分页模式使用页码控件。保留「加载更多」按钮也方便键盘用户操作。
+
+<Demo id="list/03-more" />
+
 ## API
 
 | 属性 | 说明 | 类型 | 默认值 |
@@ -35,6 +41,7 @@ order: 2
 | grid | 网格列数或配置（不能与 virtual 同用） | `number ｜ { columns?: number; gutter?: number }` | — |
 | pagination | 分页配置 | `false ｜ ListPaginationConfig` | `false` |
 | loading | 加载中 | `boolean` | `false` |
+| onEndReached | 末尾接近视口时请求下一批，适用于普通列表和虚拟列表 | `() => void` | — |
 | empty | 自定义空状态内容或渲染函数 | `ReactNode ｜ (() => ReactNode)` | `t('table.empty')` |
 | size | 尺寸 | `sm ｜ md ｜ lg` | 继承 ConfigProvider |
 | virtual | 虚拟滚动 | `{ height: number; itemSize?: number; overscan?: number }` | — |

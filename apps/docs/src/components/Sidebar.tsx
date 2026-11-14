@@ -33,8 +33,7 @@ export function Sidebar({
     const shortcut = (event: KeyboardEvent) => {
       if (event.isComposing || event.defaultPrevented) return;
       const editing = (event.target as HTMLElement | null)?.closest?.('input, textarea, select, [contenteditable="true"]');
-      if (((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') ||
-          (event.key === '/' && !editing && !event.altKey && !event.ctrlKey && !event.metaKey)) {
+      if (event.key === '/' && !editing && !event.altKey && !event.ctrlKey && !event.metaKey) {
         event.preventDefault();
         if (narrow && !open) onOpen();
         else { inputRef.current?.focus(); inputRef.current?.select(); }

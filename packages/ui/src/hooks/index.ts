@@ -18,6 +18,7 @@ export { useMediaQuery, usePrefersReducedMotion } from './useMediaQuery';
 export { useMergedRefs } from './useMergedRefs';
 export { useResizeObserver, type ElementSize } from './useResizeObserver';
 export { useScrollLock } from './useScrollLock';
+export { useInView, type UseInViewOptions } from './useInView';
 export {
   useVirtualList,
   type UseVirtualListOptions,

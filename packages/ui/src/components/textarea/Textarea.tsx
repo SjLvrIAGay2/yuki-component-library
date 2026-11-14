@@ -7,13 +7,13 @@ import {
 } from '../form/StandaloneField';
 import {
   forwardRef,
-  useEffect,
   useRef,
   type ChangeEvent,
   type ReactNode,
   type TextareaHTMLAttributes,
 } from 'react';
 import { cx } from '../../internal/cx';
+import { useIsomorphicLayoutEffect } from '../../internal/useIsomorphicLayoutEffect';
 import { useControllableState, useMergedRefs } from '../../hooks';
 import { useComponentDefaults, useComponentSize, useLocale, type Size } from '../../theme';
 import { useFieldControl, type FieldStatus } from '../form/context';
@@ -49,6 +49,7 @@ export interface TextareaProps
   status?: FieldStatus;
   /** Grow with the content; `minRows` / `maxRows` bound the height. */
   autoSize?: boolean | TextareaAutoSize;
+  onHeightChange?: (height: number, metrics: { rowHeight: number }) => void;
   footer?: ReactNode;
   allowClear?: boolean;
   onClear?: () => void;
@@ -83,6 +84,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       size: sizeProp,
       status: statusProp,
       autoSize = false,
+      onHeightChange,
       footer,
       allowClear = false,
       onClear,
@@ -119,27 +121,52 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       defaultValue: defaultValue ?? '',
     });
 
-    useEffect(() => {
-      if (!autoSize) return;
+    const lastHeight = useRef<number>();
+    const minRows = typeof autoSize === 'object' ? autoSize.minRows : undefined;
+    const maxRows = typeof autoSize === 'object' ? autoSize.maxRows : undefined;
+    const autosizing = Boolean(autoSize);
+    useIsomorphicLayoutEffect(() => {
+      if (!autosizing) { lastHeight.current = undefined; return; }
       const node = controlRef.current;
       if (!node) return;
-      const options = typeof autoSize === 'object' ? autoSize : {};
-      node.style.height = 'auto';
-      const computed = getComputedStyle(node);
-      const lineHeight =
-        Number.parseFloat(computed.lineHeight) || Number.parseFloat(computed.fontSize) * 1.5;
-      const paddingBlock =
-        Number.parseFloat(computed.paddingTop) + Number.parseFloat(computed.paddingBottom);
-      const borderBlock = Number.parseFloat(computed.borderTopWidth) * 2;
-      const minHeight = lineHeight * clampRows(options.minRows, 1) + paddingBlock + borderBlock;
-      const maxHeight =
-        options.maxRows === undefined
-          ? Number.POSITIVE_INFINITY
-          : lineHeight * clampRows(options.maxRows, 1) + paddingBlock + borderBlock;
-      const next = Math.min(Math.max(node.scrollHeight, minHeight), maxHeight);
-      node.style.height = `${next}px`;
-      node.style.overflowY = node.scrollHeight > next ? 'auto' : 'hidden';
-    }, [autoSize, current]);
+      const originalHeight = node.style.height;
+      const originalOverflow = node.style.overflowY;
+      let width = -1;
+      const measure = () => {
+        if (!node.getClientRects().length) return;
+        width = node.getBoundingClientRect().width;
+        const css = getComputedStyle(node);
+        const rowHeight = parseFloat(css.lineHeight) || parseFloat(css.fontSize) * 1.5;
+        const padding = parseFloat(css.paddingTop) + parseFloat(css.paddingBottom);
+        const borders = parseFloat(css.borderTopWidth) + parseFloat(css.borderBottomWidth);
+        const min = rowHeight * clampRows(minRows, 1);
+        const max = maxRows === undefined ? Infinity : Math.max(min, rowHeight * clampRows(maxRows, 1));
+        node.style.overflowY = 'hidden';
+        node.style.height = '0px';
+        const content = Math.max(0, node.scrollHeight - padding);
+        const height = Math.min(Math.max(content, min), max) + (css.boxSizing === 'border-box' ? padding + borders : 0);
+        node.style.height = height + 'px';
+        node.style.overflowY = content > max ? 'auto' : 'hidden';
+        if (height !== lastHeight.current) {
+          lastHeight.current = height;
+          onHeightChange?.(height, { rowHeight });
+        }
+      };
+      measure();
+      const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => {
+        if (node.getBoundingClientRect().width !== width) measure();
+      }) : undefined;
+      observer?.observe(node);
+      if (!observer) window.addEventListener('resize', measure);
+      document.fonts?.addEventListener('loadingdone', measure);
+      return () => {
+        observer?.disconnect();
+        if (!observer) window.removeEventListener('resize', measure);
+        document.fonts?.removeEventListener('loadingdone', measure);
+        node.style.height = originalHeight;
+        node.style.overflowY = originalOverflow;
+      };
+    }, [autosizing, current, minRows, maxRows, size, onHeightChange, rest.placeholder, controlStyle, styles?.control]);
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
       const next = event.target.value;

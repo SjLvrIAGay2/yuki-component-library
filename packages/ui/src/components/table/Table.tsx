@@ -225,6 +225,8 @@ export interface TableStyles {
 export interface TableProps<T>
   extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children' | 'onChange'> {
   columns: readonly TableColumn<T>[];
+  /** Set a column key to false to hide its cells. Filtering and sorting still use all columns. */
+  columnVisibility?: Readonly<Record<string, boolean>>;
   data?: readonly T[];
   rowKey?: keyof T | ((row: T, index: number) => TableKey);
   size?: Size;
@@ -364,6 +366,7 @@ function TableInner<T>(
 ) {
   const {
     columns,
+    columnVisibility,
     data = [],
     rowKey,
     size: sizeProp,
@@ -533,9 +536,11 @@ function TableInner<T>(
     });
   }
   columns.forEach((column, index) => {
+    const key = resolveColumnKey(column, index);
+    if (columnVisibility?.[key] === false) return;
     renderColumns.push({
       kind: 'data',
-      key: resolveColumnKey(column, index),
+      key,
       column,
       width: column.width,
       align: column.align ?? 'left',

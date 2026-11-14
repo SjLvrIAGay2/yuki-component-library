@@ -16,4 +16,5 @@ export {
   type MessageConfig,
   type MessageHandle,
   type MessageOptions,
+  type PromiseMessageContent,
 } from './messageApi';

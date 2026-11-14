@@ -1,0 +1,7 @@
+.yuki-sparkline {
+  display: inline-block;
+  vertical-align: middle;
+  width: var(--yuki-space-24);
+  height: var(--yuki-space-8);
+  color: var(--yuki-color-primary);
+}

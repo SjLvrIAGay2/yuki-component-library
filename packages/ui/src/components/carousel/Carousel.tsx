@@ -12,8 +12,8 @@ import {
   type ReactNode,
 } from 'react';
 import { cx } from '../../internal/cx';
-import { useControllableState, useEventCallback } from '../../hooks';
-import { useComponentDefaults, useComponentSize, useLocale, type Size } from '../../theme';
+import { useControllableState, useEventCallback, usePrefersReducedMotion } from '../../hooks';
+import { useComponentDefaults, useComponentSize, useConfig, useLocale, type Size } from '../../theme';
 import { inertValue } from '../../internal/inert';
 import { Icon } from '../icon/Icon';
 
@@ -123,7 +123,18 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       onChange,
     });
 
-    const [paused, setPaused] = useState(false);
+    const [hovered, setHovered] = useState(false);
+    const [focused, setFocused] = useState(false);
+    const [pageHidden, setPageHidden] = useState(false);
+    const reducedMotion = usePrefersReducedMotion();
+    const paused = !useConfig().motion || reducedMotion || pageHidden || (pauseOnHover && (hovered || focused));
+    useEffect(() => {
+      if (!autoplay) return;
+      const update = () => setPageHidden(document.hidden);
+      update();
+      document.addEventListener('visibilitychange', update);
+      return () => document.removeEventListener('visibilitychange', update);
+    }, [autoplay]);
 
     const goTo = useCallback(
       (index: number) => {
@@ -150,20 +161,20 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       };
     }, [advance, autoplay, autoplayInterval, count, paused]);
 
-    const pointerStart = useRef<{ x: number; y: number } | null>(null);
+    const pointerStart = useRef<{ x: number; y: number; id: number } | null>(null);
 
     const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-      if (!swipe) return;
-      pointerStart.current = { x: event.clientX, y: event.clientY };
+      if (!swipe || !event.isPrimary || event.button !== 0) return;
+      pointerStart.current = { x: event.clientX, y: event.clientY, id: event.pointerId };
     };
 
     const handlePointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
-      if (!swipe || !pointerStart.current) return;
+      if (!swipe || pointerStart.current?.id !== event.pointerId) return;
       const deltaX = event.clientX - pointerStart.current.x;
       const deltaY = event.clientY - pointerStart.current.y;
       pointerStart.current = null;
       const delta = vertical ? deltaY : deltaX;
-      if (!Number.isFinite(delta) || Math.abs(delta) < SWIPE_THRESHOLD) return;
+      if (!Number.isFinite(delta) || Math.abs(delta) < SWIPE_THRESHOLD || Math.abs(delta) <= Math.abs(vertical ? deltaX : deltaY)) return;
       if (delta < 0) advance(1);
       else advance(-1);
     };
@@ -217,19 +228,19 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         style={{ ...styles?.root, ...style }}
         onMouseEnter={(event) => {
           onMouseEnter?.(event);
-          if (pauseOnHover && autoplay) setPaused(true);
+          setHovered(true);
         }}
         onMouseLeave={(event) => {
           onMouseLeave?.(event);
-          if (pauseOnHover && autoplay) setPaused(false);
+          setHovered(false);
         }}
         onFocusCapture={(event) => {
           onFocusCapture?.(event);
-          if (pauseOnHover && autoplay) setPaused(true);
+          setFocused(true);
         }}
         onBlurCapture={(event) => {
           onBlurCapture?.(event);
-          if (pauseOnHover && autoplay) setPaused(false);
+          if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
         }}
         onKeyDown={handleKeyDown}
       >

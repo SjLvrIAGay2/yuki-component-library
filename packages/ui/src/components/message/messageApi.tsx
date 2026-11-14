@@ -108,11 +108,37 @@ function themed(tone: MessageTone) {
     open({ ...options, content, tone });
 }
 
+export interface PromiseMessageContent<T> {
+  loading: ReactNode;
+  success: ReactNode | ((result: T) => ReactNode);
+  error: ReactNode | ((reason: unknown) => ReactNode);
+}
+
+function promise<T>(task: Promise<T>, content: PromiseMessageContent<T>, options: MessageOptions = {}): Promise<T> {
+  const handle = open({ ...options, tone: 'loading', content: content.loading, duration: 0 });
+  const pending = host.get(handle.id);
+  const duration = options.duration ?? globalConfig.duration;
+  return task.then(result => {
+    if (pending && host.get(handle.id) === pending) {
+      const label = typeof content.success === 'function' ? content.success(result) : content.success;
+      handle.update({ tone: 'success', content: label, duration });
+    }
+    return result;
+  }, (reason: unknown) => {
+    if (pending && host.get(handle.id) === pending) {
+      const label = typeof content.error === 'function' ? content.error(reason) : content.error;
+      handle.update({ tone: 'error', content: label, duration });
+    }
+    throw reason;
+  });
+}
+
 /**
  * Imperative message API. Renders into the ConfigProvider popup container and
  * is SSR-safe (calls are no-ops without a DOM).
  */
 export const message = {
+  promise,
   /** Show a message; pass options or just the content. */
   open,
   success: themed('success'),

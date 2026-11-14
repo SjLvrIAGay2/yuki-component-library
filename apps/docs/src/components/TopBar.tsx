@@ -1,4 +1,7 @@
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Icon } from '@yuki-ui/react';
+
+const DocsCommandMenu = lazy(() => import('./DocsCommandMenu'));
 
 export type DocsTheme = 'light' | 'dark' | 'system';
 export type DocsLocale = 'zh-CN' | 'en-US';
@@ -11,6 +14,7 @@ export interface TopBarProps {
   onThemeChange: (theme: DocsTheme) => void;
   onLocaleChange: (locale: DocsLocale) => void;
   onMenu: () => void;
+  onNavigate: (hash: string) => void;
   menuOpen: boolean;
 }
 
@@ -28,8 +32,20 @@ export function TopBar({
   locale,
   onThemeChange,
   onLocaleChange,
-  onMenu, menuOpen,
+  onMenu, menuOpen, onNavigate,
 }: TopBarProps) {
+  const [searchOpen, setSearchOpen] = useState<boolean>();
+  useEffect(() => {
+    const shortcut = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.isComposing || event.altKey || event.shiftKey) return;
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', shortcut);
+    return () => window.removeEventListener('keydown', shortcut);
+  }, []);
   const meta = THEME_META[theme];
   const cycleTheme = () => {
     const index = THEME_ORDER.indexOf(theme);
@@ -47,6 +63,13 @@ export function TopBar({
         <span className="docs-crumb__title">{title}</span>
       </div>
       <div className="docs-topbar__actions">
+        <button type="button" className="docs-icon-btn" aria-label="搜索文档" title="搜索文档 (Ctrl / ⌘ + K)"
+          aria-haspopup="dialog" aria-expanded={Boolean(searchOpen)} onClick={() => setSearchOpen(true)}>
+          <Icon name="search" size="1.05rem" />
+        </button>
+        {searchOpen !== undefined && <Suspense fallback={null}>
+          <DocsCommandMenu open={searchOpen} onOpenChange={setSearchOpen} onNavigate={onNavigate} />
+        </Suspense>}
         <button
           type="button"
           className="docs-theme-btn"

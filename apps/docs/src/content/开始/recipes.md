@@ -22,3 +22,9 @@ order: 5
 选择本地文件后，审阅区按格式打开文档阅读器、图片查看器或播放器。移除文件后可以重新选择。
 
 <Demo id="recipes/03-files" />
+
+## 编辑与预览 Markdown
+
+输入区和预览区共用一份文本状态。左侧会随文本换行调整高度，右侧用 Markdown 组件渲染标题、列表和代码块。
+
+<Demo id="recipes/04-markdown-editor" />

@@ -111,7 +111,7 @@ export function ReviewAction() {
 | `node scripts/ai-guide.mjs --check` | 核对 AI 指南与源码签名。更改公开 API 后，去掉 `--check` 可刷新参考段落 |
 | `npm run build` | 生成组件包 `packages/ui/dist/` 与可部署到静态站点的 `site-dist/` |
 
-组件实现在 [packages/ui](./packages/ui)，文档站在 [apps/docs](./apps/docs)。
+组件实现在 [packages/ui](./packages/ui)，文档站在 [apps/docs](./apps/docs)。工作台的键盘导航、异步反馈、数据展示与长列表续载等设计参考见 [React 组件清单对照](./docs/react-component-survey.md)。
 
 ## 许可证
 

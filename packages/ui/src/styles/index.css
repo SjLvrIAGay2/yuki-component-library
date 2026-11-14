@@ -30,6 +30,7 @@
 @import '../components/checkbox/Checkbox.css';
 @import '../components/code-block/CodeBlock.css';
 @import '../components/color-picker/ColorPicker.css';
+@import '../components/command-palette/CommandPalette.css';
 @import '../components/date-picker/DatePicker.css';
 @import '../components/date-range-picker/DateRangePicker.css';
 @import '../components/descriptions/Descriptions.css';
@@ -42,6 +43,7 @@
 @import '../components/empty-state/EmptyState.css';
 @import '../components/form/Form.css';
 @import '../components/image/Image.css';
+@import '../components/image-comparison/ImageComparison.css';
 @import '../components/image-viewer/ImageViewer.css';
 @import '../components/input/Input.css';
 @import '../components/input-number/InputNumber.css';
@@ -68,6 +70,7 @@
 @import '../components/select/select-shared.css';
 @import '../components/skeleton/Skeleton.css';
 @import '../components/slider/Slider.css';
+@import '../components/sparkline/Sparkline.css';
 @import '../components/spin/Spin.css';
 @import '../components/statistic/Statistic.css';
 @import '../components/steps/Steps.css';

@@ -1,4 +1,9 @@
 const zh = {
+  commandTitle: '命令菜单',
+  imageCompare: '调整两张图片的分界线',
+  imageCompareValue: '前图显示 {percent}%',
+  commandSearch: '搜索命令',
+  commandEmpty: '没有匹配的命令',
   uploading: '正在上传…',
   uploadDone: '上传完成',
   uploadFailed: '上传失败',
@@ -155,6 +160,11 @@ const zh = {
 export type Locale = 'zh-CN' | 'en-US';
 export type LocaleMessages = { [Key in keyof typeof zh]: string };
 const en: LocaleMessages = {
+  commandTitle: 'Command menu',
+  imageCompare: 'Adjust the image comparison divider',
+  imageCompareValue: 'Before image shown at {percent}%',
+  commandSearch: 'Search commands',
+  commandEmpty: 'No matching commands',
   uploading: 'Uploading…',
   uploadDone: 'Upload complete',
   uploadFailed: 'Upload failed',

@@ -347,7 +347,12 @@ interface LocaleConfig {
 
 type LocaleInput = LocaleName | LocaleConfig;
 
-type LocaleMessages = { uploading: string;
+type LocaleMessages = { commandTitle: string;
+    imageCompare: string;
+    imageCompareValue: string;
+    commandSearch: string;
+    commandEmpty: string;
+    uploading: string;
     uploadDone: string;
     uploadFailed: string;
     remove: string;
@@ -2366,6 +2371,9 @@ interface TextareaProps extends StandaloneFieldProps, Omit<WithStyle<TextareaHTM
     size?: Size;
     status?: FieldStatus;
     autoSize?: boolean | TextareaAutoSize;
+    onHeightChange?: (height: number, metrics: {
+        rowHeight: number;
+    }) => void;
     footer?: ReactNode;
     allowClear?: boolean;
     onClear?: () => void;
@@ -5056,6 +5064,7 @@ interface ListProps<T> extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, '
         itemSize?: number;
         overscan?: number;
     };
+    onEndReached?: () => void;
     classNames?: ListClassNames;
     styles?: ListStyles;
 }
@@ -5231,6 +5240,7 @@ interface TablePaginationConfig extends Pick<PaginationProps, 'page' | 'defaultP
 
 interface TableProps<T> extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children' | 'onChange'> {
     columns: readonly TableColumn<T>[];
+    columnVisibility?: Readonly<Record<string, boolean>>;
     data?: readonly T[];
     rowKey?: keyof T | ((row: T, index: number) => TableKey);
     size?: Size;
@@ -8295,6 +8305,8 @@ MessageStack({ items, requestClose }: MessageStackProps): JSX.Element | null
 
 Toast(props: MessageProps & RefAttributes<HTMLDivElement>): ReactNode
 
+message.promise<T>(task: Promise<T>, content: PromiseMessageContent<T>, options?: MessageOptions): Promise<T>
+
 message.open(input: MessageOptions | ReactNode): MessageHandle
 
 message.success(content: ReactNode, options?: MessageOptions): MessageHandle
@@ -8310,6 +8322,8 @@ message.loading(content: ReactNode, options?: MessageOptions): MessageHandle
 message.destroy(id?: string): void
 
 message.config(next: MessageConfig): void
+
+toast.promise<T>(task: Promise<T>, content: PromiseMessageContent<T>, options?: MessageOptions): Promise<T>
 
 toast.open(input: MessageOptions | ReactNode): MessageHandle
 
@@ -8401,6 +8415,12 @@ interface MessageStackProps {
 type MessageStyles = Partial<Record<'root' | 'icon' | 'content' | 'action' | 'close', StyleProperties>>;
 
 type MessageTone = 'success' | 'error' | 'info' | 'warning' | 'loading';
+
+interface PromiseMessageContent<T> {
+    loading: ReactNode;
+    success: ReactNode | ((result: T) => ReactNode);
+    error: ReactNode | ((reason: unknown) => ReactNode);
+}
 
 type WithStyle<Props> = Props & {
     style?: StyleProperties | undefined;
@@ -9298,6 +9318,225 @@ type WithStyle<Props> = Props & {
 
 <!-- /api -->
 
+### CommandPalette
+
+用唯一 id 标识操作，label 和 keywords 供筛选。上下方向键移动选中项，Enter 执行，Escape 关闭。触发按钮或受控的 open 状态都可以打开面板。
+
+<!-- api:command-palette -->
+
+可导入 `CommandPalette`。
+
+[类型与导出入口](packages/ui/src/components/command-palette/index.ts) · [交互说明](apps/docs/src/content/导航/command-palette.md) · [可运行示例](apps/docs/src/examples/command-palette)
+
+<details>
+<summary>完整 TSX 示例</summary>
+
+```tsx
+import { useState } from 'react';
+import { Button, CommandPalette } from '@yuki-ui/react';
+
+export default function ProjectCommands() {
+  const [view, setView] = useState('概览');
+  return <div>
+    <CommandPalette title="打开项目视图" trigger={<Button>切换视图</Button>}
+      items={[
+        { id: 'overview', label: '概览', group: '工作台', keywords: ['overview'] },
+        { id: 'files', label: '交付文件', group: '工作台', keywords: ['files'] },
+        { id: 'archive', label: '归档记录', group: '管理', disabled: true },
+      ]} onSelect={item => setView(item.label)} />
+    <p aria-live="polite">当前视图为{view}</p>
+  </div>;
+}
+```
+
+</details>
+
+<details>
+<summary>字段、回调与数据类型</summary>
+
+```ts
+CommandPalette({ items, onSelect, open, defaultOpen, onOpenChange, trigger, title, placeholder, empty, className, portalContainer }: CommandPaletteProps): JSX.Element
+
+interface CommandItem {
+    id: string;
+    label: string;
+    keywords?: readonly string[];
+    group?: string;
+    disabled?: boolean;
+    icon?: ReactNode;
+}
+
+interface CommandPaletteProps {
+    items: readonly CommandItem[];
+    onSelect: (item: CommandItem) => void;
+    trigger?: ReactElement;
+    open?: boolean;
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    title?: string;
+    placeholder?: string;
+    empty?: ReactNode;
+    className?: string;
+    portalContainer?: DialogProps['portalContainer'];
+}
+```
+
+</details>
+
+<!-- /api -->
+
+### Sparkline
+
+给统计值或表格加一条趋势线。values 按时间顺序排列，缺失值会断开线段。label 可向读屏用户说明趋势。
+
+<!-- api:sparkline -->
+
+可导入 `Sparkline`。
+
+[类型与导出入口](packages/ui/src/components/sparkline/index.ts) · [交互说明](apps/docs/src/content/数据展示/sparkline.md) · [可运行示例](apps/docs/src/examples/sparkline)
+
+<details>
+<summary>完整 TSX 示例</summary>
+
+```tsx
+import { Flex, Sparkline, Statistic } from '@yuki-ui/react';
+
+export default function WeeklyReviews() {
+  return <Flex align="center" gap="4">
+    <Statistic title="本周已审阅" value={32} />
+    <Sparkline values={[18, 22, 19, null, 26, 29, 32]} label="近七天审阅量从 18 份增至 32 份，第四天缺少记录" />
+  </Flex>;
+}
+```
+
+</details>
+
+<details>
+<summary>字段、回调与数据类型</summary>
+
+```ts
+Sparkline(props: Omit<SparklineProps, "ref"> & RefAttributes<SVGSVGElement>): ReactNode
+
+interface SparklineProps extends Omit<WithStyle<SVGProps<SVGSVGElement>>, 'values' | 'children'> {
+    values: readonly (number | null)[];
+    label?: string;
+}
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
+```
+
+</details>
+
+<!-- /api -->
+
+### ImageComparison
+
+用 before 和 after 传入两张含替代文字的图片，滑块调整前图显示百分比。
+
+<!-- api:image-comparison -->
+
+可导入 `ImageComparison`。
+
+[类型与导出入口](packages/ui/src/components/image-comparison/index.ts) · [交互说明](apps/docs/src/content/内容与媒体/image-comparison.md) · [可运行示例](apps/docs/src/examples/image-comparison)
+
+<details>
+<summary>完整 TSX 示例</summary>
+
+```tsx
+import { ImageComparison } from '@yuki-ui/react';
+
+function elevationProfile(points: string) {
+  const image = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 100"><rect width="320" height="100" fill="#eef1f6"/><path d="M0,100 L${points} L320,100Z" fill="#697b98"/></svg>`;
+  return 'data:image/svg+xml,' + encodeURIComponent(image);
+}
+
+export default function RouteComparison() {
+  return <ImageComparison defaultValue={55}
+    before={{ src: elevationProfile('0,68 70,30 140,54 210,18 320,60'), alt: '旧路线途经两个山峰' }}
+    after={{ src: elevationProfile('0,68 70,48 140,54 210,38 320,60'), alt: '新路线绕开了两处山峰' }}
+    label="路线高程对比" caption="拖动分界线查看路线调整前后的高程。" />;
+}
+```
+
+</details>
+
+<details>
+<summary>字段、回调与数据类型</summary>
+
+```ts
+ImageComparison(props: ImageComparisonProps & RefAttributes<HTMLElement>): ReactNode
+
+interface ComparisonImage extends Pick<ImgHTMLAttributes<HTMLImageElement>, 'srcSet' | 'sizes' | 'loading'> {
+    src: string;
+    alt: string;
+}
+
+interface ImageComparisonProps extends Omit<WithStyle<HTMLAttributes<HTMLElement>>, 'children' | 'onChange'> {
+    before: ComparisonImage;
+    after: ComparisonImage;
+    value?: number;
+    defaultValue?: number;
+    onChange?: (percent: number) => void;
+    label?: string;
+    caption?: ReactNode;
+}
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
+```
+
+</details>
+
+<!-- /api -->
+
+### RelativeTime
+
+value 是事件时间，now 可以固定报告的参考时刻。组件从当前语言环境生成相对时间文案。
+
+<!-- api:relative-time -->
+
+可导入 `RelativeTime`。
+
+[类型与导出入口](packages/ui/src/components/relative-time/index.ts) · [交互说明](apps/docs/src/content/数据展示/relative-time.md) · [可运行示例](apps/docs/src/examples/relative-time)
+
+<details>
+<summary>完整 TSX 示例</summary>
+
+```tsx
+import { RelativeTime } from '@yuki-ui/react';
+
+export default function ReviewHistory() {
+  const generatedAt = Date.UTC(2026, 4, 12, 10);
+  return <p>报告生成时，最近一次审阅在 <RelativeTime value={generatedAt - 7200000} now={generatedAt} />。</p>;
+}
+```
+
+</details>
+
+<details>
+<summary>字段、回调与数据类型</summary>
+
+```ts
+RelativeTime(props: RelativeTimeProps & RefAttributes<HTMLTimeElement>): ReactNode
+
+interface RelativeTimeProps extends Omit<WithStyle<TimeHTMLAttributes<HTMLTimeElement>>, 'children' | 'dateTime'> {
+    value: Date | number | string;
+    now?: number;
+    numeric?: Intl.RelativeTimeFormatNumeric;
+}
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
+```
+
+</details>
+
+<!-- /api -->
+
 ## 公共 Hooks
 
 公共 hooks 从包根具名导入。实现业务弹层时可用 useFloating 测量锚点和浮层，转交返回的 floatingStyles、arrowStyles 并根据 isPositioned 决定是否显示；useClickOutside 接受触发器和面板的 ref 列表，useEscapeKey 管 Escape，useFocusTrap / useScrollLock 按 active 开关启停。直接用内置弹层时由组件管理这些行为。
@@ -9306,7 +9545,7 @@ useControllableState 用于自建受控/非受控组件，返回当前值、更�
 
 <!-- api:hooks -->
 
-可导入 `useClickOutside`、`useControllableState`、`useEscapeKey`、`useEventCallback`、`useFloating`、`useFocusTrap`、`useMediaQuery`、`useMergedRefs`、`usePrefersReducedMotion`、`useResizeObserver`、`useScrollLock`、`useVirtualList`。
+可导入 `useClickOutside`、`useControllableState`、`useEscapeKey`、`useEventCallback`、`useFloating`、`useFocusTrap`、`useInView`、`useMediaQuery`、`useMergedRefs`、`usePrefersReducedMotion`、`useResizeObserver`、`useScrollLock`、`useVirtualList`。
 
 [类型与导出入口](packages/ui/src/hooks/index.ts)
 
@@ -9325,6 +9564,8 @@ useEventCallback<T extends (...args: never[]) => unknown>(callback: T): T
 useFloating(options: UseFloatingOptions): UseFloatingResult
 
 useFocusTrap(containerRef: RefObject<HTMLElement | null>, options: UseFocusTrapOptions): void
+
+useInView<T extends Element = HTMLElement>({ root, rootMargin, threshold, once, disabled, }?: UseInViewOptions): { ref: Dispatch<SetStateAction<T | null>>; inView: boolean; }
 
 useMediaQuery(query: string): boolean
 
@@ -9383,6 +9624,14 @@ interface UseFocusTrapOptions {
     initialFocus?: RefObject<HTMLElement | null> | (() => HTMLElement | null) | null;
     restoreFocus?: boolean;
     onDeactivate?: () => void;
+}
+
+interface UseInViewOptions {
+    root?: Element | Document | null;
+    rootMargin?: string;
+    threshold?: number;
+    once?: boolean;
+    disabled?: boolean;
 }
 
 interface UseVirtualListOptions {

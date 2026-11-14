@@ -1,0 +1,16 @@
+.yuki-command-palette { display: grid; gap: var(--yuki-space-2); }
+.yuki-command-palette__list { max-height: min(50vh, 24rem); overflow-y: auto; }
+.yuki-command-palette__group, .yuki-command-palette__empty {
+  padding: var(--yuki-space-2) var(--yuki-space-3);
+  color: var(--yuki-color-text-secondary);
+}
+.yuki-command-palette__group { font-size: var(--yuki-font-size-xs); }
+.yuki-command-palette__option {
+  display: flex; align-items: center; gap: var(--yuki-space-2);
+  padding: var(--yuki-space-2) var(--yuki-space-3);
+  border-radius: var(--yuki-radius-sm); cursor: pointer;
+}
+.yuki-command-palette__option[aria-selected='true'] {
+  color: var(--yuki-color-primary); background: var(--yuki-color-primary-subtle);
+}
+.yuki-command-palette__option[aria-disabled='true'] { opacity: var(--yuki-opacity-disabled); cursor: default; }

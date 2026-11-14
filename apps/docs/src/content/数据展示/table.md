@@ -35,6 +35,12 @@ order: 1
 
 <Demo id="table/03-composition" />
 
+## 切换列
+
+根据用户偏好隐藏列时，列 key 和排序、筛选状态可以继续沿用。未指定 key 的列依次使用 dataIndex 和原始索引。
+
+<Demo id="table/03-column-visibility" />
+
 ## API
 
 ### Table
@@ -42,6 +48,7 @@ order: 1
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | columns | 列定义 | `readonly TableColumn<T>[]` | — |
+| columnVisibility | 由列 key 映射到显示状态，false 隐藏该列并保留其排序和筛选 | `Readonly<Record<string, boolean>>` | — |
 | data | 数据源 | `readonly T[]` | `[]` |
 | rowKey | 行唯一键 | `keyof T ｜ (row, index) => string ｜ number` | 依次取 `item.key`、源数据下标 |
 | size | 尺寸 | `sm ｜ md ｜ lg` | 继承 ConfigProvider |

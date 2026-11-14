@@ -139,6 +139,7 @@ export function App() {
         />
         <div className="docs-main">
           <TopBar
+            onNavigate={navigate}
             title={doc?.title ?? (route.kind === 'tokens' ? '设计令牌' : '概览')}
             group={doc?.group}
             theme={theme}

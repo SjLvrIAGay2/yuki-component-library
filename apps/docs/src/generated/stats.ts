@@ -18,6 +18,7 @@ export const componentNames = [
   "checkbox",
   "code-block",
   "color-picker",
+  "command-palette",
   "container",
   "content-renderer",
   "date-picker",
@@ -35,6 +36,7 @@ export const componentNames = [
   "grid",
   "icon",
   "image",
+  "image-comparison",
   "image-viewer",
   "input",
   "input-number",
@@ -55,6 +57,7 @@ export const componentNames = [
   "radio",
   "radio-group",
   "rate",
+  "relative-time",
   "result",
   "scrollbar",
   "search",
@@ -62,6 +65,7 @@ export const componentNames = [
   "skeleton",
   "slider",
   "space",
+  "sparkline",
   "spin",
   "splitter",
   "statistic",
@@ -84,7 +88,7 @@ export const componentNames = [
   "video-player",
   "watermark"
 ] as const;
-export const componentCount = 83;
+export const componentCount = 87;
 export const dependencyCount = 14;
 export const tokenNames = [
   "--yuki-amber-100",

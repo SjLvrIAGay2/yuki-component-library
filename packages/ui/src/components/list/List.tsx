@@ -1,20 +1,45 @@
 import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
+  useEffect,
   useRef,
   type CSSProperties,
   type HTMLAttributes,
   type ReactElement,
   type ReactNode,
   type Ref,
+  type RefObject,
 } from 'react';
 import { cx } from '../../internal/cx';
-import { useVirtualList } from '../../hooks';
+import { useEventCallback, useInView, useVirtualList } from '../../hooks';
 import { useComponentDefaults, useComponentSize, useLocale, type Size } from '../../theme';
 import { Pagination, type PaginationProps } from '../pagination';
 import { usePagination } from '../pagination/usePagination';
 
 export type ListKey = string | number;
+const END_MARGIN = 80;
+
+function ListEnd({ viewport, loading, onEndReached }: {
+  viewport: RefObject<HTMLDivElement | null>;
+  loading: boolean;
+  onEndReached: () => void;
+}) {
+  const { ref, inView } = useInView<HTMLDivElement>({
+    root: viewport.current,
+    rootMargin: `0px 0px ${END_MARGIN}px 0px`,
+  });
+  const delivered = useRef(false);
+  const notify = useEventCallback(onEndReached);
+  useEffect(() => {
+    if (!inView) {
+      delivered.current = false;
+    } else if (!loading && !delivered.current) {
+      delivered.current = true;
+      notify();
+    }
+  }, [inView, loading, notify]);
+  return <div ref={ref} data-slot="list-end" aria-hidden="true" style={{ height: 1 }} />;
+}
 
 export interface ListClassNames {
   root?: string;
@@ -92,6 +117,8 @@ export interface ListProps<T>
   size?: Size;
   /** Virtualise items inside a fixed-height scroll viewport. */
   virtual?: { height: number; itemSize?: number; overscan?: number };
+  /** Request the next batch when the list's end approaches. Pass undefined when exhausted. */
+  onEndReached?: () => void;
   classNames?: ListClassNames;
   styles?: ListStyles;
 }
@@ -267,6 +294,7 @@ function ListInner<T>(
     empty,
     size: sizeProp,
     virtual,
+    onEndReached,
     classNames,
     styles,
     className,
@@ -287,6 +315,10 @@ function ListInner<T>(
     : items;
 
   const viewportRef = useRef<HTMLDivElement>(null);
+  // Each appended batch needs a fresh observation of its new end position.
+  const sentinel = onEndReached && !pagination
+    ? <ListEnd key={items.length} viewport={viewportRef} loading={loading} onEndReached={onEndReached} />
+    : null;
   const itemSize = virtual?.itemSize ?? 64;
   const virtualizer = useVirtualList({
     count: virtual ? pagedData.length : 0,
@@ -388,6 +420,7 @@ function ListInner<T>(
                 true,
               )}
             </div>
+            {sentinel}
           </div>
         ) : (
           <div data-slot="body" className={cx('yuki-list__body', classNames?.body)} style={styles?.body}>
@@ -395,6 +428,7 @@ function ListInner<T>(
               pagedData.map((_, index) => index),
               false,
             )}
+            {sentinel}
           </div>
         )}
 

@@ -76,6 +76,8 @@
 .yuki-list__virtual-spacer {
   position: relative;
   width: 100%;
+  /* The scroll extent must match the current batch even when motion settings change. */
+  transition-property: none;
 }
 
 .yuki-list__items {
