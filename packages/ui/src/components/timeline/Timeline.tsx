@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   type CSSProperties,
@@ -36,7 +37,7 @@ export interface TimelineItem {
   /** 条目的额外类名。 */
   className?: string;
   /** 条目的额外样式。 */
-  style?: CSSProperties;
+  style?: StyleProperties;
 }
 
 export interface TimelineClassNames {
@@ -52,19 +53,19 @@ export interface TimelineClassNames {
 }
 
 export interface TimelineStyles {
-  root?: CSSProperties;
-  item?: CSSProperties;
-  rail?: CSSProperties;
-  dot?: CSSProperties;
-  line?: CSSProperties;
-  content?: CSSProperties;
-  label?: CSSProperties;
-  body?: CSSProperties;
-  pending?: CSSProperties;
+  root?: StyleProperties;
+  item?: StyleProperties;
+  rail?: StyleProperties;
+  dot?: StyleProperties;
+  line?: StyleProperties;
+  content?: StyleProperties;
+  label?: StyleProperties;
+  body?: StyleProperties;
+  pending?: StyleProperties;
 }
 
 export interface TimelineProps
-  extends Omit<HTMLAttributes<HTMLUListElement>, 'children'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLUListElement>>, 'children'> {
   /** 节点列表。 */
   items?: TimelineItem[];
   /** 排列模式。 */

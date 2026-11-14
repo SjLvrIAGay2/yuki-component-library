@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates the two aggregation points that must never be edited by hand:
- *
- *   packages/ui/src/index.ts          public barrel
- *   packages/ui/src/styles/index.css  ordered stylesheet entry
+ * Generates the public barrel, ordered stylesheet, token name type and docs statistics.
  *
  * Component folders are discovered from the filesystem, so parallel authors
  * only ever add files inside their own `components/<name>/` folder.
@@ -72,6 +69,14 @@ async function main() {
   const tokenMatch = [...tokenCss.matchAll(/(--yuki-[a-z0-9-]+)\s*:/g)].map((match) => match[1]);
   const tokenNames = [...new Set(tokenMatch)].sort();
   const tokenCount = tokenNames.length;
+
+  const tokenType = [
+    '// Generated from styles/tokens.css by scripts/generate.mjs.',
+    'export type TokenName =',
+    tokenNames.map(name => `  | '${name.slice('--yuki-'.length)}'`).join('\n') + ';',
+    '',
+  ].join('\n');
+  await writeFile(join(uiRoot, 'src', 'theme', 'token-names.ts'), tokenType, 'utf8');
 
   // Expose build-time facts to the docs site without shipping a bundler plugin.
   const docsGenerated = join(root, 'apps', 'docs', 'src', 'generated', 'stats.ts');

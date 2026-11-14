@@ -1,8 +1,8 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useId,
   type ChangeEvent,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -27,13 +27,13 @@ export interface RadioGroupClassNames {
 }
 
 export interface RadioGroupStyles {
-  root?: CSSProperties;
-  item?: CSSProperties;
+  root?: StyleProperties;
+  item?: StyleProperties;
 }
 
 export interface RadioGroupProps
   extends Omit<
-    HTMLAttributes<HTMLDivElement>,
+    WithStyle<HTMLAttributes<HTMLDivElement>>,
     'onChange' | 'defaultValue' | 'value' | 'children'
   > {
   value?: RadioValue;
@@ -46,10 +46,10 @@ export interface RadioGroupProps
   description?: ReactNode;
   error?: ReactNode;
   onValueChange?: (value: RadioValue) => void;
-  optionProps?: (option: RadioOption, index: number) => HTMLAttributes<HTMLSpanElement>;
+  optionProps?: (option: RadioOption, index: number) => WithStyle<HTMLAttributes<HTMLSpanElement>>;
   itemProps?: (option: RadioOption, index: number) => Partial<RadioProps>;
-  descriptionProps?: (option: RadioOption, index: number) => HTMLAttributes<HTMLSpanElement>;
-  messageProps?: HTMLAttributes<HTMLSpanElement>;
+  descriptionProps?: (option: RadioOption, index: number) => WithStyle<HTMLAttributes<HTMLSpanElement>>;
+  messageProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
   disabled?: boolean;
   size?: Size;
   /** Shared native `name`; generated automatically when omitted. */

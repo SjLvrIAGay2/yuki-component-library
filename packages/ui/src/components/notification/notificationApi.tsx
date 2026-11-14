@@ -1,4 +1,5 @@
-import { type CSSProperties, type ReactNode } from 'react';
+import type { StyleProperties } from '../../styles/properties';
+import { type ReactNode } from 'react';
 import { createImperativeHost, isNoticeOptions, nextImperativeId } from '../message/createImperativeHost';
 import {
   NotificationStack,
@@ -31,7 +32,7 @@ export interface NotificationOptions {
   /** Stable id used to close/update this notification. */
   key?: string;
   className?: string;
-  style?: CSSProperties;
+  style?: StyleProperties;
   classNames?: NotificationClassNames;
   styles?: NotificationStyles;
   /** Called when the notification is dismissed (automatically or manually). */

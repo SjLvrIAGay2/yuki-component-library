@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import {
   useEffect,
   useMemo,
@@ -47,7 +48,7 @@ function linesFromTree(tree: Root): Segment[][] {
 }
 
 export interface CodeBlockProps extends Omit<
-  HTMLAttributes<HTMLDivElement>,
+  WithStyle<HTMLAttributes<HTMLDivElement>>,
   'children' | 'onCopy'
 > {
   code: string;
@@ -66,9 +67,9 @@ export interface CodeBlockProps extends Omit<
   showToolbar?: boolean;
   /** Additional toolbar content; the default label and copy action remain available. */
   toolbar?: ReactNode;
-  toolbarProps?: HTMLAttributes<HTMLDivElement>;
-  viewportProps?: HTMLAttributes<HTMLPreElement>;
-  copyButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+  toolbarProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  viewportProps?: WithStyle<HTMLAttributes<HTMLPreElement>>;
+  copyButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
   truncationMessage?: ReactNode;
 }
 

@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
@@ -42,7 +43,7 @@ export interface VideoTrack {
   default?: boolean;
 }
 export interface VideoPlayerProps
-  extends Omit<VideoHTMLAttributes<HTMLVideoElement>, 'src'>, PlayerControlOptions {
+  extends Omit<WithStyle<VideoHTMLAttributes<HTMLVideoElement>>, 'src'>, PlayerControlOptions {
   src?: MediaSource;
   tracks?: readonly VideoTrack[];
   showMetadata?: boolean;
@@ -51,13 +52,13 @@ export interface VideoPlayerProps
   /** Opt in to visibility coordination. Becoming inactive pauses; reactivation never autoplays. */
   active?: boolean;
   animation?: AnimationOptions | false;
-  captionProps?: ComponentPropsWithRef<'figcaption'>;
+  captionProps?: WithStyle<ComponentPropsWithRef<'figcaption'>>;
   renderEmpty?: () => ReactNode;
   renderLoading?: () => ReactNode;
   renderError?: (error: MediaFailure, actions: { retry: () => void }) => ReactNode;
-  mediaProps?: VideoHTMLAttributes<HTMLVideoElement>;
-  stageProps?: HTMLAttributes<HTMLDivElement>;
-  startButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+  mediaProps?: WithStyle<VideoHTMLAttributes<HTMLVideoElement>>;
+  stageProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  startButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
 }
 export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
   function VideoPlayer(input, ref) {
@@ -110,7 +111,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
       }
     }, [requestedCaptionRef]);
     useImperativeHandle(ref, () => media!, [media]);
-    const nativeProps = mergeProps<VideoHTMLAttributes<HTMLVideoElement>>(mediaProps, { ...props, onLoadedMetadata, onError });
+    const nativeProps = mergeProps<WithStyle<VideoHTMLAttributes<HTMLVideoElement>>>(mediaProps, { ...props, onLoadedMetadata, onError });
     const player = usePlayer(media, nativeProps.muted);
     const { duration: _duration, delay: _delay, ...motion } = useAnimation(animation, 'fade');
     useEffect(() => {

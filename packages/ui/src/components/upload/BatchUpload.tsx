@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import {
   forwardRef, useEffect, useRef, useState,
   type InputHTMLAttributes, type ReactNode,
@@ -8,7 +9,7 @@ import { useComponentDefaults, useComponentSize, useLocale, type Size } from '..
 import { Icon } from '../icon';
 import { formatFileSize, type UploadFileStatus } from './Upload';
 
-export interface BatchUploadProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size' | 'value' | 'defaultValue' | 'children'> {
+export interface BatchUploadProps extends Omit<WithStyle<InputHTMLAttributes<HTMLInputElement>>, 'type' | 'size' | 'value' | 'defaultValue' | 'children'> {
   label?: ReactNode;
   size?: Size;
   action?: string;

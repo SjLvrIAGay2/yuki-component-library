@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import {
   createContext,
   forwardRef,
@@ -32,7 +33,7 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(function Acc
 
 export const AccordionItem = forwardRef<
   HTMLDivElement,
-  ComponentPropsWithoutRef<typeof Primitive.Item>
+  WithStyle<ComponentPropsWithoutRef<typeof Primitive.Item>>
 >(function AccordionItem({ className, ...props }, ref) {
   const { values } = useContext(AccordionContext);
   return (
@@ -42,10 +43,10 @@ export const AccordionItem = forwardRef<
   );
 });
 
-export interface AccordionTriggerProps extends ComponentPropsWithoutRef<typeof Primitive.Trigger> {
-  headerProps?: ComponentPropsWithoutRef<typeof Primitive.Header>;
+export interface AccordionTriggerProps extends WithStyle<ComponentPropsWithoutRef<typeof Primitive.Trigger>> {
+  headerProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Header>>;
   indicator?: ReactNode;
-  indicatorProps?: HTMLAttributes<HTMLSpanElement>;
+  indicatorProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
 }
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   function AccordionTrigger(
@@ -81,8 +82,8 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
   },
 );
 
-export interface AccordionContentProps extends ComponentPropsWithoutRef<typeof Primitive.Content> {
-  bodyProps?: HTMLAttributes<HTMLDivElement>;
+export interface AccordionContentProps extends WithStyle<ComponentPropsWithoutRef<typeof Primitive.Content>> {
+  bodyProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
   animation?: AnimationOptions | false;
 }
 export const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(

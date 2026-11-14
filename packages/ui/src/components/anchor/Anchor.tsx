@@ -1,9 +1,9 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
   useMemo,
   useRef,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
@@ -37,15 +37,15 @@ export interface AnchorClassNames {
 }
 
 export interface AnchorStyles {
-  root?: CSSProperties;
-  list?: CSSProperties;
-  item?: CSSProperties;
-  link?: CSSProperties;
-  activeLink?: CSSProperties;
-  subList?: CSSProperties;
+  root?: StyleProperties;
+  list?: StyleProperties;
+  item?: StyleProperties;
+  link?: StyleProperties;
+  activeLink?: StyleProperties;
+  subList?: StyleProperties;
 }
 
-export interface AnchorProps extends Omit<HTMLAttributes<HTMLElement>, 'onChange'> {
+export interface AnchorProps extends Omit<WithStyle<HTMLAttributes<HTMLElement>>, 'onChange'> {
   items: AnchorItem[];
   /** Key of the active link, controlled. */
   activeKey?: string;

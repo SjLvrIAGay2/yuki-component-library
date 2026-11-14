@@ -1,3 +1,4 @@
+import type { StyleProperties } from '../styles/properties';
 import {
   useCallback,
   useRef,
@@ -32,8 +33,8 @@ export interface UseFloatingOptions {
 }
 
 export interface UseFloatingResult {
-  floatingStyles: CSSProperties;
-  arrowStyles: CSSProperties;
+  floatingStyles: StyleProperties;
+  arrowStyles: StyleProperties;
   actualPlacement: Placement;
   isPositioned: boolean;
   /** Schedule a measurement on the next animation frame (coalesced). */

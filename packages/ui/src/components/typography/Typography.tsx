@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
 import {
   createElement,
@@ -42,11 +43,11 @@ export interface TypographyClassNames {
 }
 
 export interface TypographyStyles {
-  root?: CSSProperties;
+  root?: StyleProperties;
 }
 
 export interface TypographyBaseProps
-  extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLElement>>, 'color'> {
   /** Render as a different element/component. */
   as?: ElementType;
   size?: TypographySize;

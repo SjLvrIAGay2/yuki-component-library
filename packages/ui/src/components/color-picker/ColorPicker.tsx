@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   StandaloneField,
   useStandaloneField,
@@ -14,7 +15,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
 } from 'react';
@@ -70,26 +70,26 @@ export interface ColorPickerClassNames {
 }
 
 export interface ColorPickerStyles {
-  root?: CSSProperties;
-  trigger?: CSSProperties;
-  swatch?: CSSProperties;
-  value?: CSSProperties;
-  indicator?: CSSProperties;
-  panel?: CSSProperties;
-  presets?: CSSProperties;
-  preset?: CSSProperties;
-  inputRow?: CSSProperties;
-  preview?: CSSProperties;
-  input?: CSSProperties;
-  alpha?: CSSProperties;
-  alphaInput?: CSSProperties;
-  alphaValue?: CSSProperties;
-  footer?: CSSProperties;
-  clear?: CSSProperties;
+  root?: StyleProperties;
+  trigger?: StyleProperties;
+  swatch?: StyleProperties;
+  value?: StyleProperties;
+  indicator?: StyleProperties;
+  panel?: StyleProperties;
+  presets?: StyleProperties;
+  preset?: StyleProperties;
+  inputRow?: StyleProperties;
+  preview?: StyleProperties;
+  input?: StyleProperties;
+  alpha?: StyleProperties;
+  alphaInput?: StyleProperties;
+  alphaValue?: StyleProperties;
+  footer?: StyleProperties;
+  clear?: StyleProperties;
 }
 
 export interface ColorPickerProps
-  extends StandaloneFieldProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+  extends StandaloneFieldProps, Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue'> {
   name?: string;
   /** Controlled colour string (any supported format). */
   value?: string;

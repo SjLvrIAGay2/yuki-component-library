@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useCallback,
@@ -7,7 +8,6 @@ import {
   useRef,
   useState,
   useSyncExternalStore,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -35,11 +35,11 @@ export interface FormItemClassNames {
 }
 
 export interface FormItemStyles {
-  root?: CSSProperties;
-  label?: CSSProperties;
-  control?: CSSProperties;
-  help?: CSSProperties;
-  extra?: CSSProperties;
+  root?: StyleProperties;
+  label?: StyleProperties;
+  control?: StyleProperties;
+  help?: StyleProperties;
+  extra?: StyleProperties;
 }
 
 export interface FormItemRenderProps {
@@ -57,7 +57,7 @@ export interface FormItemRenderProps {
   };
 }
 
-export interface FormItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface FormItemProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
   /** Field path: `'email'`, `'user.name'` is NOT supported — use `['user','name']`. */
   name?: NamePath;
   label?: ReactNode;

@@ -1,6 +1,6 @@
+import type { StyleProperties } from '../../styles/properties';
 import {
   forwardRef,
-  type CSSProperties,
   type ReactNode,
 } from 'react';
 import { cx } from '../../internal/cx';
@@ -25,16 +25,16 @@ export interface PopconfirmClassNames {
 }
 
 export interface PopconfirmStyles {
-  root?: CSSProperties;
-  popup?: CSSProperties;
-  arrow?: CSSProperties;
-  body?: CSSProperties;
-  icon?: CSSProperties;
-  title?: CSSProperties;
-  description?: CSSProperties;
-  actions?: CSSProperties;
-  ok?: CSSProperties;
-  cancel?: CSSProperties;
+  root?: StyleProperties;
+  popup?: StyleProperties;
+  arrow?: StyleProperties;
+  body?: StyleProperties;
+  icon?: StyleProperties;
+  title?: StyleProperties;
+  description?: StyleProperties;
+  actions?: StyleProperties;
+  ok?: StyleProperties;
+  cancel?: StyleProperties;
 }
 
 export interface PopconfirmProps extends Omit<PopoverProps, 'content' | 'title'> {

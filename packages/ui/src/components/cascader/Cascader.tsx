@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
@@ -5,7 +6,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type ReactElement,
@@ -69,15 +69,15 @@ export interface CascaderClassNames {
 }
 
 export interface CascaderStyles {
-  root?: CSSProperties;
-  trigger?: CSSProperties;
-  panel?: CSSProperties;
-  columns?: CSSProperties;
+  root?: StyleProperties;
+  trigger?: StyleProperties;
+  panel?: StyleProperties;
+  columns?: StyleProperties;
 }
 
 export interface CascaderProps<T = string>
   extends Omit<
-    HTMLAttributes<HTMLDivElement>,
+    WithStyle<HTMLAttributes<HTMLDivElement>>,
     'onChange' | 'defaultValue' | 'value' | 'prefix'
   > {
   options: readonly CascaderOption<T>[];

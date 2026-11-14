@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useCallback, isValidElement,
@@ -6,7 +7,6 @@ import {
   useState,
   type ButtonHTMLAttributes,
   type ChangeEvent,
-  type CSSProperties,
   type DragEvent,
   type HTMLAttributes,
   type KeyboardEvent,
@@ -86,36 +86,36 @@ export interface UploadClassNames {
 }
 
 export interface UploadStyles {
-  root?: CSSProperties;
-  trigger?: CSSProperties;
-  dropzone?: CSSProperties;
-  icon?: CSSProperties;
-  tip?: CSSProperties;
-  input?: CSSProperties;
-  list?: CSSProperties;
-  item?: CSSProperties;
-  thumbnail?: CSSProperties;
-  file?: CSSProperties;
-  fileName?: CSSProperties;
-  fileSize?: CSSProperties;
-  progress?: CSSProperties;
-  actions?: CSSProperties;
-  preview?: CSSProperties;
-  remove?: CSSProperties;
-  overlay?: CSSProperties;
-  overlayImage?: CSSProperties;
+  root?: StyleProperties;
+  trigger?: StyleProperties;
+  dropzone?: StyleProperties;
+  icon?: StyleProperties;
+  tip?: StyleProperties;
+  input?: StyleProperties;
+  list?: StyleProperties;
+  item?: StyleProperties;
+  thumbnail?: StyleProperties;
+  file?: StyleProperties;
+  fileName?: StyleProperties;
+  fileSize?: StyleProperties;
+  progress?: StyleProperties;
+  actions?: StyleProperties;
+  preview?: StyleProperties;
+  remove?: StyleProperties;
+  overlay?: StyleProperties;
+  overlayImage?: StyleProperties;
 }
 
 export interface UploadProps
   extends Omit<
-    HTMLAttributes<HTMLDivElement>,
+    WithStyle<HTMLAttributes<HTMLDivElement>>,
     'onChange' | 'onError' | 'onDrop' | 'onSelect' | 'onProgress'
   > {
   /** Called with the accepted local files from one picker/drop operation. */
   onFilesChange?: (files: File[]) => void;
   label?: ReactNode;
   /** Native attributes for the default picker button. */
-  buttonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+  buttonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
   /** Controlled file list. */
   fileList?: UploadFile[];
   /** Initial file list when uncontrolled. */

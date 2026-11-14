@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useCallback,
@@ -26,16 +27,16 @@ export interface SplitterClassNames {
 }
 
 export interface SplitterStyles {
-  root?: CSSProperties;
-  pane?: CSSProperties;
-  firstPane?: CSSProperties;
-  secondPane?: CSSProperties;
-  handle?: CSSProperties;
-  line?: CSSProperties;
+  root?: StyleProperties;
+  pane?: StyleProperties;
+  firstPane?: StyleProperties;
+  secondPane?: StyleProperties;
+  handle?: StyleProperties;
+  line?: StyleProperties;
 }
 
 export interface SplitterProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'children'> {
   /** `horizontal` places panes side by side, `vertical` stacks them. */
   direction?: SplitterDirection;
   /** Controlled size of the first pane, in percent. */

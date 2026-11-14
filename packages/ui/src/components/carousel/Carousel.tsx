@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   Children,
   forwardRef,
@@ -5,7 +6,6 @@ import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
@@ -30,17 +30,17 @@ export interface CarouselClassNames {
 }
 
 export interface CarouselStyles {
-  root?: CSSProperties;
-  viewport?: CSSProperties;
-  track?: CSSProperties;
-  slide?: CSSProperties;
-  arrow?: CSSProperties;
-  dots?: CSSProperties;
-  dot?: CSSProperties;
+  root?: StyleProperties;
+  viewport?: StyleProperties;
+  track?: StyleProperties;
+  slide?: StyleProperties;
+  arrow?: StyleProperties;
+  dots?: StyleProperties;
+  dot?: StyleProperties;
 }
 
 export interface CarouselProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'children'> {
   /** 幻灯片列表（优先于 children）。 */
   items?: ReactNode[];
   /** 幻灯片；也可通过 items 传入。 */

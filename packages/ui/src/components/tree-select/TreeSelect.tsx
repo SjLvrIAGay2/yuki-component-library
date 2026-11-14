@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useAnimation, usePresence, type AnimationOptions } from '../../animation';
 import { inertValue } from '../../internal/inert';
 import { mergeProps } from '../../internal/merge-props';
@@ -16,7 +17,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
@@ -81,10 +81,10 @@ export interface TreeSelectClassNames {
 }
 
 export interface TreeSelectStyles {
-  root?: CSSProperties;
-  trigger?: CSSProperties;
-  panel?: CSSProperties;
-  tree?: CSSProperties;
+  root?: StyleProperties;
+  trigger?: StyleProperties;
+  panel?: StyleProperties;
+  tree?: StyleProperties;
 }
 
 export interface TreeSelectNodeState {
@@ -99,7 +99,7 @@ export interface TreeSelectNodeState {
 interface TreeSelectCommonProps<T>
   extends
     StandaloneFieldProps,
-    Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
+    Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
   options: readonly TreeNodeOption<T>[];
   open?: boolean;
   defaultOpen?: boolean;
@@ -129,11 +129,11 @@ interface TreeSelectCommonProps<T>
   animation?: AnimationOptions | false;
   icon?: ReactNode;
   indicator?: ReactNode;
-  triggerProps?: HTMLAttributes<HTMLDivElement>;
-  contentProps?: HTMLAttributes<HTMLDivElement>;
-  valueProps?: HTMLAttributes<HTMLSpanElement>;
-  viewportProps?: HTMLAttributes<HTMLDivElement>;
-  optionProps?: (node: TreeNodeOption<T>, index: number) => HTMLAttributes<HTMLDivElement>;
+  triggerProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  contentProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  valueProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+  viewportProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  optionProps?: (node: TreeNodeOption<T>, index: number) => WithStyle<HTMLAttributes<HTMLDivElement>>;
   portalContainer?: HTMLElement | null;
   forceMount?: boolean;
   renderNode?: (node: TreeNodeOption<T>, state: TreeSelectNodeState) => ReactNode;

@@ -1,7 +1,7 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   type ButtonHTMLAttributes,
-  type CSSProperties,
   type HTMLAttributes,
   type MouseEvent,
   type ReactNode,
@@ -24,17 +24,17 @@ export interface AlertClassNames {
 }
 
 export interface AlertStyles {
-  root?: CSSProperties;
-  icon?: CSSProperties;
-  content?: CSSProperties;
-  title?: CSSProperties;
-  description?: CSSProperties;
-  action?: CSSProperties;
-  close?: CSSProperties;
+  root?: StyleProperties;
+  icon?: StyleProperties;
+  content?: StyleProperties;
+  title?: StyleProperties;
+  description?: StyleProperties;
+  action?: StyleProperties;
+  close?: StyleProperties;
 }
 
 export interface AlertProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'children'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'children'> {
   /** Title rendered above the description. */
   title?: ReactNode;
   /** Supporting copy. Falls back to `children` when omitted. */
@@ -46,10 +46,10 @@ export interface AlertProps
   /** Visual treatment. @default 'subtle' */
   variant?: AlertVariant | AlertTone;
   closeLabel?: string;
-  bodyProps?: HTMLAttributes<HTMLDivElement>;
-  titleProps?: HTMLAttributes<HTMLDivElement>;
-  descriptionProps?: HTMLAttributes<HTMLDivElement>;
-  closeProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+  bodyProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  titleProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  descriptionProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  closeProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
   /** Show a leading status icon. @default true */
   showIcon?: boolean;
   /** Replace the built-in status icon; pass `null` to show nothing. */

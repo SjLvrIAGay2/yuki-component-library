@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useRef,
@@ -35,22 +36,22 @@ export interface ListClassNames {
 }
 
 export interface ListStyles {
-  root?: CSSProperties;
-  header?: CSSProperties;
-  body?: CSSProperties;
-  item?: CSSProperties;
-  avatar?: CSSProperties;
-  itemMain?: CSSProperties;
-  itemTitle?: CSSProperties;
-  itemDescription?: CSSProperties;
-  itemMeta?: CSSProperties;
-  itemExtra?: CSSProperties;
-  itemAction?: CSSProperties;
-  footer?: CSSProperties;
-  empty?: CSSProperties;
-  loading?: CSSProperties;
-  spinner?: CSSProperties;
-  pagination?: CSSProperties;
+  root?: StyleProperties;
+  header?: StyleProperties;
+  body?: StyleProperties;
+  item?: StyleProperties;
+  avatar?: StyleProperties;
+  itemMain?: StyleProperties;
+  itemTitle?: StyleProperties;
+  itemDescription?: StyleProperties;
+  itemMeta?: StyleProperties;
+  itemExtra?: StyleProperties;
+  itemAction?: StyleProperties;
+  footer?: StyleProperties;
+  empty?: StyleProperties;
+  loading?: StyleProperties;
+  spinner?: StyleProperties;
+  pagination?: StyleProperties;
 }
 
 /** Responsive grid config: a number is a fixed column count. */
@@ -68,7 +69,7 @@ export type ListPaginationConfig = Pick<PaginationProps,
 export type ListItemLayout = 'horizontal' | 'vertical';
 
 export interface ListProps<T>
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'onChange'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children' | 'onChange'> {
   /** The data to render. */
   items?: readonly T[];
   /** Render an item; omitted, a title/description/extra default layout is used. */

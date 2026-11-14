@@ -1,8 +1,8 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type ImgHTMLAttributes,
   type KeyboardEvent,
@@ -57,18 +57,18 @@ export interface ImageClassNames {
 }
 
 export interface ImageStyles {
-  root?: CSSProperties;
-  img?: CSSProperties;
-  mask?: CSSProperties;
-  fallback?: CSSProperties;
-  placeholder?: CSSProperties;
-  preview?: CSSProperties;
-  previewClose?: CSSProperties;
-  previewImage?: CSSProperties;
+  root?: StyleProperties;
+  img?: StyleProperties;
+  mask?: StyleProperties;
+  fallback?: StyleProperties;
+  placeholder?: StyleProperties;
+  preview?: StyleProperties;
+  previewClose?: StyleProperties;
+  previewImage?: StyleProperties;
 }
 
 export interface ImageProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, 'onLoad' | 'onError'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'onLoad' | 'onError'> {
   /** 图片地址。 */
   src: MediaSource;
   /** 替代文本，同时作为预览按钮的可访问名称。 */
@@ -90,7 +90,7 @@ export interface ImageProps
   size?: Size;
   /** 透传给内部 `<img>` 的原生属性。 */
   imgProps?: Omit<
-    ImgHTMLAttributes<HTMLImageElement>,
+    WithStyle<ImgHTMLAttributes<HTMLImageElement>>,
     'src' | 'alt' | 'width' | 'height'
   >;
   onLoad?: (event: SyntheticEvent<HTMLImageElement>) => void;

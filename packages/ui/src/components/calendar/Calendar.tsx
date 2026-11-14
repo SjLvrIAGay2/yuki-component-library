@@ -1,5 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties, HTMLAttributes, KeyboardEvent, MouseEvent, ReactNode } from 'react';
+import type { HTMLAttributes, KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import { cx } from '../../internal/cx';
 import { useControllableState } from '../../hooks';
 import { useComponentDefaults, useComponentSize, useLocale, type Size } from '../../theme';
@@ -54,22 +55,22 @@ export interface CalendarClassNames {
 }
 
 export interface CalendarStyles {
-  root?: CSSProperties;
-  header?: CSSProperties;
-  title?: CSSProperties;
-  nav?: CSSProperties;
-  prev?: CSSProperties;
-  next?: CSSProperties;
-  weekdays?: CSSProperties;
-  weekday?: CSSProperties;
-  grid?: CSSProperties;
-  row?: CSSProperties;
-  cell?: CSSProperties;
-  button?: CSSProperties;
+  root?: StyleProperties;
+  header?: StyleProperties;
+  title?: StyleProperties;
+  nav?: StyleProperties;
+  prev?: StyleProperties;
+  next?: StyleProperties;
+  weekdays?: StyleProperties;
+  weekday?: StyleProperties;
+  grid?: StyleProperties;
+  row?: StyleProperties;
+  cell?: StyleProperties;
+  button?: StyleProperties;
 }
 
 export interface CalendarProps extends Omit<
-  HTMLAttributes<HTMLDivElement>,
+  WithStyle<HTMLAttributes<HTMLDivElement>>,
   'onChange' | 'onSelect' | 'defaultValue' | 'value'
 > {
   /** 受控选中日期。 */

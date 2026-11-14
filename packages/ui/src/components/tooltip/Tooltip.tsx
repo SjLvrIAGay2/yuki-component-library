@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useConfig, useComponentDefaults, usePortalTheme } from '../../theme';
 import {
   Children,
@@ -8,7 +9,6 @@ import {
   useEffect,
   useId,
   useRef,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactElement,
   type ReactNode,
@@ -27,12 +27,12 @@ export interface TooltipClassNames {
 }
 
 export interface TooltipStyles {
-  root?: CSSProperties;
-  popup?: CSSProperties;
-  arrow?: CSSProperties;
+  root?: StyleProperties;
+  popup?: StyleProperties;
+  arrow?: StyleProperties;
 }
 
-export interface TooltipProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'content' | 'title'> {
+export interface TooltipProps extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'content' | 'title'> {
   content: ReactNode;
   placement?: Placement;
   side?: 'top' | 'bottom' | 'left' | 'right';
@@ -46,11 +46,11 @@ export interface TooltipProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'con
   };
   portalContainer?: HTMLElement | null;
   portalProps?: { container?: HTMLElement | null; forceMount?: boolean };
-  arrowProps?: HTMLAttributes<HTMLSpanElement> & {
+  arrowProps?: WithStyle<HTMLAttributes<HTMLSpanElement>> & {
     width?: number | string;
     height?: number | string;
   };
-  contentProps?: HTMLAttributes<HTMLDivElement> & {
+  contentProps?: WithStyle<HTMLAttributes<HTMLDivElement>> & {
     forceMount?: boolean;
     side?: 'top' | 'bottom' | 'left' | 'right';
     align?: 'start' | 'center' | 'end';

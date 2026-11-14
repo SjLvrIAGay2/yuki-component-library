@@ -1,3 +1,4 @@
+import type { WithStyle } from '../styles/properties';
 import {
   useEffect,
   useId,
@@ -39,13 +40,13 @@ export interface PdfOptions {
   onZoomChange?: (zoom: number) => void;
   showToolbar?: boolean;
   toolbar?: ReactNode;
-  toolbarProps?: HTMLAttributes<HTMLDivElement>;
-  viewportProps?: HTMLAttributes<HTMLDivElement>;
-  previousButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-  nextButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-  zoomOutButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-  zoomInButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-  resetZoomButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+  toolbarProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  viewportProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  previousButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+  nextButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+  zoomOutButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+  zoomInButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+  resetZoomButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
 }
 export interface PdfPreviewProps {
   data: ArrayBuffer;
@@ -322,7 +323,7 @@ function PdfPage({
   page: number;
   zoom: number;
   onError: (error: Error) => void;
-  viewportProps?: HTMLAttributes<HTMLDivElement>;
+  viewportProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
 }) {
   const { messages } = useLocale();
   const container = useRef<HTMLDivElement>(null);

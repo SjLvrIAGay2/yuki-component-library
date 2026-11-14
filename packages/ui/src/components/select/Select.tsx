@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useAnimation, usePresence, type AnimationOptions } from '../../animation';
 import { inertValue } from '../../internal/inert';
 import {
@@ -17,7 +18,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
@@ -82,13 +82,13 @@ export interface SelectClassNames {
 }
 
 export interface SelectStyles {
-  root?: CSSProperties;
-  tags?: CSSProperties;
-  trigger?: CSSProperties;
-  panel?: CSSProperties;
-  list?: CSSProperties;
-  option?: CSSProperties;
-  search?: CSSProperties;
+  root?: StyleProperties;
+  tags?: StyleProperties;
+  trigger?: StyleProperties;
+  panel?: StyleProperties;
+  list?: StyleProperties;
+  option?: StyleProperties;
+  search?: StyleProperties;
 }
 
 export interface SelectOptionRenderState {
@@ -100,7 +100,7 @@ export interface SelectOptionRenderState {
 interface CommonSelectProps<T>
   extends
     StandaloneFieldProps,
-    Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
+    Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
   /** Flat or grouped options. */
   options: readonly SelectOptionInput<T>[];
   onClear?: () => void;
@@ -137,11 +137,11 @@ interface CommonSelectProps<T>
   portalContainer?: HTMLElement | null;
   forceMount?: boolean;
   animation?: AnimationOptions | false;
-  triggerProps?: HTMLAttributes<HTMLDivElement>;
-  contentProps?: HTMLAttributes<HTMLDivElement>;
-  viewportProps?: HTMLAttributes<HTMLUListElement>;
-  valueProps?: HTMLAttributes<HTMLSpanElement>;
-  optionProps?: (option: SelectOption<T>, index: number) => HTMLAttributes<HTMLLIElement>;
+  triggerProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  contentProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  viewportProps?: WithStyle<HTMLAttributes<HTMLUListElement>>;
+  valueProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+  optionProps?: (option: SelectOption<T>, index: number) => WithStyle<HTMLAttributes<HTMLLIElement>>;
   icon?: ReactNode;
   indicator?: ReactNode;
   /** Custom option renderer; receives the resolved state. */

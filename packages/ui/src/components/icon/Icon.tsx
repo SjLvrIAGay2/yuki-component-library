@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
 import { forwardRef, type ReactNode, type SVGProps } from 'react';
 import { cx } from '../../internal/cx';
@@ -5,7 +6,7 @@ import { iconNodes, type IconName } from './icons';
 
 export type { IconName };
 
-export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name' | 'children'> {
+export interface IconProps extends Omit<WithStyle<SVGProps<SVGSVGElement>>, 'name' | 'children'> {
   /** Built-in icon name. Omit when passing custom children. */
   name?: IconName;
   /** Token-friendly shorthand: number = px, string = any CSS length. */

@@ -1,9 +1,9 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
   useMemo,
   useRef,
-  type CSSProperties,
   type FormEvent,
   type FormHTMLAttributes,
   type ReactElement,
@@ -31,11 +31,11 @@ export interface FormClassNames {
 }
 
 export interface FormStyles {
-  root?: CSSProperties;
+  root?: StyleProperties;
 }
 
 export interface FormProps<Values extends Store = Store>
-  extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onFinish' | 'children' | 'onValuesChange'> {
+  extends Omit<WithStyle<FormHTMLAttributes<HTMLFormElement>>, 'onFinish' | 'children' | 'onValuesChange'> {
   /** Adopt an external instance created by `Form.useForm()`. */
   form?: FormInstance<Values>;
   initialValues?: Partial<Values>;

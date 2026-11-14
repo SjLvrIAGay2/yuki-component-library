@@ -1,5 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
-import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react';
+import { forwardRef, type HTMLAttributes } from 'react';
 import { cx } from '../../internal/cx';
 import { spaceValue, type SpaceSize } from '../../internal/spacing';
 
@@ -18,10 +19,10 @@ export interface FlexClassNames {
 }
 
 export interface FlexStyles {
-  root?: CSSProperties;
+  root?: StyleProperties;
 }
 
-export interface FlexProps extends HTMLAttributes<HTMLDivElement> {
+export interface FlexProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
   direction?: FlexDirection;
   align?: FlexAlign;
   justify?: FlexJustify;
@@ -67,7 +68,7 @@ export const Flex = forwardRef<HTMLDivElement, FlexProps>(function Flex(
         classNames?.root,
         className,
       )}
-      style={{ '--yuki-flex-gap': spaceValue(gap), ...styles?.root, ...style } as CSSProperties}
+      style={{ '--yuki-flex-gap': spaceValue(gap), ...styles?.root, ...style } as StyleProperties}
     >
       {children}
     </div>

@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useDialogConfirm } from '../../internal/useDialogConfirm';
 import { DialogPopupScope } from '../../theme/ConfigProvider';
 import { useComponentDefaults } from '../../theme';
@@ -7,7 +8,6 @@ import {
   useId,
   useMemo,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
   type RefObject,
@@ -41,19 +41,19 @@ export interface ModalClassNames {
 }
 
 export interface ModalStyles {
-  root?: CSSProperties;
-  mask?: CSSProperties;
-  dialog?: CSSProperties;
-  header?: CSSProperties;
-  title?: CSSProperties;
-  close?: CSSProperties;
-  body?: CSSProperties;
-  footer?: CSSProperties;
-  ok?: CSSProperties;
-  cancel?: CSSProperties;
+  root?: StyleProperties;
+  mask?: StyleProperties;
+  dialog?: StyleProperties;
+  header?: StyleProperties;
+  title?: StyleProperties;
+  close?: StyleProperties;
+  body?: StyleProperties;
+  footer?: StyleProperties;
+  ok?: StyleProperties;
+  cancel?: StyleProperties;
 }
 
-export interface ModalProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+export interface ModalProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'content'> {
   /** Controlled open state. */
   open?: boolean;
   /** Uncontrolled initial open state. */

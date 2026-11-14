@@ -27,13 +27,15 @@ export default function App() {
 
 ### ConfigProvider、ThemeProvider、LocaleProvider
 
+`tokenVar('radius-md')` 返回对应的 CSS 变量引用。`TokenName` 收录内置令牌短名，可用于校验只含内置名称的覆盖表。组件的 `style` 和具名 `styles` 支持 CSS 自定义属性，共享样式对象可使用 `StyleProperties` 类型。
+
 `ConfigProvider` 的缺省配置为浅色、`zh-CN`、`md`、`comfortable`。根层同步文档主题，嵌套配置作用于子树。用 `theme={{mode, primaryColor, tokens}}` 配主题，`components` 按组件名指定默认展示属性，实例 props 优先。`getPopupContainer(trigger)` 可指定浮层挂载点，在对话框和局部主题中优先沿用内置挂载点。
 
 `ThemeProvider` 是子树主题入口，`theme="dark"`、`tokens={{'radius-md':'8px'}}` 和 `motion="none"` 是该入口的写法。`LocaleProvider locale="en-US" messages={{chooseFiles:'Choose attachments'}}` 局部覆盖文案。`useConfig()` 读取完整配置，`useResolvedTheme()` 读取实际明暗模式，`useTheme()` 提供主题、密度与动画设置。自定义浮层可从 `usePortalTheme()` 取得需转交根元素的属性。
 
 <!-- api:theme -->
 
-可导入 `ConfigProvider`、`LocaleProvider`、`ThemeProvider`、`useComponentDefaults`、`useComponentSize`、`useConfig`、`useLocale`、`usePortalTheme`、`useResolvedTheme`、`useTheme`。
+可导入 `ConfigProvider`、`LocaleProvider`、`ThemeProvider`、`tokenVar`、`useComponentDefaults`、`useComponentSize`、`useConfig`、`useLocale`、`usePortalTheme`、`useResolvedTheme`、`useTheme`。
 
 [类型与导出入口](packages/ui/src/theme/index.ts) · [交互说明](apps/docs/src/content/开始/config-provider.md) · [可运行示例](apps/docs/src/examples/config-provider)
 
@@ -109,6 +111,8 @@ LocaleProvider({ children, locale: input, messages: overrides }: LocaleProviderP
 
 ThemeProvider({ theme, tokens, motion, ...props }: ThemeProviderProps): JSX.Element
 
+tokenVar<Name extends TokenName>(name: Name): `var(--yuki-${Name})`
+
 useComponentDefaults<Props extends object>(name: keyof ComponentDefaults, props: Props): Props
 
 useComponentSize(size?: Size): Size
@@ -117,7 +121,7 @@ useConfig(): ConfigContextValue
 
 useLocale(): { locale: LocaleConfig; messages: LocaleMessages; t: (key: string, fallback?: Fallback, vars?: Record<string, string | number>) => string; }
 
-usePortalTheme(): { readonly className: "yuki-ui-root"; readonly 'data-yuki-theme': "light" | "dark"; readonly 'data-yuki-brand': "default" | "custom"; readonly 'data-yuki-density': Density; readonly 'data-yuki-motion': "on" | "off"; readonly style: CSSProperties; }
+usePortalTheme(): { readonly className: "yuki-ui-root"; readonly 'data-yuki-theme': "light" | "dark"; readonly 'data-yuki-brand': "default" | "custom"; readonly 'data-yuki-density': Density; readonly 'data-yuki-motion': "on" | "off"; readonly style: StyleProperties; }
 
 useResolvedTheme(): "light" | "dark"
 
@@ -225,7 +229,7 @@ interface ConfigContextValue {
     components: ComponentDefaults;
     animation?: AnimationOptions | false;
     messages: LocaleMessages;
-    themeVars: CSSProperties;
+    themeVars: StyleProperties;
     motion: boolean;
     locale: LocaleConfig;
     theme: ThemeConfig;
@@ -234,7 +238,7 @@ interface ConfigContextValue {
     getPopupContainer: (trigger?: HTMLElement | null) => HTMLElement;
 }
 
-interface ConfigProviderProps extends HTMLAttributes<HTMLDivElement> {
+interface ConfigProviderProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
     children: ReactNode;
     theme?: ThemeConfig;
     locale?: LocaleInput;
@@ -246,7 +250,7 @@ interface ConfigProviderProps extends HTMLAttributes<HTMLDivElement> {
     getPopupContainer?: (trigger: HTMLElement | null) => HTMLElement;
     global?: boolean;
     className?: string;
-    style?: CSSProperties;
+    style?: StyleProperties;
     portalClassName?: string;
 }
 
@@ -261,6 +265,10 @@ interface LocaleProviderProps {
 type MotionPreference = 'system' | 'none';
 
 type Size = 'sm' | 'md' | 'lg';
+
+type StyleProperties = CSSProperties | (CSSProperties & {
+    [variable: `--${string}`]: string | number | undefined;
+});
 
 type Theme = ThemeMode;
 
@@ -280,10 +288,16 @@ interface ThemeProviderProps extends Omit<ConfigProviderProps, 'theme' | 'motion
     motion?: MotionPreference;
 }
 
-type ThemeTokens = Record<string, string | number>;
+type ThemeTokens = Partial<Record<TokenName | `--yuki-${TokenName}`, string | number>> & Record<string, string | number>;
+
+type TokenName = 'amber-100' | 'amber-200' | 'amber-400' | 'amber-50' | 'amber-500' | 'amber-600' | 'backdrop-blur' | 'backdrop-blur-xs' | 'border-width-medium' | 'border-width-thick' | 'border-width-thin' | 'breakpoint-2xl' | 'breakpoint-lg' | 'breakpoint-md' | 'breakpoint-sm' | 'breakpoint-xl' | 'breakpoint-xs' | 'color-bg-active' | 'color-bg-canvas' | 'color-bg-disabled' | 'color-bg-elevated' | 'color-bg-glass' | 'color-bg-hover' | 'color-bg-inverse' | 'color-bg-muted' | 'color-bg-overlay' | 'color-bg-subtle' | 'color-bg-surface' | 'color-border' | 'color-border-inverse' | 'color-border-strong' | 'color-border-subtle' | 'color-danger' | 'color-danger-border' | 'color-danger-contrast' | 'color-danger-hover' | 'color-danger-subtle' | 'color-divider' | 'color-info' | 'color-info-border' | 'color-info-contrast' | 'color-info-hover' | 'color-info-subtle' | 'color-primary' | 'color-primary-active' | 'color-primary-border' | 'color-primary-contrast' | 'color-primary-hover' | 'color-primary-ring' | 'color-primary-subtle' | 'color-primary-subtle-hover' | 'color-success' | 'color-success-border' | 'color-success-contrast' | 'color-success-hover' | 'color-success-subtle' | 'color-text' | 'color-text-disabled' | 'color-text-inverse' | 'color-text-link' | 'color-text-link-hover' | 'color-text-placeholder' | 'color-text-secondary' | 'color-text-tertiary' | 'color-warning' | 'color-warning-border' | 'color-warning-contrast' | 'color-warning-hover' | 'color-warning-subtle' | 'control-gap-lg' | 'control-gap-md' | 'control-gap-sm' | 'control-gap-xs' | 'control-height-lg' | 'control-height-md' | 'control-height-sm' | 'control-height-xl' | 'control-height-xs' | 'control-padding-lg' | 'control-padding-md' | 'control-padding-sm' | 'control-padding-xs' | 'cyan-100' | 'cyan-200' | 'cyan-400' | 'cyan-50' | 'cyan-500' | 'cyan-600' | 'density-content-padding' | 'density-gap' | 'duration-base' | 'duration-fast' | 'duration-instant' | 'duration-slow' | 'duration-slower' | 'easing-bounce' | 'easing-enter' | 'easing-exit' | 'easing-standard' | 'emerald-100' | 'emerald-200' | 'emerald-400' | 'emerald-50' | 'emerald-500' | 'emerald-600' | 'focus-ring-color' | 'focus-ring-offset' | 'focus-ring-width' | 'font-family-mono' | 'font-family-sans' | 'font-size-2xl' | 'font-size-2xs' | 'font-size-3xl' | 'font-size-4xl' | 'font-size-5xl' | 'font-size-lg' | 'font-size-md' | 'font-size-sm' | 'font-size-xl' | 'font-size-xs' | 'font-weight-bold' | 'font-weight-medium' | 'font-weight-regular' | 'font-weight-semibold' | 'graphite-0' | 'graphite-100' | 'graphite-200' | 'graphite-300' | 'graphite-400' | 'graphite-50' | 'graphite-500' | 'graphite-600' | 'graphite-700' | 'graphite-800' | 'graphite-900' | 'graphite-950' | 'icon-size-2xl' | 'icon-size-2xs' | 'icon-size-3xl' | 'icon-size-lg' | 'icon-size-md' | 'icon-size-sm' | 'icon-size-xl' | 'icon-size-xs' | 'iris-100' | 'iris-200' | 'iris-300' | 'iris-400' | 'iris-50' | 'iris-500' | 'iris-600' | 'iris-700' | 'iris-800' | 'iris-900' | 'iris-950' | 'letter-spacing-normal' | 'letter-spacing-tight' | 'letter-spacing-wide' | 'letter-spacing-wider' | 'line-height-loose' | 'line-height-none' | 'line-height-normal' | 'line-height-relaxed' | 'line-height-snug' | 'line-height-tight' | 'mask-color' | 'opacity-disabled' | 'opacity-muted' | 'opacity-overlay' | 'popup-bg' | 'popup-border' | 'popup-radius' | 'popup-shadow' | 'popup-width-lg' | 'popup-width-md' | 'popup-width-sm' | 'popup-width-xs' | 'radius-2xl' | 'radius-3xl' | 'radius-full' | 'radius-lg' | 'radius-md' | 'radius-none' | 'radius-sm' | 'radius-xl' | 'radius-xs' | 'red-100' | 'red-200' | 'red-400' | 'red-50' | 'red-500' | 'red-600' | 'scrollbar-size' | 'scrollbar-thumb' | 'scrollbar-thumb-hover' | 'shadow-focus' | 'shadow-inner' | 'shadow-lg' | 'shadow-md' | 'shadow-sm' | 'shadow-xl' | 'shadow-xs' | 'space-0' | 'space-0-5' | 'space-1' | 'space-1-5' | 'space-10' | 'space-12' | 'space-14' | 'space-16' | 'space-2' | 'space-2-5' | 'space-20' | 'space-24' | 'space-28' | 'space-3' | 'space-3-5' | 'space-4' | 'space-40' | 'space-5' | 'space-6' | 'space-64' | 'space-7' | 'space-8' | 'space-9' | 'transition-colors' | 'transition-opacity' | 'transition-transform' | 'z-base' | 'z-dropdown' | 'z-max' | 'z-modal' | 'z-overlay' | 'z-popover' | 'z-sticky' | 'z-toast' | 'z-tooltip' | 'z-tour';
 
 type Defaults<Props> = {
     [Key in keyof Props as Key extends `on${string}` | 'children' | 'value' | 'defaultValue' | 'checked' | 'defaultChecked' | 'open' | 'defaultOpen' | 'src' | 'options' | 'page' | 'totalPages' | 'trigger' | 'title' | 'content' | 'name' | 'id' | 'href' | 'autoRedirect' ? never : Key]?: Props[Key];
+};
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
 };
 ```
 
@@ -675,7 +689,7 @@ IconButton(props: IconButtonProps & RefAttributes<HTMLButtonElement>): ReactNode
 
 type ButtonClassNames = Partial<Record<'root' | 'icon' | 'label' | 'spinner', string>>;
 
-interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
+interface ButtonProps extends Omit<WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>, 'color'> {
     variant?: ButtonVariant;
     tone?: ButtonTone;
     size?: Size;
@@ -686,7 +700,7 @@ interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'col
     startIcon?: ReactNode;
     endIcon?: ReactNode;
     loadingIndicator?: ReactNode;
-    spinnerProps?: HTMLAttributes<HTMLSpanElement>;
+    spinnerProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
     animation?: AnimationOptions | false;
     iconOnly?: boolean;
     classNames?: ButtonClassNames;
@@ -695,7 +709,7 @@ interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'col
 
 type ButtonShape = 'default' | 'round' | 'circle' | 'square';
 
-type ButtonStyles = Partial<Record<'root' | 'icon' | 'label' | 'spinner', CSSProperties>>;
+type ButtonStyles = Partial<Record<'root' | 'icon' | 'label' | 'spinner', StyleProperties>>;
 
 type ButtonTone = 'primary' | 'neutral' | 'success' | 'warning' | 'danger' | 'info';
 
@@ -705,6 +719,10 @@ interface IconButtonProps extends Omit<ButtonProps, 'iconOnly' | 'children' | 's
     icon: ReactNode;
     'aria-label': string;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -786,13 +804,17 @@ Icon(props: Omit<IconProps, "ref"> & RefAttributes<SVGSVGElement>): ReactNode
 
 type IconName = "play" | "pause" | "type" | "text" | "link" | "circle" | "filter" | "x" | "pdf" | "audio" | "video" | "archive" | "document" | "spreadsheet" | "presentation" | "close" | "arrow-up" | "arrow-down" | "arrow-left" | "arrow-right" | "arrow-up-right" | "arrow-down-left" | "arrow-left-right" | "arrow-up-down" | "chevron-up" | "chevron-down" | "chevron-left" | "chevron-right" | "chevrons-up" | "chevrons-down" | "chevrons-left" | "chevrons-right" | "corner-down-left" | "check" | "check-circle" | "x-circle" | "plus" | "plus-circle" | "minus" | "minus-circle" | "search" | "info" | "alert-circle" | "alert-triangle" | "help-circle" | "lock" | "unlock" | "eye" | "eye-off" | "calendar" | "clock" | "upload" | "download" | "trash" | "edit" | "copy" | "external-link" | "more-horizontal" | "more-vertical" | "grip-vertical" | "menu" | "settings" | "user" | "users" | "mail" | "star" | "heart" | "sliders" | "refresh" | "home" | "folder" | "file" | "image" | "sun" | "moon" | "monitor" | "palette" | "grid" | "list" | "loader" | "maximize" | "minimize" | "sort" | "sort-asc" | "sort-desc" | "code" | "terminal" | "layers" | "database" | "bell" | "bookmark" | "camera" | "map-pin" | "phone" | "send" | "share" | "shield" | "tag" | "wifi" | "zoom-in" | "zoom-out" | "sparkles" | "dot" | "layout" | "inbox" | "snowflake";
 
-interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name' | 'children'> {
+interface IconProps extends Omit<WithStyle<SVGProps<SVGSVGElement>>, 'name' | 'children'> {
     name?: IconName;
     size?: number | string;
     label?: string;
     spin?: boolean;
     children?: ReactNode;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -868,7 +890,7 @@ interface TitleProps extends Omit<TypographyBaseProps, 'size' | 'as'> {
 
 type TypographyAlign = 'start' | 'center' | 'end' | 'justify';
 
-interface TypographyBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
+interface TypographyBaseProps extends Omit<WithStyle<HTMLAttributes<HTMLElement>>, 'color'> {
     as?: ElementType;
     size?: TypographySize;
     weight?: TypographyWeight;
@@ -893,11 +915,15 @@ type TypographyProps = TypographyBaseProps;
 
 type TypographySize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
 
-type TypographyStyles = Partial<Record<'root', CSSProperties>>;
+type TypographyStyles = Partial<Record<'root', StyleProperties>>;
 
 type TypographyTone = 'default' | 'secondary' | 'tertiary' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'inverse';
 
 type TypographyWeight = 'regular' | 'medium' | 'semibold' | 'bold';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -959,7 +985,7 @@ Link(props: LinkProps & RefAttributes<HTMLAnchorElement>): ReactNode
 
 type LinkClassNames = Partial<Record<'root' | 'icon', string>>;
 
-interface LinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'color'> {
+interface LinkProps extends Omit<WithStyle<AnchorHTMLAttributes<HTMLAnchorElement>>, 'color'> {
     underline?: LinkUnderline;
     tone?: LinkTone;
     size?: LinkSize;
@@ -972,11 +998,15 @@ interface LinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'color
 
 type LinkSize = 'sm' | 'md' | 'lg';
 
-type LinkStyles = Partial<Record<'root' | 'icon', CSSProperties>>;
+type LinkStyles = Partial<Record<'root' | 'icon', StyleProperties>>;
 
 type LinkTone = 'default' | 'subtle' | 'danger';
 
 type LinkUnderline = 'auto' | 'always' | 'hover' | 'none';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -1026,7 +1056,7 @@ type DividerLabelPosition = 'start' | 'center' | 'end';
 
 type DividerOrientation = 'horizontal' | 'vertical';
 
-interface DividerProps extends HTMLAttributes<HTMLDivElement> {
+interface DividerProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
     decorative?: boolean;
     orientation?: DividerOrientation;
     variant?: DividerVariant;
@@ -1037,9 +1067,13 @@ interface DividerProps extends HTMLAttributes<HTMLDivElement> {
     children?: ReactNode;
 }
 
-type DividerStyles = Partial<Record<'root' | 'label', CSSProperties>>;
+type DividerStyles = Partial<Record<'root' | 'label', StyleProperties>>;
 
 type DividerVariant = 'solid' | 'dashed' | 'dotted';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -1106,11 +1140,15 @@ interface AnimationOptions {
 
 type AnimationPreset = 'none' | 'fade' | 'scale' | 'slide' | 'collapse' | 'feedback' | 'spin' | 'shimmer' | 'custom';
 
-interface AnimationProps extends HTMLAttributes<HTMLDivElement> {
+interface AnimationProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
     animation?: AnimationOptions | false;
     open?: boolean;
     forceMount?: boolean;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -1176,7 +1214,7 @@ Container(props: ContainerProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type ContainerClassNames = Partial<Record<'root', string>>;
 
-interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
+interface ContainerProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
     size?: ContainerSize;
     fluid?: boolean;
     maxWidth?: CSSProperties['maxWidth'];
@@ -1188,7 +1226,11 @@ interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
 
 type ContainerSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
 
-type ContainerStyles = Partial<Record<'root', CSSProperties>>;
+type ContainerStyles = Partial<Record<'root', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 type SpaceSize = '0' | '0-5' | '1' | '1-5' | '2' | '2-5' | '3' | '3-5' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '12' | '14' | '16' | '20' | '24';
 ```
@@ -1282,7 +1324,7 @@ type FlexDirection = 'row' | 'column';
 
 type FlexJustify = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
 
-interface FlexProps extends HTMLAttributes<HTMLDivElement> {
+interface FlexProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
     direction?: FlexDirection;
     align?: FlexAlign;
     justify?: FlexJustify;
@@ -1293,11 +1335,15 @@ interface FlexProps extends HTMLAttributes<HTMLDivElement> {
     styles?: FlexStyles;
 }
 
-type FlexStyles = Partial<Record<'root', CSSProperties>>;
+type FlexStyles = Partial<Record<'root', StyleProperties>>;
 
 interface StackProps extends Omit<FlexProps, 'direction'> {
     direction?: 'vertical' | 'horizontal';
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 type SpaceSize = '0' | '0-5' | '1' | '1-5' | '2' | '2-5' | '3' | '3-5' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '12' | '14' | '16' | '20' | '24';
 ```
@@ -1407,7 +1453,7 @@ type GridAlign = 'start' | 'center' | 'end' | 'stretch';
 
 type GridClassNames = Partial<Record<'root' | 'item', string>>;
 
-interface GridItemProps extends HTMLAttributes<HTMLDivElement> {
+interface GridItemProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
     span?: number;
     start?: number;
     responsive?: GridItemSpan;
@@ -1424,7 +1470,7 @@ interface GridItemSpan {
 
 type GridJustify = 'start' | 'center' | 'end' | 'stretch' | 'between' | 'around';
 
-interface GridProps extends HTMLAttributes<HTMLDivElement> {
+interface GridProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
     columns?: number;
     gap?: SpaceSize;
     rowGap?: SpaceSize;
@@ -1435,7 +1481,11 @@ interface GridProps extends HTMLAttributes<HTMLDivElement> {
     styles?: GridStyles;
 }
 
-type GridStyles = Partial<Record<'root' | 'item', CSSProperties>>;
+type GridStyles = Partial<Record<'root' | 'item', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 type SpaceSize = '0' | '0-5' | '1' | '1-5' | '2' | '2-5' | '3' | '3-5' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '12' | '14' | '16' | '20' | '24';
 ```
@@ -1512,7 +1562,7 @@ type SpaceClassNames = Partial<Record<'root' | 'item' | 'split', string>>;
 
 type SpaceDirection = 'horizontal' | 'vertical';
 
-interface SpaceProps extends HTMLAttributes<HTMLDivElement> {
+interface SpaceProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
     direction?: SpaceDirection;
     vertical?: boolean;
     gap?: CSSProperties['gap'];
@@ -1527,7 +1577,11 @@ interface SpaceProps extends HTMLAttributes<HTMLDivElement> {
     styles?: SpaceStyles;
 }
 
-type SpaceStyles = Partial<Record<'root' | 'item' | 'split', CSSProperties>>;
+type SpaceStyles = Partial<Record<'root' | 'item' | 'split', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 type SpaceSize = '0' | '0-5' | '1' | '1-5' | '2' | '2-5' | '3' | '3-5' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '12' | '14' | '16' | '20' | '24';
 ```
@@ -1597,13 +1651,17 @@ AspectRatio(props: AspectRatioProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type AspectRatioClassNames = Partial<Record<'root' | 'content', string>>;
 
-interface AspectRatioProps extends HTMLAttributes<HTMLDivElement> {
+interface AspectRatioProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
     ratio?: number | string;
     classNames?: AspectRatioClassNames;
     styles?: AspectRatioStyles;
 }
 
-type AspectRatioStyles = Partial<Record<'root' | 'content', CSSProperties>>;
+type AspectRatioStyles = Partial<Record<'root' | 'content', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -1671,7 +1729,7 @@ type SplitterClassNames = Partial<Record<'root' | 'pane' | 'firstPane' | 'second
 
 type SplitterDirection = 'horizontal' | 'vertical';
 
-interface SplitterProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
+interface SplitterProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'children'> {
     direction?: SplitterDirection;
     size?: number;
     defaultSize?: number;
@@ -1690,7 +1748,11 @@ interface SplitterProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' 
     ];
 }
 
-type SplitterStyles = Partial<Record<'root' | 'pane' | 'firstPane' | 'secondPane' | 'handle' | 'line', CSSProperties>>;
+type SplitterStyles = Partial<Record<'root' | 'pane' | 'firstPane' | 'secondPane' | 'handle' | 'line', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -1748,7 +1810,7 @@ type ScrollbarClassNames = Partial<Record<'root' | 'view' | 'track' | 'trackX' |
 
 type ScrollbarDirection = 'vertical' | 'horizontal' | 'both';
 
-interface ScrollbarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onScroll'> {
+interface ScrollbarProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onScroll'> {
     direction?: ScrollbarDirection;
     visibility?: ScrollbarVisibility;
     size?: number;
@@ -1760,9 +1822,13 @@ interface ScrollbarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onScroll'
     styles?: ScrollbarStyles;
 }
 
-type ScrollbarStyles = Partial<Record<'root' | 'view' | 'track' | 'trackX' | 'trackY' | 'thumb' | 'thumbX' | 'thumbY', CSSProperties>>;
+type ScrollbarStyles = Partial<Record<'root' | 'view' | 'track' | 'trackX' | 'trackY' | 'thumb' | 'thumbX' | 'thumbY', StyleProperties>>;
 
 type ScrollbarVisibility = 'always' | 'hover';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -1817,7 +1883,7 @@ Watermark(props: WatermarkProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type WatermarkClassNames = Partial<Record<'root' | 'canvas' | 'content', string>>;
 
-interface WatermarkProps extends Omit<HTMLAttributes<HTMLDivElement>, 'content'> {
+interface WatermarkProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'content'> {
     content?: string | string[];
     text?: string;
     image?: string;
@@ -1842,7 +1908,11 @@ interface WatermarkProps extends Omit<HTMLAttributes<HTMLDivElement>, 'content'>
     styles?: WatermarkStyles;
 }
 
-type WatermarkStyles = Partial<Record<'root' | 'canvas' | 'content', CSSProperties>>;
+type WatermarkStyles = Partial<Record<'root' | 'canvas' | 'content', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -2025,7 +2095,7 @@ interface FormInstance<Values extends Store = Store> {
 
 type FormItemClassNames = Partial<Record<'root' | 'label' | 'control' | 'help' | 'extra', string>>;
 
-interface FormItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+interface FormItemProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
     name?: NamePath;
     label?: ReactNode;
     extra?: ReactNode;
@@ -2061,7 +2131,7 @@ interface FormItemRenderProps {
     };
 }
 
-type FormItemStyles = Partial<Record<'root' | 'label' | 'control' | 'help' | 'extra', CSSProperties>>;
+type FormItemStyles = Partial<Record<'root' | 'label' | 'control' | 'help' | 'extra', StyleProperties>>;
 
 type FormLayout = 'horizontal' | 'vertical' | 'inline';
 
@@ -2082,7 +2152,7 @@ interface FormListProps {
     children: (fields: FormListField[], operations: FormListOperations) => ReactNode;
 }
 
-interface FormProps<Values extends Store = Store> extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onFinish' | 'children' | 'onValuesChange'> {
+interface FormProps<Values extends Store = Store> extends Omit<WithStyle<FormHTMLAttributes<HTMLFormElement>>, 'onFinish' | 'children' | 'onValuesChange'> {
     form?: FormInstance<Values>;
     initialValues?: Partial<Values>;
     onFinish?: (values: Values) => void;
@@ -2114,7 +2184,7 @@ interface FormRule {
     validator?: (value: unknown, form: FormInstance) => void | Promise<void>;
 }
 
-type FormStyles = Partial<Record<'root', CSSProperties>>;
+type FormStyles = Partial<Record<'root', StyleProperties>>;
 
 type NamePath = string | number | Array<string | number>;
 
@@ -2130,6 +2200,10 @@ interface ValidateOptions {
 }
 
 type ValidateTrigger = 'onChange' | 'onBlur' | 'onSubmit' | 'none';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 interface FormContextValue {
     form: FormInstance;
@@ -2195,15 +2269,15 @@ Input(props: InputProps & RefAttributes<HTMLInputElement>): ReactNode
 
 type InputClassNames = Partial<Record<'root' | 'group' | 'prefix' | 'input' | 'suffix' | 'clear' | 'addonBefore' | 'addonAfter' | 'count', string>>;
 
-interface InputProps extends StandaloneFieldProps, Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix' | 'onChange' | 'value' | 'defaultValue'> {
+interface InputProps extends StandaloneFieldProps, Omit<WithStyle<InputHTMLAttributes<HTMLInputElement>>, 'size' | 'prefix' | 'onChange' | 'value' | 'defaultValue'> {
     size?: Size;
     status?: FieldStatus;
     prefix?: ReactNode;
     startIcon?: ReactNode;
     endIcon?: ReactNode;
-    wrapperProps?: HTMLAttributes<HTMLDivElement>;
-    startIconProps?: HTMLAttributes<HTMLSpanElement>;
-    endIconProps?: HTMLAttributes<HTMLSpanElement>;
+    wrapperProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    startIconProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+    endIconProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
     suffix?: ReactNode;
     addonBefore?: ReactNode;
     addonAfter?: ReactNode;
@@ -2218,18 +2292,22 @@ interface InputProps extends StandaloneFieldProps, Omit<InputHTMLAttributes<HTML
     styles?: InputStyles;
 }
 
-type InputStyles = Partial<Record<'root' | 'group' | 'prefix' | 'input' | 'suffix' | 'clear' | 'addonBefore' | 'addonAfter' | 'count', CSSProperties>>;
+type InputStyles = Partial<Record<'root' | 'group' | 'prefix' | 'input' | 'suffix' | 'clear' | 'addonBefore' | 'addonAfter' | 'count', StyleProperties>>;
 
 interface StandaloneFieldProps {
     label?: ReactNode;
     description?: ReactNode;
     error?: ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-    messageProps?: HTMLAttributes<HTMLParagraphElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -2284,7 +2362,7 @@ interface TextareaAutoSize {
 
 type TextareaClassNames = Partial<Record<'root' | 'control' | 'clear' | 'count', string>>;
 
-interface TextareaProps extends StandaloneFieldProps, Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'size' | 'onChange' | 'value' | 'defaultValue'> {
+interface TextareaProps extends StandaloneFieldProps, Omit<WithStyle<TextareaHTMLAttributes<HTMLTextAreaElement>>, 'size' | 'onChange' | 'value' | 'defaultValue'> {
     size?: Size;
     status?: FieldStatus;
     autoSize?: boolean | TextareaAutoSize;
@@ -2299,18 +2377,22 @@ interface TextareaProps extends StandaloneFieldProps, Omit<TextareaHTMLAttribute
     styles?: TextareaStyles;
 }
 
-type TextareaStyles = Partial<Record<'root' | 'control' | 'clear' | 'count', CSSProperties>>;
+type TextareaStyles = Partial<Record<'root' | 'control' | 'clear' | 'count', StyleProperties>>;
 
 interface StandaloneFieldProps {
     label?: ReactNode;
     description?: ReactNode;
     error?: ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-    messageProps?: HTMLAttributes<HTMLParagraphElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -2367,7 +2449,7 @@ interface SearchProps extends Omit<InputProps, 'suffix' | 'children' | 'onChange
     styles?: SearchStyles;
 }
 
-type SearchStyles = Partial<Record<'root' | 'input' | 'button', CSSProperties>>;
+type SearchStyles = Partial<Record<'root' | 'input' | 'button', StyleProperties>>;
 ```
 
 </details>
@@ -2412,7 +2494,7 @@ InputNumber(props: InputNumberProps & RefAttributes<HTMLInputElement>): ReactNod
 
 type InputNumberClassNames = Partial<Record<'root' | 'group' | 'prefix' | 'input' | 'suffix' | 'controls' | 'up' | 'down', string>>;
 
-interface InputNumberProps extends StandaloneFieldProps, Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'value' | 'defaultValue' | 'onChange' | 'prefix' | 'min' | 'max' | 'step'> {
+interface InputNumberProps extends StandaloneFieldProps, Omit<WithStyle<InputHTMLAttributes<HTMLInputElement>>, 'size' | 'value' | 'defaultValue' | 'onChange' | 'prefix' | 'min' | 'max' | 'step'> {
     size?: Size;
     status?: FieldStatus;
     value?: number | null;
@@ -2427,9 +2509,9 @@ interface InputNumberProps extends StandaloneFieldProps, Omit<InputHTMLAttribute
     parser?: (text: string) => number | null;
     startIcon?: ReactNode;
     endIcon?: ReactNode;
-    wrapperProps?: HTMLAttributes<HTMLDivElement>;
-    startIconProps?: HTMLAttributes<HTMLSpanElement>;
-    endIconProps?: HTMLAttributes<HTMLSpanElement>;
+    wrapperProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    startIconProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+    endIconProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
     prefix?: ReactNode;
     suffix?: ReactNode;
     onChange?: (value: number | null) => void;
@@ -2442,18 +2524,22 @@ interface InputNumberStepInfo {
     type: 'up' | 'down';
 }
 
-type InputNumberStyles = Partial<Record<'root' | 'group' | 'prefix' | 'input' | 'suffix' | 'controls' | 'up' | 'down', CSSProperties>>;
+type InputNumberStyles = Partial<Record<'root' | 'group' | 'prefix' | 'input' | 'suffix' | 'controls' | 'up' | 'down', StyleProperties>>;
 
 interface StandaloneFieldProps {
     label?: ReactNode;
     description?: ReactNode;
     error?: ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-    messageProps?: HTMLAttributes<HTMLParagraphElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -2549,7 +2635,7 @@ type SelectProps<T = string> = SingleSelectProps<T> | MultipleSelectProps<T>;
 
 type SelectStatus = 'error' | 'warning' | 'success';
 
-type SelectStyles = Partial<Record<'root' | 'tags' | 'trigger' | 'panel' | 'list' | 'option' | 'search', CSSProperties>>;
+type SelectStyles = Partial<Record<'root' | 'tags' | 'trigger' | 'panel' | 'list' | 'option' | 'search', StyleProperties>>;
 
 type SingleSelectProps<T = string> = CommonSelectProps<T> & {
     [K in keyof SelectTagOptions<T>]?: never;
@@ -2561,7 +2647,7 @@ type SingleSelectProps<T = string> = CommonSelectProps<T> & {
     renderValue?: (option: SelectOption<T>) => ReactNode;
 };
 
-interface CommonSelectProps<T> extends StandaloneFieldProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
+interface CommonSelectProps<T> extends StandaloneFieldProps, Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
     options: readonly SelectOptionInput<T>[];
     onClear?: () => void;
     open?: boolean;
@@ -2590,11 +2676,11 @@ interface CommonSelectProps<T> extends StandaloneFieldProps, Omit<HTMLAttributes
     portalContainer?: HTMLElement | null;
     forceMount?: boolean;
     animation?: AnimationOptions | false;
-    triggerProps?: HTMLAttributes<HTMLDivElement>;
-    contentProps?: HTMLAttributes<HTMLDivElement>;
-    viewportProps?: HTMLAttributes<HTMLUListElement>;
-    valueProps?: HTMLAttributes<HTMLSpanElement>;
-    optionProps?: (option: SelectOption<T>, index: number) => HTMLAttributes<HTMLLIElement>;
+    triggerProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    contentProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    viewportProps?: WithStyle<HTMLAttributes<HTMLUListElement>>;
+    valueProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+    optionProps?: (option: SelectOption<T>, index: number) => WithStyle<HTMLAttributes<HTMLLIElement>>;
     icon?: ReactNode;
     indicator?: ReactNode;
     renderOption?: (option: SelectOption<T>, state: SelectOptionRenderState) => ReactNode;
@@ -2608,12 +2694,16 @@ interface StandaloneFieldProps {
     label?: ReactNode;
     description?: ReactNode;
     error?: ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-    messageProps?: HTMLAttributes<HTMLParagraphElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 interface SelectTagOptions<T> {
     onRemove?: (value: T) => void;
@@ -2673,7 +2763,7 @@ type CheckboxClassNames = Partial<Record<'root' | 'input' | 'control' | 'label',
 
 type CheckboxGroupClassNames = Partial<Record<'root' | 'item', string>>;
 
-interface CheckboxGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'children'> {
+interface CheckboxGroupProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'children'> {
     value?: CheckboxValue[];
     defaultValue?: CheckboxValue[];
     options?: Array<CheckboxOption | string | number>;
@@ -2687,7 +2777,7 @@ interface CheckboxGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onCha
     styles?: CheckboxGroupStyles;
 }
 
-type CheckboxGroupStyles = Partial<Record<'root' | 'item', CSSProperties>>;
+type CheckboxGroupStyles = Partial<Record<'root' | 'item', StyleProperties>>;
 
 interface CheckboxOption {
     label: ReactNode;
@@ -2695,10 +2785,10 @@ interface CheckboxOption {
     disabled?: boolean;
 }
 
-interface CheckboxProps extends StandaloneFieldProps, Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type' | 'onChange' | 'value' | 'defaultChecked' | 'checked' | 'children'> {
+interface CheckboxProps extends StandaloneFieldProps, Omit<WithStyle<InputHTMLAttributes<HTMLInputElement>>, 'size' | 'type' | 'onChange' | 'value' | 'defaultChecked' | 'checked' | 'children'> {
     indicator?: ReactNode;
-    indicatorProps?: HTMLAttributes<HTMLSpanElement>;
-    descriptionProps?: HTMLAttributes<HTMLParagraphElement>;
+    indicatorProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+    descriptionProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     checked?: boolean;
     defaultChecked?: boolean;
     indeterminate?: boolean;
@@ -2711,19 +2801,23 @@ interface CheckboxProps extends StandaloneFieldProps, Omit<InputHTMLAttributes<H
     styles?: CheckboxStyles;
 }
 
-type CheckboxStyles = Partial<Record<'root' | 'input' | 'control' | 'label', CSSProperties>>;
+type CheckboxStyles = Partial<Record<'root' | 'input' | 'control' | 'label', StyleProperties>>;
 
 type CheckboxValue = string | number | boolean;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 interface StandaloneFieldProps {
     label?: ReactNode;
     description?: ReactNode;
     error?: ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-    messageProps?: HTMLAttributes<HTMLParagraphElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
 }
 ```
 
@@ -2772,7 +2866,7 @@ type RadioClassNames = Partial<Record<'root' | 'input' | 'control' | 'dot' | 'la
 
 type RadioGroupClassNames = Partial<Record<'root' | 'item', string>>;
 
-interface RadioGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'children'> {
+interface RadioGroupProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'children'> {
     value?: RadioValue;
     defaultValue?: RadioValue;
     options?: Array<RadioOption | string | number>;
@@ -2782,10 +2876,10 @@ interface RadioGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange
     description?: ReactNode;
     error?: ReactNode;
     onValueChange?: (value: RadioValue) => void;
-    optionProps?: (option: RadioOption, index: number) => HTMLAttributes<HTMLSpanElement>;
+    optionProps?: (option: RadioOption, index: number) => WithStyle<HTMLAttributes<HTMLSpanElement>>;
     itemProps?: (option: RadioOption, index: number) => Partial<RadioProps>;
-    descriptionProps?: (option: RadioOption, index: number) => HTMLAttributes<HTMLSpanElement>;
-    messageProps?: HTMLAttributes<HTMLSpanElement>;
+    descriptionProps?: (option: RadioOption, index: number) => WithStyle<HTMLAttributes<HTMLSpanElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
     disabled?: boolean;
     size?: Size;
     name?: string;
@@ -2795,7 +2889,7 @@ interface RadioGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange
     styles?: RadioGroupStyles;
 }
 
-type RadioGroupStyles = Partial<Record<'root' | 'item', CSSProperties>>;
+type RadioGroupStyles = Partial<Record<'root' | 'item', StyleProperties>>;
 
 interface RadioOption {
     label: ReactNode;
@@ -2804,7 +2898,7 @@ interface RadioOption {
     description?: ReactNode;
 }
 
-interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type' | 'onChange' | 'value' | 'checked' | 'defaultChecked' | 'children'> {
+interface RadioProps extends Omit<WithStyle<InputHTMLAttributes<HTMLInputElement>>, 'size' | 'type' | 'onChange' | 'value' | 'checked' | 'defaultChecked' | 'children'> {
     checked?: boolean;
     defaultChecked?: boolean;
     onChange?: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
@@ -2816,9 +2910,13 @@ interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' 
     styles?: RadioStyles;
 }
 
-type RadioStyles = Partial<Record<'root' | 'input' | 'control' | 'dot' | 'label', CSSProperties>>;
+type RadioStyles = Partial<Record<'root' | 'input' | 'control' | 'dot' | 'label', StyleProperties>>;
 
 type RadioValue = string | number | boolean;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -2859,7 +2957,7 @@ export default function Permissions() {
 ```ts
 RadioGroup(props: RadioGroupProps & RefAttributes<HTMLDivElement>): ReactNode
 
-interface RadioGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'children'> {
+interface RadioGroupProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'children'> {
     value?: RadioValue;
     defaultValue?: RadioValue;
     options?: Array<RadioOption | string | number>;
@@ -2869,10 +2967,10 @@ interface RadioGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange
     description?: ReactNode;
     error?: ReactNode;
     onValueChange?: (value: RadioValue) => void;
-    optionProps?: (option: RadioOption, index: number) => HTMLAttributes<HTMLSpanElement>;
+    optionProps?: (option: RadioOption, index: number) => WithStyle<HTMLAttributes<HTMLSpanElement>>;
     itemProps?: (option: RadioOption, index: number) => Partial<RadioProps>;
-    descriptionProps?: (option: RadioOption, index: number) => HTMLAttributes<HTMLSpanElement>;
-    messageProps?: HTMLAttributes<HTMLSpanElement>;
+    descriptionProps?: (option: RadioOption, index: number) => WithStyle<HTMLAttributes<HTMLSpanElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
     disabled?: boolean;
     size?: Size;
     name?: string;
@@ -2888,6 +2986,10 @@ interface RadioOption {
     disabled?: boolean;
     description?: ReactNode;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -2935,9 +3037,9 @@ Switch(props: SwitchProps & RefAttributes<HTMLInputElement>): ReactNode
 
 type SwitchClassNames = Partial<Record<'root' | 'input' | 'track' | 'handle' | 'label' | 'loading', string>>;
 
-interface SwitchProps extends StandaloneFieldProps, Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type' | 'onChange' | 'checked' | 'defaultChecked' | 'children'> {
+interface SwitchProps extends StandaloneFieldProps, Omit<WithStyle<InputHTMLAttributes<HTMLInputElement>>, 'size' | 'type' | 'onChange' | 'checked' | 'defaultChecked' | 'children'> {
     animation?: AnimationOptions | false;
-    thumbProps?: HTMLAttributes<HTMLSpanElement>;
+    thumbProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
     checked?: boolean;
     defaultChecked?: boolean;
     onChange?: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
@@ -2950,18 +3052,22 @@ interface SwitchProps extends StandaloneFieldProps, Omit<InputHTMLAttributes<HTM
     styles?: SwitchStyles;
 }
 
-type SwitchStyles = Partial<Record<'root' | 'input' | 'track' | 'handle' | 'label' | 'loading', CSSProperties>>;
+type SwitchStyles = Partial<Record<'root' | 'input' | 'track' | 'handle' | 'label' | 'loading', StyleProperties>>;
 
 interface StandaloneFieldProps {
     label?: ReactNode;
     description?: ReactNode;
     error?: ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-    messageProps?: HTMLAttributes<HTMLParagraphElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -3009,22 +3115,22 @@ RangeSlider(props: RangeSliderProps & RefAttributes<HTMLSpanElement>): ReactNode
 
 Slider(props: SliderProps & RefAttributes<HTMLInputElement>): ReactNode
 
-interface RangeSliderProps extends ComponentPropsWithoutRef<typeof Primitive.Root> {
+interface RangeSliderProps extends WithStyle<ComponentPropsWithoutRef<typeof Primitive.Root>> {
     value?: number[];
     defaultValue?: number[];
     label?: ReactNode;
     showValue?: boolean;
     formatValue?: (value: number) => string;
     thumbLabels?: string[];
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
     size?: 'sm' | 'md' | 'lg';
-    trackProps?: ComponentPropsWithoutRef<typeof Primitive.Track>;
-    rangeProps?: ComponentPropsWithoutRef<typeof Primitive.Range>;
-    thumbProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Thumb>, 'children' | 'asChild'> | ((index: number) => Omit<ComponentPropsWithoutRef<typeof Primitive.Thumb>, 'children' | 'asChild'>);
-    labelProps?: HTMLAttributes<HTMLDivElement>;
-    valueProps?: HTMLAttributes<HTMLSpanElement>;
+    trackProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Track>>;
+    rangeProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Range>>;
+    thumbProps?: Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Thumb>>, 'children' | 'asChild'> | ((index: number) => Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Thumb>>, 'children' | 'asChild'>);
+    labelProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    valueProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
     animation?: AnimationOptions | false;
 }
 
@@ -3034,7 +3140,7 @@ interface SliderMark {
     label: ReactNode;
 }
 
-interface SliderProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'value' | 'defaultValue' | 'onChange' | 'min' | 'max' | 'step' | 'type'> {
+interface SliderProps extends Omit<WithStyle<InputHTMLAttributes<HTMLInputElement>>, 'size' | 'value' | 'defaultValue' | 'onChange' | 'min' | 'max' | 'step' | 'type'> {
     size?: Size;
     status?: FieldStatus;
     value?: number;
@@ -3053,7 +3159,11 @@ interface SliderProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'
     styles?: SliderStyles;
 }
 
-type SliderStyles = Partial<Record<'root' | 'input' | 'marks' | 'mark' | 'value', CSSProperties>>;
+type SliderStyles = Partial<Record<'root' | 'input' | 'marks' | 'mark' | 'value', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -3101,7 +3211,7 @@ Rate(props: RateProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type RateClassNames = Partial<Record<'root' | 'item' | 'star' | 'fill', string>>;
 
-interface RateProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface RateProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue'> {
     value?: number;
     defaultValue?: number;
     count?: number;
@@ -3117,7 +3227,11 @@ interface RateProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'd
     styles?: RateStyles;
 }
 
-type RateStyles = Partial<Record<'root' | 'item' | 'star' | 'fill', CSSProperties>>;
+type RateStyles = Partial<Record<'root' | 'item' | 'star' | 'fill', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -3184,7 +3298,7 @@ interface DatePickerClassNames {
     calendar?: DateCalendarClassNames;
 }
 
-interface DatePickerProps extends StandaloneFieldProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
+interface DatePickerProps extends StandaloneFieldProps, Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
     value?: DatePickerValue;
     defaultValue?: DatePickerValue;
     onChange?: (value: Date | null) => void;
@@ -3218,9 +3332,9 @@ interface DatePickerProps extends StandaloneFieldProps, Omit<HTMLAttributes<HTML
 }
 
 interface DatePickerStyles {
-    root?: CSSProperties;
-    trigger?: CSSProperties;
-    panel?: CSSProperties;
+    root?: StyleProperties;
+    trigger?: StyleProperties;
+    panel?: StyleProperties;
     calendar?: DateCalendarStyles;
 }
 
@@ -3237,12 +3351,16 @@ interface StandaloneFieldProps {
     label?: ReactNode;
     description?: ReactNode;
     error?: ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-    messageProps?: HTMLAttributes<HTMLParagraphElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 interface DateCalendarDayState {
     selected: boolean;
@@ -3255,7 +3373,7 @@ interface DateCalendarDayState {
     active: boolean;
 }
 
-type DateCalendarStyles = Partial<Record<'root' | 'grid' | 'day', CSSProperties>>;
+type DateCalendarStyles = Partial<Record<'root' | 'grid' | 'day', StyleProperties>>;
 ```
 
 </details>
@@ -3344,7 +3462,7 @@ interface DateRangePickerPreset {
     value: DateRange;
 }
 
-interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
+interface DateRangePickerProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
     value?: DateRange | null;
     defaultValue?: DateRange | null;
     onChange?: (range: {
@@ -3383,13 +3501,17 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onC
 }
 
 interface DateRangePickerStyles {
-    root?: CSSProperties;
-    trigger?: CSSProperties;
-    panel?: CSSProperties;
+    root?: StyleProperties;
+    trigger?: StyleProperties;
+    panel?: StyleProperties;
     calendar?: DateCalendarStyles;
 }
 
 type DateCalendarClassNames = Partial<Record<'root' | 'header' | 'nav' | 'title' | 'weekdays' | 'weekday' | 'grid' | 'row' | 'cell' | 'day' | 'footer', string>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 interface DateCalendarDayState {
     selected: boolean;
@@ -3402,7 +3524,7 @@ interface DateCalendarDayState {
     active: boolean;
 }
 
-type DateCalendarStyles = Partial<Record<'root' | 'grid' | 'day', CSSProperties>>;
+type DateCalendarStyles = Partial<Record<'root' | 'grid' | 'day', StyleProperties>>;
 ```
 
 </details>
@@ -3456,7 +3578,7 @@ TimePicker(props: TimePickerProps & { ref?: Ref<HTMLDivElement>; }): ReactElemen
 
 type TimePickerClassNames = Partial<Record<'root' | 'trigger' | 'panel' | 'header' | 'columns' | 'column' | 'columnTitle' | 'columnList' | 'option' | 'footer' | 'now' | 'value' | 'placeholder' | 'prefix' | 'suffix' | 'clear' | 'arrow', string>>;
 
-interface TimePickerProps extends StandaloneFieldProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
+interface TimePickerProps extends StandaloneFieldProps, Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
     value?: string | null;
     defaultValue?: string | null;
     onChange?: (value: string | null) => void;
@@ -3489,18 +3611,22 @@ interface TimePickerProps extends StandaloneFieldProps, Omit<HTMLAttributes<HTML
     styles?: TimePickerStyles;
 }
 
-type TimePickerStyles = Partial<Record<'root' | 'trigger' | 'panel' | 'columns', CSSProperties>>;
+type TimePickerStyles = Partial<Record<'root' | 'trigger' | 'panel' | 'columns', StyleProperties>>;
 
 interface StandaloneFieldProps {
     label?: ReactNode;
     description?: ReactNode;
     error?: ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-    messageProps?: HTMLAttributes<HTMLParagraphElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -3562,7 +3688,7 @@ type ColorPickerClassNames = Partial<Record<'root' | 'trigger' | 'swatch' | 'val
 
 type ColorPickerFormat = 'hex' | 'rgb';
 
-interface ColorPickerProps extends StandaloneFieldProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface ColorPickerProps extends StandaloneFieldProps, Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue'> {
     name?: string;
     value?: string;
     defaultValue?: string;
@@ -3582,7 +3708,7 @@ interface ColorPickerProps extends StandaloneFieldProps, Omit<HTMLAttributes<HTM
     styles?: ColorPickerStyles;
 }
 
-type ColorPickerStyles = Partial<Record<'root' | 'trigger' | 'swatch' | 'value' | 'indicator' | 'panel' | 'presets' | 'preset' | 'inputRow' | 'preview' | 'input' | 'alpha' | 'alphaInput' | 'alphaValue' | 'footer' | 'clear', CSSProperties>>;
+type ColorPickerStyles = Partial<Record<'root' | 'trigger' | 'swatch' | 'value' | 'indicator' | 'panel' | 'presets' | 'preset' | 'inputRow' | 'preview' | 'input' | 'alpha' | 'alphaInput' | 'alphaValue' | 'footer' | 'clear', StyleProperties>>;
 
 interface RgbaColor {
     r: number;
@@ -3595,12 +3721,16 @@ interface StandaloneFieldProps {
     label?: ReactNode;
     description?: ReactNode;
     error?: ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-    messageProps?: HTMLAttributes<HTMLParagraphElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -3702,7 +3832,7 @@ interface CascaderOptionRenderState {
     expandable: boolean;
 }
 
-interface CascaderProps<T = string> extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
+interface CascaderProps<T = string> extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
     options: readonly CascaderOption<T>[];
     value?: CascaderValue<T> | null;
     defaultValue?: CascaderValue<T> | null;
@@ -3735,9 +3865,13 @@ interface CascaderProps<T = string> extends Omit<HTMLAttributes<HTMLDivElement>,
     styles?: CascaderStyles;
 }
 
-type CascaderStyles = Partial<Record<'root' | 'trigger' | 'panel' | 'columns', CSSProperties>>;
+type CascaderStyles = Partial<Record<'root' | 'trigger' | 'panel' | 'columns', StyleProperties>>;
 
 type CascaderValue<T = string> = readonly T[];
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -3839,11 +3973,11 @@ type TreeSelectProps<T = string> = TreeSelectCommonProps<T> & ({
     onChange?: (values: NoInfer<T>[], nodes: TreeNodeOption<NoInfer<T>>[]) => void;
 });
 
-type TreeSelectStyles = Partial<Record<'root' | 'trigger' | 'panel' | 'tree', CSSProperties>>;
+type TreeSelectStyles = Partial<Record<'root' | 'trigger' | 'panel' | 'tree', StyleProperties>>;
 
 type TreeSelectValue<T> = T | readonly T[] | null;
 
-interface TreeSelectCommonProps<T> extends StandaloneFieldProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
+interface TreeSelectCommonProps<T> extends StandaloneFieldProps, Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
     options: readonly TreeNodeOption<T>[];
     open?: boolean;
     defaultOpen?: boolean;
@@ -3872,11 +4006,11 @@ interface TreeSelectCommonProps<T> extends StandaloneFieldProps, Omit<HTMLAttrib
     animation?: AnimationOptions | false;
     icon?: ReactNode;
     indicator?: ReactNode;
-    triggerProps?: HTMLAttributes<HTMLDivElement>;
-    contentProps?: HTMLAttributes<HTMLDivElement>;
-    valueProps?: HTMLAttributes<HTMLSpanElement>;
-    viewportProps?: HTMLAttributes<HTMLDivElement>;
-    optionProps?: (node: TreeNodeOption<T>, index: number) => HTMLAttributes<HTMLDivElement>;
+    triggerProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    contentProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    valueProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+    viewportProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    optionProps?: (node: TreeNodeOption<T>, index: number) => WithStyle<HTMLAttributes<HTMLDivElement>>;
     portalContainer?: HTMLElement | null;
     forceMount?: boolean;
     renderNode?: (node: TreeNodeOption<T>, state: TreeSelectNodeState) => ReactNode;
@@ -3893,12 +4027,16 @@ interface StandaloneFieldProps {
     label?: ReactNode;
     description?: ReactNode;
     error?: ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-    messageProps?: HTMLAttributes<HTMLParagraphElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+    messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
+    controlStyle?: StyleProperties;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -3965,7 +4103,7 @@ interface MentionOption {
 
 type MentionsClassNames = Partial<Record<'root' | 'textarea' | 'dropdown' | 'list' | 'option' | 'optionLabel' | 'empty' | 'loading', string>>;
 
-interface MentionsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'onSelect'> {
+interface MentionsProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'onSelect'> {
     value?: string;
     defaultValue?: string;
     onChange?: (value: string) => void;
@@ -3984,7 +4122,11 @@ interface MentionsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' 
     styles?: MentionsStyles;
 }
 
-type MentionsStyles = Partial<Record<'root' | 'textarea' | 'dropdown' | 'list' | 'option' | 'optionLabel' | 'empty' | 'loading', CSSProperties>>;
+type MentionsStyles = Partial<Record<'root' | 'textarea' | 'dropdown' | 'list' | 'option' | 'optionLabel' | 'empty' | 'loading', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4050,7 +4192,7 @@ interface TransferItem {
     disabled?: boolean;
 }
 
-interface TransferProps<T extends TransferItem = TransferItem> extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'title'> {
+interface TransferProps<T extends TransferItem = TransferItem> extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'title'> {
     dataSource: T[];
     targetKeys?: string[];
     defaultTargetKeys?: string[];
@@ -4072,7 +4214,11 @@ interface TransferProps<T extends TransferItem = TransferItem> extends Omit<HTML
     styles?: TransferStyles;
 }
 
-type TransferStyles = Partial<Record<'root' | 'column' | 'header' | 'title' | 'count' | 'selectAll' | 'search' | 'body' | 'list' | 'item' | 'itemCheckbox' | 'itemLabel' | 'itemDescription' | 'empty' | 'operations' | 'operation', CSSProperties>>;
+type TransferStyles = Partial<Record<'root' | 'column' | 'header' | 'title' | 'count' | 'selectAll' | 'search' | 'body' | 'list' | 'item' | 'itemCheckbox' | 'itemLabel' | 'itemDescription' | 'empty' | 'operations' | 'operation', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4133,7 +4279,7 @@ formatFileSize(bytes: number): string
 
 matchesAccept(file: File, accept?: string): boolean
 
-interface BatchUploadProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size' | 'value' | 'defaultValue' | 'children'> {
+interface BatchUploadProps extends Omit<WithStyle<InputHTMLAttributes<HTMLInputElement>>, 'type' | 'size' | 'value' | 'defaultValue' | 'children'> {
     label?: ReactNode;
     size?: Size;
     action?: string;
@@ -4164,10 +4310,10 @@ type UploadFileStatus = 'ready' | 'uploading' | 'done' | 'error';
 
 type UploadListType = 'text' | 'picture';
 
-interface UploadProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'onError' | 'onDrop' | 'onSelect' | 'onProgress'> {
+interface UploadProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'onError' | 'onDrop' | 'onSelect' | 'onProgress'> {
     onFilesChange?: (files: File[]) => void;
     label?: ReactNode;
-    buttonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+    buttonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
     fileList?: UploadFile[];
     defaultFileList?: UploadFile[];
     onChange?: (fileList: UploadFile[], file: UploadFile) => void;
@@ -4221,7 +4367,11 @@ interface UploadRequestResult {
     abort?: () => void;
 }
 
-type UploadStyles = Partial<Record<'root' | 'trigger' | 'dropzone' | 'icon' | 'tip' | 'input' | 'list' | 'item' | 'thumbnail' | 'file' | 'fileName' | 'fileSize' | 'progress' | 'actions' | 'preview' | 'remove' | 'overlay' | 'overlayImage', CSSProperties>>;
+type UploadStyles = Partial<Record<'root' | 'trigger' | 'dropzone' | 'icon' | 'tip' | 'input' | 'list' | 'item' | 'thumbnail' | 'file' | 'fileName' | 'fileSize' | 'progress' | 'actions' | 'preview' | 'remove' | 'overlay' | 'overlayImage', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4274,19 +4424,19 @@ export default function BasicCard() {
 ```ts
 Card(props: CardProps & RefAttributes<HTMLDivElement>): ReactNode
 
-CardContent(props: HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>): ReactNode
+CardContent(props: HTMLAttributes<HTMLDivElement> & { style?: StyleProperties | undefined; } & RefAttributes<HTMLDivElement>): ReactNode
 
-CardDescription(props: HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>): ReactNode
+CardDescription(props: HTMLAttributes<HTMLParagraphElement> & { style?: StyleProperties | undefined; } & RefAttributes<HTMLParagraphElement>): ReactNode
 
-CardFooter(props: HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>): ReactNode
+CardFooter(props: HTMLAttributes<HTMLDivElement> & { style?: StyleProperties | undefined; } & RefAttributes<HTMLDivElement>): ReactNode
 
-CardHeader(props: HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>): ReactNode
+CardHeader(props: HTMLAttributes<HTMLDivElement> & { style?: StyleProperties | undefined; } & RefAttributes<HTMLDivElement>): ReactNode
 
 CardTitle(props: CardTitleProps & RefAttributes<HTMLHeadingElement>): ReactNode
 
 type CardClassNames = Partial<Record<'root' | 'cover' | 'header' | 'title' | 'extra' | 'body' | 'footer' | 'actions' | 'action' | 'loading', string>>;
 
-interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+interface CardProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title'> {
     title?: ReactNode;
     extra?: ReactNode;
     cover?: ReactNode;
@@ -4300,13 +4450,17 @@ interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
     styles?: CardStyles;
 }
 
-type CardStyles = Partial<Record<'root' | 'cover' | 'header' | 'title' | 'extra' | 'body' | 'footer' | 'actions' | 'action' | 'loading', CSSProperties>>;
+type CardStyles = Partial<Record<'root' | 'cover' | 'header' | 'title' | 'extra' | 'body' | 'footer' | 'actions' | 'action' | 'loading', StyleProperties>>;
 
-interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+interface CardTitleProps extends WithStyle<HTMLAttributes<HTMLHeadingElement>> {
     as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
 type CardVariant = 'default' | 'elevated' | 'ghost';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4368,7 +4522,7 @@ type AvatarClassNames = Partial<Record<'root' | 'image' | 'fallback', string>>;
 
 type AvatarGroupClassNames = Partial<Record<'root' | 'overflow', string>>;
 
-interface AvatarGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+interface AvatarGroupProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
     children?: ReactNode;
     maxCount?: number;
     overlap?: number;
@@ -4379,15 +4533,15 @@ interface AvatarGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childre
     styles?: AvatarGroupStyles;
 }
 
-type AvatarGroupStyles = Partial<Record<'root' | 'overflow', CSSProperties>>;
+type AvatarGroupStyles = Partial<Record<'root' | 'overflow', StyleProperties>>;
 
-interface AvatarProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'children'> {
+interface AvatarProps extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'children'> {
     src?: string;
     status?: 'online' | 'offline' | 'busy';
     statusLabel?: string;
-    imageProps?: Omit<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt' | 'children'>;
-    fallbackProps?: HTMLAttributes<HTMLSpanElement>;
-    statusProps?: HTMLAttributes<HTMLSpanElement>;
+    imageProps?: Omit<WithStyle<ImgHTMLAttributes<HTMLImageElement>>, 'src' | 'alt' | 'children'>;
+    fallbackProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+    statusProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
     srcSet?: string;
     alt?: string;
     size?: AvatarSize;
@@ -4395,9 +4549,9 @@ interface AvatarProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'children'> 
     icon?: ReactNode;
     fallback?: ReactNode;
     children?: ReactNode;
-    onImageLoad?: ImgHTMLAttributes<HTMLImageElement>['onLoad'];
-    onImageError?: ImgHTMLAttributes<HTMLImageElement>['onError'];
-    imgProps?: Omit<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'srcSet' | 'alt' | 'onLoad' | 'onError'>;
+    onImageLoad?: WithStyle<ImgHTMLAttributes<HTMLImageElement>>['onLoad'];
+    onImageError?: WithStyle<ImgHTMLAttributes<HTMLImageElement>>['onError'];
+    imgProps?: Omit<WithStyle<ImgHTMLAttributes<HTMLImageElement>>, 'src' | 'srcSet' | 'alt' | 'onLoad' | 'onError'>;
     classNames?: AvatarClassNames;
     styles?: AvatarStyles;
 }
@@ -4406,7 +4560,11 @@ type AvatarShape = 'circle' | 'square';
 
 type AvatarSize = number | Size;
 
-type AvatarStyles = Partial<Record<'root' | 'image' | 'fallback', CSSProperties>>;
+type AvatarStyles = Partial<Record<'root' | 'image' | 'fallback', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4468,10 +4626,10 @@ Badge(props: BadgeProps & RefAttributes<HTMLSpanElement>): ReactNode
 
 type BadgeClassNames = Partial<Record<'root' | 'indicator' | 'count' | 'dot' | 'text', string>>;
 
-interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'content'> {
+interface BadgeProps extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'content'> {
     count?: number;
     dot?: boolean;
-    dotProps?: HTMLAttributes<HTMLSpanElement>;
+    dotProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
     status?: BadgeStatus;
     text?: ReactNode;
     max?: number;
@@ -4488,7 +4646,11 @@ interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'content'> {
 
 type BadgeStatus = 'default' | 'processing' | 'success' | 'warning' | 'danger' | 'info';
 
-type BadgeStyles = Partial<Record<'root' | 'indicator' | 'count' | 'dot' | 'text', CSSProperties>>;
+type BadgeStyles = Partial<Record<'root' | 'indicator' | 'count' | 'dot' | 'text', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4543,7 +4705,7 @@ Tag(props: TagProps & RefAttributes<HTMLSpanElement>): ReactNode
 
 type TagClassNames = Partial<Record<'root' | 'icon' | 'content' | 'close', string>>;
 
-interface TagProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'onChange'> {
+interface TagProps extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'onChange'> {
     variant?: TagVariant;
     tone?: TagTone;
     size?: Size;
@@ -4565,11 +4727,15 @@ interface TagProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'onChange'> {
 
 type TagShape = 'default' | 'round';
 
-type TagStyles = Partial<Record<'root' | 'icon' | 'content' | 'close', CSSProperties>>;
+type TagStyles = Partial<Record<'root' | 'icon' | 'content' | 'close', StyleProperties>>;
 
 type TagTone = 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
 
 type TagVariant = 'soft' | 'solid' | 'outline';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4619,7 +4785,7 @@ Statistic(props: StatisticProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type StatisticClassNames = Partial<Record<'root' | 'title' | 'content' | 'prefix' | 'value' | 'suffix' | 'loading', string>>;
 
-interface StatisticProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'prefix'> {
+interface StatisticProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'prefix'> {
     value: StatisticValue;
     title?: ReactNode;
     label?: ReactNode;
@@ -4634,14 +4800,18 @@ interface StatisticProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 
     countDuration?: number;
     loading?: boolean;
     size?: Size;
-    valueStyle?: CSSProperties;
+    valueStyle?: StyleProperties;
     classNames?: StatisticClassNames;
     styles?: StatisticStyles;
 }
 
-type StatisticStyles = Partial<Record<'root' | 'title' | 'content' | 'prefix' | 'value' | 'suffix' | 'loading', CSSProperties>>;
+type StatisticStyles = Partial<Record<'root' | 'title' | 'content' | 'prefix' | 'value' | 'suffix' | 'loading', StyleProperties>>;
 
 type StatisticValue = number | string;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4691,8 +4861,8 @@ interface DescriptionItem {
     children?: ReactNode;
     value?: ReactNode;
     span?: number;
-    labelStyle?: CSSProperties;
-    contentStyle?: CSSProperties;
+    labelStyle?: StyleProperties;
+    contentStyle?: StyleProperties;
     className?: string;
 }
 
@@ -4700,7 +4870,7 @@ type DescriptionsClassNames = Partial<Record<'root' | 'header' | 'title' | 'extr
 
 type DescriptionsLayout = 'horizontal' | 'vertical';
 
-interface DescriptionsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'children'> {
+interface DescriptionsProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'children'> {
     items?: DescriptionItem[];
     title?: ReactNode;
     extra?: ReactNode;
@@ -4715,7 +4885,11 @@ interface DescriptionsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
     styles?: DescriptionsStyles;
 }
 
-type DescriptionsStyles = Partial<Record<'root' | 'header' | 'title' | 'extra' | 'table' | 'item' | 'label' | 'content', CSSProperties>>;
+type DescriptionsStyles = Partial<Record<'root' | 'header' | 'title' | 'extra' | 'table' | 'item' | 'label' | 'content', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4771,12 +4945,12 @@ interface TimelineItem {
     description?: ReactNode;
     position?: 'left' | 'right';
     className?: string;
-    style?: CSSProperties;
+    style?: StyleProperties;
 }
 
 type TimelineMode = 'start' | 'alternate';
 
-interface TimelineProps extends Omit<HTMLAttributes<HTMLUListElement>, 'children'> {
+interface TimelineProps extends Omit<WithStyle<HTMLAttributes<HTMLUListElement>>, 'children'> {
     items?: TimelineItem[];
     mode?: TimelineMode;
     reverse?: boolean;
@@ -4788,7 +4962,11 @@ interface TimelineProps extends Omit<HTMLAttributes<HTMLUListElement>, 'children
     styles?: TimelineStyles;
 }
 
-type TimelineStyles = Partial<Record<'root' | 'item' | 'rail' | 'dot' | 'line' | 'content' | 'label' | 'body' | 'pending', CSSProperties>>;
+type TimelineStyles = Partial<Record<'root' | 'item' | 'rail' | 'dot' | 'line' | 'content' | 'label' | 'body' | 'pending', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4859,7 +5037,7 @@ type ListKey = string | number;
 
 type ListPaginationConfig = Pick<PaginationProps, 'page' | 'defaultPage' | 'pageSize' | 'defaultPageSize' | 'total' | 'onChange' | 'showSizeChanger' | 'showTotal' | 'simple' | 'pageSizeOptions'>;
 
-interface ListProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'onChange'> {
+interface ListProps<T> extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children' | 'onChange'> {
     items?: readonly T[];
     renderItem?: (item: T, index: number) => ReactNode;
     rowKey?: keyof T | ((item: T, index: number) => ListKey);
@@ -4882,7 +5060,11 @@ interface ListProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, 'children' |
     styles?: ListStyles;
 }
 
-type ListStyles = Partial<Record<'root' | 'header' | 'body' | 'item' | 'avatar' | 'itemMain' | 'itemTitle' | 'itemDescription' | 'itemMeta' | 'itemExtra' | 'itemAction' | 'footer' | 'empty' | 'loading' | 'spinner' | 'pagination', CSSProperties>>;
+type ListStyles = Partial<Record<'root' | 'header' | 'body' | 'item' | 'avatar' | 'itemMain' | 'itemTitle' | 'itemDescription' | 'itemMeta' | 'itemExtra' | 'itemAction' | 'footer' | 'empty' | 'loading' | 'spinner' | 'pagination', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -4950,20 +5132,20 @@ Table<T>(props: TableProps<T> & { ref?: Ref<HTMLDivElement>; }): ReactElement
 
 Table(props: CompoundTableProps & { ref?: Ref<HTMLTableElement>; }): ReactElement
 
-TableBody(props: HTMLAttributes<HTMLTableSectionElement>): JSX.Element
+TableBody(props: WithStyle<HTMLAttributes<HTMLTableSectionElement>>): JSX.Element
 
-TableCaption(props: HTMLAttributes<HTMLTableCaptionElement>): JSX.Element
+TableCaption(props: WithStyle<HTMLAttributes<HTMLTableCaptionElement>>): JSX.Element
 
-TableCell(props: TdHTMLAttributes<HTMLTableCellElement>): JSX.Element
+TableCell(props: WithStyle<TdHTMLAttributes<HTMLTableCellElement>>): JSX.Element
 
 TableHead(props: TableHeadProps & RefAttributes<HTMLTableCellElement>): ReactNode
 
-TableHeader(props: HTMLAttributes<HTMLTableSectionElement>): JSX.Element
+TableHeader(props: WithStyle<HTMLAttributes<HTMLTableSectionElement>>): JSX.Element
 
-TableRow(props: HTMLAttributes<HTMLTableRowElement>): JSX.Element
+TableRow(props: WithStyle<HTMLAttributes<HTMLTableRowElement>>): JSX.Element
 
-interface CompoundTableProps extends TableHTMLAttributes<HTMLTableElement> {
-    containerProps?: HTMLAttributes<HTMLDivElement>;
+interface CompoundTableProps extends WithStyle<TableHTMLAttributes<HTMLTableElement>> {
+    containerProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
     size?: 'sm' | 'md' | 'lg';
     striped?: boolean;
     hoverable?: boolean;
@@ -5032,12 +5214,12 @@ interface TableFilterState {
 
 type TableFilterValue = string | number | boolean;
 
-interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
+interface TableHeadProps extends WithStyle<ThHTMLAttributes<HTMLTableCellElement>> {
     sortable?: boolean;
     sortDirection?: TableSortDirection;
     onSortChange?: (next: TableSortDirection, event: MouseEvent<HTMLButtonElement>) => void;
     sortLabel?: string;
-    sortButtonProps?: Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'>;
+    sortButtonProps?: Omit<WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>, 'type'>;
     sortIcon?: ReactNode;
 }
 
@@ -5047,7 +5229,7 @@ interface TablePaginationConfig extends Pick<PaginationProps, 'page' | 'defaultP
     serverSide?: boolean;
 }
 
-interface TableProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'onChange'> {
+interface TableProps<T> extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children' | 'onChange'> {
     columns: readonly TableColumn<T>[];
     data?: readonly T[];
     rowKey?: keyof T | ((row: T, index: number) => TableKey);
@@ -5068,7 +5250,7 @@ interface TableProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, 'children' 
     footerRender?: (data: readonly T[]) => ReactNode;
     renderCell?: (context: TableCellContext<T>) => ReactNode;
     rowClassName?: string | ((row: T, index: number) => string);
-    onRow?: (row: T, index: number) => HTMLAttributes<HTMLTableRowElement>;
+    onRow?: (row: T, index: number) => WithStyle<HTMLAttributes<HTMLTableRowElement>>;
     rowSelection?: TableRowSelection<T>;
     expandable?: TableExpandable<T>;
     sortState?: TableSortState | null;
@@ -5113,7 +5295,11 @@ interface TableSortState {
     order: TableSortOrder;
 }
 
-type TableStyles = Partial<Record<'root' | 'content' | 'container' | 'table' | 'header' | 'headerRow' | 'headerCell' | 'headerInner' | 'sortTrigger' | 'sortIcon' | 'filterTrigger' | 'filterIcon' | 'filterPanel' | 'filterOption' | 'filterCheck' | 'filterFooter' | 'filterReset' | 'body' | 'row' | 'rowExpanded' | 'cell' | 'cellEllipsis' | 'selectionCell' | 'selectionHeaderCell' | 'selectionCheckbox' | 'selectionRadio' | 'expandCell' | 'expandHeaderCell' | 'expandButton' | 'expandIcon' | 'expandedRow' | 'expandedCell' | 'expandedContent' | 'footer' | 'pagination' | 'empty' | 'loading' | 'spinner', CSSProperties>>;
+type TableStyles = Partial<Record<'root' | 'content' | 'container' | 'table' | 'header' | 'headerRow' | 'headerCell' | 'headerInner' | 'sortTrigger' | 'sortIcon' | 'filterTrigger' | 'filterIcon' | 'filterPanel' | 'filterOption' | 'filterCheck' | 'filterFooter' | 'filterReset' | 'body' | 'row' | 'rowExpanded' | 'cell' | 'cellEllipsis' | 'selectionCell' | 'selectionHeaderCell' | 'selectionCheckbox' | 'selectionRadio' | 'expandCell' | 'expandHeaderCell' | 'expandButton' | 'expandIcon' | 'expandedRow' | 'expandedCell' | 'expandedContent' | 'footer' | 'pagination' | 'empty' | 'loading' | 'spinner', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -5261,7 +5447,7 @@ interface TreeOptionsProps extends Omit<TreeProps<TreeOption>, 'treeData' | 'fie
     onValueChange?: (value: string) => void;
 }
 
-interface TreeProps<T extends object = TreeNodeData> extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children' | 'onSelect'> {
+interface TreeProps<T extends object = TreeNodeData> extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'children' | 'onSelect'> {
     treeData: readonly T[];
     fieldNames?: TreeFieldNames<T>;
     size?: Size;
@@ -5295,7 +5481,7 @@ interface TreeSelectInfo<T> {
     selectedNodes: T[];
 }
 
-type TreeStyles = Partial<Record<'root' | 'viewport' | 'list' | 'virtualContent' | 'item' | 'switcher' | 'switcherIcon' | 'checkbox' | 'title' | 'titleText' | 'empty' | 'loading' | 'spinner', CSSProperties>>;
+type TreeStyles = Partial<Record<'root' | 'viewport' | 'list' | 'virtualContent' | 'item' | 'switcher' | 'switcherIcon' | 'checkbox' | 'title' | 'titleText' | 'empty' | 'loading' | 'spinner', StyleProperties>>;
 
 interface TreeTitleInfo {
     key: TreeKey;
@@ -5311,6 +5497,10 @@ interface TreeVirtualConfig {
     itemSize?: number;
     overscan?: number;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -5361,14 +5551,14 @@ Accordion(props: AccordionProps & RefAttributes<HTMLDivElement>): ReactNode
 
 AccordionContent(props: AccordionContentProps & RefAttributes<HTMLDivElement>): ReactNode
 
-AccordionItem(props: Omit<Primitive.AccordionItemProps & RefAttributes<HTMLDivElement>, "ref"> & RefAttributes<HTMLDivElement>): ReactNode
+AccordionItem(props: Omit<Primitive.AccordionItemProps & RefAttributes<HTMLDivElement>, "ref"> & { style?: StyleProperties | undefined; } & RefAttributes<HTMLDivElement>): ReactNode
 
 AccordionTrigger(props: AccordionTriggerProps & RefAttributes<HTMLButtonElement>): ReactNode
 
 type AccordionClassNames = Partial<Record<'root' | 'item' | 'header' | 'title' | 'extra' | 'expandIcon' | 'panel' | 'panelInner' | 'content', string>>;
 
-interface AccordionContentProps extends ComponentPropsWithoutRef<typeof Primitive.Content> {
-    bodyProps?: HTMLAttributes<HTMLDivElement>;
+interface AccordionContentProps extends WithStyle<ComponentPropsWithoutRef<typeof Primitive.Content>> {
+    bodyProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
     animation?: AnimationOptions | false;
 }
 
@@ -5380,7 +5570,7 @@ interface AccordionPanel {
     disabled?: boolean;
     showArrow?: boolean;
     className?: string;
-    style?: CSSProperties;
+    style?: StyleProperties;
 }
 
 type AccordionProps = RootProps & ((PanelOptions & {
@@ -5392,13 +5582,17 @@ type AccordionProps = RootProps & ((PanelOptions & {
     animation?: AnimationOptions | false;
 });
 
-type AccordionStyles = Partial<Record<'root' | 'item' | 'header' | 'title' | 'extra' | 'expandIcon' | 'panel' | 'panelInner' | 'content', CSSProperties>>;
+type AccordionStyles = Partial<Record<'root' | 'item' | 'header' | 'title' | 'extra' | 'expandIcon' | 'panel' | 'panelInner' | 'content', StyleProperties>>;
 
-interface AccordionTriggerProps extends ComponentPropsWithoutRef<typeof Primitive.Trigger> {
-    headerProps?: ComponentPropsWithoutRef<typeof Primitive.Header>;
+interface AccordionTriggerProps extends WithStyle<ComponentPropsWithoutRef<typeof Primitive.Trigger>> {
+    headerProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Header>>;
     indicator?: ReactNode;
-    indicatorProps?: HTMLAttributes<HTMLSpanElement>;
+    indicatorProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 type RootProps = MultipleProps | Extract<PrimitiveProps, {
     type: 'single';
@@ -5410,7 +5604,7 @@ type MultipleProps = Omit<Extract<PrimitiveProps, {
     type?: 'multiple';
 };
 
-type PrimitiveProps = ComponentPropsWithoutRef<typeof Primitive.Root>;
+type PrimitiveProps = WithStyle<ComponentPropsWithoutRef<typeof Primitive.Root>>;
 
 interface PanelOptions {
     items: readonly AccordionPanel[];
@@ -5467,9 +5661,9 @@ Tabs(props: TabsProps & RefAttributes<HTMLDivElement>): ReactNode
 
 TabsContent(props: TabsContentProps & RefAttributes<HTMLDivElement>): ReactNode
 
-TabsList(props: Omit<Primitive.TabsListProps & RefAttributes<HTMLDivElement>, "ref"> & RefAttributes<HTMLDivElement>): ReactNode
+TabsList(props: Omit<Primitive.TabsListProps & RefAttributes<HTMLDivElement>, "ref"> & { style?: StyleProperties | undefined; } & RefAttributes<HTMLDivElement>): ReactNode
 
-TabsTrigger(props: Omit<Primitive.TabsTriggerProps & RefAttributes<HTMLButtonElement>, "ref"> & RefAttributes<HTMLButtonElement>): ReactNode
+TabsTrigger(props: Omit<Primitive.TabsTriggerProps & RefAttributes<HTMLButtonElement>, "ref"> & { style?: StyleProperties | undefined; } & RefAttributes<HTMLButtonElement>): ReactNode
 
 interface TabItem {
     key: string;
@@ -5478,18 +5672,18 @@ interface TabItem {
     icon?: ReactNode;
     disabled?: boolean;
     className?: string;
-    style?: CSSProperties;
+    style?: StyleProperties;
 }
 
 type TabsClassNames = Partial<Record<'root' | 'nav' | 'tablist' | 'tab' | 'label' | 'icon' | 'extra' | 'content' | 'panel', string>>;
 
-interface TabsContentProps extends ComponentPropsWithoutRef<typeof Primitive.Content> {
+interface TabsContentProps extends WithStyle<ComponentPropsWithoutRef<typeof Primitive.Content>> {
     animation?: AnimationOptions | false;
 }
 
 type TabsPosition = 'top' | 'bottom' | 'left' | 'right';
 
-interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface TabsProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue'> {
     items?: readonly TabItem[];
     value?: string;
     defaultValue?: string;
@@ -5507,9 +5701,13 @@ interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'd
     styles?: TabsStyles;
 }
 
-type TabsStyles = Partial<Record<'root' | 'nav' | 'tablist' | 'tab' | 'label' | 'icon' | 'extra' | 'content' | 'panel', CSSProperties>>;
+type TabsStyles = Partial<Record<'root' | 'nav' | 'tablist' | 'tab' | 'label' | 'icon' | 'extra' | 'content' | 'panel', StyleProperties>>;
 
 type TabsVariant = 'line' | 'card' | 'segmented';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -5572,7 +5770,7 @@ type CarouselClassNames = Partial<Record<'root' | 'viewport' | 'track' | 'slide'
 
 type CarouselEffect = 'slide' | 'fade';
 
-interface CarouselProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
+interface CarouselProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'children'> {
     items?: ReactNode[];
     children?: ReactNode;
     activeIndex?: number;
@@ -5593,7 +5791,11 @@ interface CarouselProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' 
     styles?: CarouselStyles;
 }
 
-type CarouselStyles = Partial<Record<'root' | 'viewport' | 'track' | 'slide' | 'arrow' | 'dots' | 'dot', CSSProperties>>;
+type CarouselStyles = Partial<Record<'root' | 'viewport' | 'track' | 'slide' | 'arrow' | 'dots' | 'dot', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -5648,7 +5850,7 @@ interface CalendarHeaderInfo {
 
 type CalendarHeaderRender = (info: CalendarHeaderInfo) => ReactNode;
 
-interface CalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'onSelect' | 'defaultValue' | 'value'> {
+interface CalendarProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'onSelect' | 'defaultValue' | 'value'> {
     value?: Date | null;
     defaultValue?: Date | null;
     onSelect?: (date: Date) => void;
@@ -5667,7 +5869,11 @@ interface CalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' 
     styles?: CalendarStyles;
 }
 
-type CalendarStyles = Partial<Record<'root' | 'header' | 'title' | 'nav' | 'prev' | 'next' | 'weekdays' | 'weekday' | 'grid' | 'row' | 'cell' | 'button', CSSProperties>>;
+type CalendarStyles = Partial<Record<'root' | 'header' | 'title' | 'nav' | 'prev' | 'next' | 'weekdays' | 'weekday' | 'grid' | 'row' | 'cell' | 'button', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -5723,7 +5929,7 @@ interface ImagePreviewConfig {
     closeIcon?: ReactNode;
 }
 
-interface ImageProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'onLoad' | 'onError'> {
+interface ImageProps extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'onLoad' | 'onError'> {
     src: MediaSource;
     alt?: string;
     width?: number | string;
@@ -5734,7 +5940,7 @@ interface ImageProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'onLoad' | 'o
     preview?: boolean | ImagePreviewConfig;
     mask?: ReactNode | false;
     size?: Size;
-    imgProps?: Omit<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt' | 'width' | 'height'>;
+    imgProps?: Omit<WithStyle<ImgHTMLAttributes<HTMLImageElement>>, 'src' | 'alt' | 'width' | 'height'>;
     onLoad?: (event: SyntheticEvent<HTMLImageElement>) => void;
     onError?: (event: SyntheticEvent<HTMLImageElement>) => void;
     classNames?: ImageClassNames;
@@ -5743,7 +5949,11 @@ interface ImageProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'onLoad' | 'o
 
 type ImageStatus = 'loading' | 'loaded' | 'error';
 
-type ImageStyles = Partial<Record<'root' | 'img' | 'mask' | 'fallback' | 'placeholder' | 'preview' | 'previewClose' | 'previewImage', CSSProperties>>;
+type ImageStyles = Partial<Record<'root' | 'img' | 'mask' | 'fallback' | 'placeholder' | 'preview' | 'previewClose' | 'previewImage', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -5788,7 +5998,7 @@ type QRCodeClassNames = Partial<Record<'root' | 'canvas' | 'logo' | 'status' | '
 
 type QRCodeErrorLevel = 'L' | 'M' | 'Q' | 'H';
 
-interface QRCodeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color' | 'children'> {
+interface QRCodeProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'color' | 'children'> {
     value: string;
     size?: number;
     level?: QRCodeErrorLevel;
@@ -5808,7 +6018,11 @@ interface QRCodeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color' | 'ch
 
 type QRCodeStatus = 'active' | 'loading' | 'expired';
 
-type QRCodeStyles = Partial<Record<'root' | 'canvas' | 'logo' | 'status' | 'refresh', CSSProperties>>;
+type QRCodeStyles = Partial<Record<'root' | 'canvas' | 'logo' | 'status' | 'refresh', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -5864,7 +6078,7 @@ interface SkeletonParagraphProps {
     width?: number | string | Array<number | string>;
 }
 
-interface SkeletonProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+interface SkeletonProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title'> {
     loading?: boolean;
     width?: CSSProperties['width'];
     height?: CSSProperties['height'];
@@ -5879,11 +6093,15 @@ interface SkeletonProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
     styles?: SkeletonStyles;
 }
 
-type SkeletonStyles = Partial<Record<'root' | 'avatar' | 'content' | 'title' | 'paragraph' | 'row', CSSProperties>>;
+type SkeletonStyles = Partial<Record<'root' | 'avatar' | 'content' | 'title' | 'paragraph' | 'row', StyleProperties>>;
 
 interface SkeletonTitleProps {
     width?: number | string;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -5926,18 +6144,22 @@ Empty(props: EmptyProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type EmptyClassNames = Partial<Record<'root' | 'image' | 'description' | 'footer', string>>;
 
-interface EmptyProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+interface EmptyProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
     image?: ReactNode;
     icon?: ReactNode;
     description?: ReactNode;
     size?: Size;
-    imageStyle?: CSSProperties;
+    imageStyle?: StyleProperties;
     children?: ReactNode;
     classNames?: EmptyClassNames;
     styles?: EmptyStyles;
 }
 
-type EmptyStyles = Partial<Record<'root' | 'image' | 'description' | 'footer', CSSProperties>>;
+type EmptyStyles = Partial<Record<'root' | 'image' | 'description' | 'footer', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6035,7 +6257,7 @@ export default function BasicMarkdown() {
 ```ts
 Markdown(props: MarkdownProps & RefAttributes<HTMLDivElement>): ReactNode
 
-interface MarkdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+interface MarkdownProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
     children: string;
     components?: Components;
     renderCodeBlock?: (props: CodeBlockProps) => ReactNode;
@@ -6044,9 +6266,13 @@ interface MarkdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'>
     codeLineNumbers?: boolean;
     allowImages?: boolean;
     codeBlockProps?: Omit<CodeBlockProps, 'code' | 'language'>;
-    tableScrollProps?: HTMLAttributes<HTMLDivElement>;
+    tableScrollProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
     truncationMessage?: ReactNode;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6088,7 +6314,7 @@ export default function BasicCodeBlock() {
 ```ts
 CodeBlock(props: CodeBlockProps & RefAttributes<HTMLDivElement>): ReactNode
 
-interface CodeBlockProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'onCopy'> {
+interface CodeBlockProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children' | 'onCopy'> {
     code: string;
     language?: string;
     filename?: string;
@@ -6103,11 +6329,15 @@ interface CodeBlockProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'
     onCopyError?: (error: Error) => void;
     showToolbar?: boolean;
     toolbar?: ReactNode;
-    toolbarProps?: HTMLAttributes<HTMLDivElement>;
-    viewportProps?: HTMLAttributes<HTMLPreElement>;
-    copyButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+    toolbarProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    viewportProps?: WithStyle<HTMLAttributes<HTMLPreElement>>;
+    copyButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
     truncationMessage?: ReactNode;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6188,7 +6418,7 @@ interface DocumentLoadInfo {
 
 type DocumentSource = string | Blob;
 
-interface DocumentViewerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'onLoad' | 'onError'> {
+interface DocumentViewerProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children' | 'onLoad' | 'onError'> {
     src?: DocumentSource;
     content?: string;
     format?: DocumentFormat | 'auto';
@@ -6201,8 +6431,8 @@ interface DocumentViewerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
     markdownOptions?: Omit<MarkdownProps, 'children'>;
     codeBlockProps?: Omit<CodeBlockProps, 'code' | 'language'>;
     header?: ReactNode;
-    headerProps?: HTMLAttributes<HTMLDivElement>;
-    bodyProps?: HTMLAttributes<HTMLDivElement>;
+    headerProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    bodyProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
     renderLoading?: () => ReactNode;
     renderEmpty?: () => ReactNode;
     active?: boolean;
@@ -6224,14 +6454,18 @@ interface PdfOptions {
     onZoomChange?: (zoom: number) => void;
     showToolbar?: boolean;
     toolbar?: ReactNode;
-    toolbarProps?: HTMLAttributes<HTMLDivElement>;
-    viewportProps?: HTMLAttributes<HTMLDivElement>;
-    previousButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-    nextButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-    zoomOutButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-    zoomInButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-    resetZoomButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+    toolbarProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    viewportProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    previousButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+    nextButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+    zoomOutButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+    zoomInButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+    resetZoomButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6268,10 +6502,14 @@ export default function ImageViewerExample() {
 ```ts
 ImageViewer(props: ImageViewerProps & RefAttributes<HTMLImageElement>): ReactNode
 
-interface ImageViewerProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'> {
+interface ImageViewerProps extends Omit<WithStyle<ImgHTMLAttributes<HTMLImageElement>>, 'src'> {
     src?: MediaSource;
     alt: string;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6311,7 +6549,7 @@ formatMediaTime(seconds: number | null): string
 
 parseMediaMetadata(source: MediaSource, { kind, signal, timeout, }: { kind: "video" | "audio"; signal?: AbortSignal; timeout?: number; }): Promise<MediaMetadata>
 
-interface AudioPlayerProps extends Omit<AudioHTMLAttributes<HTMLAudioElement>, 'src'>, PlayerControlOptions {
+interface AudioPlayerProps extends Omit<WithStyle<AudioHTMLAttributes<HTMLAudioElement>>, 'src'>, PlayerControlOptions {
     src?: MediaSource;
     description?: string;
     cover?: string;
@@ -6320,14 +6558,14 @@ interface AudioPlayerProps extends Omit<AudioHTMLAttributes<HTMLAudioElement>, '
     onMediaError?: (error: MediaFailure) => void;
     active?: boolean;
     animation?: AnimationOptions | false;
-    captionProps?: HTMLAttributes<HTMLElement>;
+    captionProps?: WithStyle<HTMLAttributes<HTMLElement>>;
     renderEmpty?: () => ReactNode;
     renderLoading?: () => ReactNode;
     renderError?: (error: MediaFailure, actions: {
         retry: () => void;
     }) => ReactNode;
-    mediaProps?: AudioHTMLAttributes<HTMLAudioElement>;
-    coverProps?: HTMLAttributes<HTMLSpanElement>;
+    mediaProps?: WithStyle<AudioHTMLAttributes<HTMLAudioElement>>;
+    coverProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
 }
 
 interface MediaFailure {
@@ -6359,10 +6597,10 @@ interface PlayerControlOptions {
         fullscreen?: boolean;
         skipSeconds?: number;
     };
-    controlsProps?: HTMLAttributes<HTMLDivElement>;
-    playButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-    timelineProps?: InputHTMLAttributes<HTMLInputElement>;
-    volumeProps?: InputHTMLAttributes<HTMLInputElement>;
+    controlsProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    playButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+    timelineProps?: WithStyle<InputHTMLAttributes<HTMLInputElement>>;
+    volumeProps?: WithStyle<InputHTMLAttributes<HTMLInputElement>>;
     renderControls?: (state: PlayerControlsState) => ReactNode;
 }
 
@@ -6381,6 +6619,10 @@ type PlayerControlsState = { waiting: boolean;
     muted: boolean;
     rate: number;
     ended: boolean; } & { enabled: boolean; };
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6456,10 +6698,10 @@ interface PlayerControlOptions {
         fullscreen?: boolean;
         skipSeconds?: number;
     };
-    controlsProps?: HTMLAttributes<HTMLDivElement>;
-    playButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-    timelineProps?: InputHTMLAttributes<HTMLInputElement>;
-    volumeProps?: InputHTMLAttributes<HTMLInputElement>;
+    controlsProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    playButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+    timelineProps?: WithStyle<InputHTMLAttributes<HTMLInputElement>>;
+    volumeProps?: WithStyle<InputHTMLAttributes<HTMLInputElement>>;
     renderControls?: (state: PlayerControlsState) => ReactNode;
 }
 
@@ -6479,7 +6721,7 @@ type PlayerControlsState = { waiting: boolean;
     rate: number;
     ended: boolean; } & { enabled: boolean; };
 
-interface VideoPlayerProps extends Omit<VideoHTMLAttributes<HTMLVideoElement>, 'src'>, PlayerControlOptions {
+interface VideoPlayerProps extends Omit<WithStyle<VideoHTMLAttributes<HTMLVideoElement>>, 'src'>, PlayerControlOptions {
     src?: MediaSource;
     tracks?: readonly VideoTrack[];
     showMetadata?: boolean;
@@ -6487,15 +6729,15 @@ interface VideoPlayerProps extends Omit<VideoHTMLAttributes<HTMLVideoElement>, '
     onMediaError?: (error: MediaFailure) => void;
     active?: boolean;
     animation?: AnimationOptions | false;
-    captionProps?: ComponentPropsWithRef<'figcaption'>;
+    captionProps?: WithStyle<ComponentPropsWithRef<'figcaption'>>;
     renderEmpty?: () => ReactNode;
     renderLoading?: () => ReactNode;
     renderError?: (error: MediaFailure, actions: {
         retry: () => void;
     }) => ReactNode;
-    mediaProps?: VideoHTMLAttributes<HTMLVideoElement>;
-    stageProps?: HTMLAttributes<HTMLDivElement>;
-    startButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+    mediaProps?: WithStyle<VideoHTMLAttributes<HTMLVideoElement>>;
+    stageProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    startButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
 }
 
 interface VideoTrack {
@@ -6505,6 +6747,10 @@ interface VideoTrack {
     kind?: 'subtitles' | 'captions' | 'descriptions' | 'chapters' | 'metadata';
     default?: boolean;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6596,7 +6842,7 @@ type MenuItemType = 'item' | 'divider' | 'group';
 
 type MenuMode = 'horizontal' | 'vertical' | 'inline';
 
-interface MenuProps extends Omit<HTMLAttributes<HTMLUListElement>, 'children' | 'onSelect'> {
+interface MenuProps extends Omit<WithStyle<HTMLAttributes<HTMLUListElement>>, 'children' | 'onSelect'> {
     items: MenuItemConfig[];
     mode?: MenuMode;
     selectedKeys?: string[];
@@ -6613,7 +6859,11 @@ interface MenuProps extends Omit<HTMLAttributes<HTMLUListElement>, 'children' | 
     styles?: MenuStyles;
 }
 
-type MenuStyles = Partial<Record<'root' | 'item' | 'itemIcon' | 'itemLabel' | 'itemExtra' | 'submenu' | 'submenuTrigger' | 'submenuArrow' | 'submenuList' | 'popup' | 'group' | 'groupTitle' | 'divider', CSSProperties>>;
+type MenuStyles = Partial<Record<'root' | 'item' | 'itemIcon' | 'itemLabel' | 'itemExtra' | 'submenu' | 'submenuTrigger' | 'submenuArrow' | 'submenuList' | 'popup' | 'group' | 'groupTitle' | 'divider', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6669,7 +6919,7 @@ interface BreadcrumbItem {
     disabled?: boolean;
 }
 
-interface BreadcrumbProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
+interface BreadcrumbProps extends Omit<WithStyle<HTMLAttributes<HTMLElement>>, 'children'> {
     items: BreadcrumbItem[];
     current?: string;
     separator?: ReactNode;
@@ -6678,7 +6928,11 @@ interface BreadcrumbProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> 
     styles?: BreadcrumbStyles;
 }
 
-type BreadcrumbStyles = Partial<Record<'root' | 'list' | 'item' | 'link' | 'icon' | 'separator' | 'current', CSSProperties>>;
+type BreadcrumbStyles = Partial<Record<'root' | 'list' | 'item' | 'link' | 'icon' | 'separator' | 'current', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6770,7 +7024,7 @@ interface AnchorItem {
     children?: AnchorItem[];
 }
 
-interface AnchorProps extends Omit<HTMLAttributes<HTMLElement>, 'onChange'> {
+interface AnchorProps extends Omit<WithStyle<HTMLAttributes<HTMLElement>>, 'onChange'> {
     items: AnchorItem[];
     activeKey?: string;
     current?: string;
@@ -6783,7 +7037,11 @@ interface AnchorProps extends Omit<HTMLAttributes<HTMLElement>, 'onChange'> {
     styles?: AnchorStyles;
 }
 
-type AnchorStyles = Partial<Record<'root' | 'list' | 'item' | 'link' | 'activeLink' | 'subList', CSSProperties>>;
+type AnchorStyles = Partial<Record<'root' | 'list' | 'item' | 'link' | 'activeLink' | 'subList', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6855,7 +7113,7 @@ Affix(props: AffixProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type AffixClassNames = Partial<Record<'root' | 'affix', string>>;
 
-interface AffixProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+interface AffixProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange'> {
     offsetTop?: number;
     offsetBottom?: number;
     target?: () => HTMLElement | Window | null;
@@ -6865,7 +7123,11 @@ interface AffixProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
     styles?: AffixStyles;
 }
 
-type AffixStyles = Partial<Record<'root' | 'affix', CSSProperties>>;
+type AffixStyles = Partial<Record<'root' | 'affix', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6926,7 +7188,7 @@ BackTop(props: BackTopProps & RefAttributes<HTMLButtonElement>): ReactNode
 
 type BackTopClassNames = Partial<Record<'root' | 'arrow' | 'content', string>>;
 
-interface BackTopProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface BackTopProps extends WithStyle<ButtonHTMLAttributes<HTMLButtonElement>> {
     visibilityHeight?: number;
     threshold?: number;
     target?: HTMLElement | null | (() => HTMLElement | Window | null);
@@ -6936,7 +7198,11 @@ interface BackTopProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     styles?: BackTopStyles;
 }
 
-type BackTopStyles = Partial<Record<'root' | 'arrow' | 'content', CSSProperties>>;
+type BackTopStyles = Partial<Record<'root' | 'arrow' | 'content', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -6996,9 +7262,9 @@ Dropdown(props: (ItemsDropdownProps & RefAttributes<HTMLSpanElement>) | (Compose
 
 DropdownItem(props: DropdownItemProps & RefAttributes<HTMLDivElement>): ReactNode
 
-DropdownLabel(props: Omit<Primitive.DropdownMenuLabelProps & RefAttributes<HTMLDivElement>, "ref"> & RefAttributes<HTMLDivElement>): ReactNode
+DropdownLabel(props: Omit<Primitive.DropdownMenuLabelProps & RefAttributes<HTMLDivElement>, "ref"> & { style?: StyleProperties | undefined; } & RefAttributes<HTMLDivElement>): ReactNode
 
-DropdownSeparator(props: Omit<Primitive.DropdownMenuSeparatorProps & RefAttributes<HTMLDivElement>, "ref"> & RefAttributes<HTMLDivElement>): ReactNode
+DropdownSeparator(props: Omit<Primitive.DropdownMenuSeparatorProps & RefAttributes<HTMLDivElement>, "ref"> & { style?: StyleProperties | undefined; } & RefAttributes<HTMLDivElement>): ReactNode
 
 interface ComposedDropdownProps extends ComponentPropsWithoutRef<typeof Primitive.Root> {
     trigger: ReactElement;
@@ -7006,7 +7272,7 @@ interface ComposedDropdownProps extends ComponentPropsWithoutRef<typeof Primitiv
     className?: string;
     portalContainer?: HTMLElement | null;
     portalProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Portal>, 'children'>;
-    contentProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Content>, 'children' | 'asChild'>;
+    contentProps?: Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Content>>, 'children' | 'asChild'>;
     animation?: AnimationOptions | false;
 }
 
@@ -7025,12 +7291,12 @@ interface DropdownItemConfig {
     onClick?: (event: ReactMouseEvent<HTMLElement>) => void;
 }
 
-interface DropdownItemProps extends ComponentPropsWithoutRef<typeof Primitive.Item> {
+interface DropdownItemProps extends WithStyle<ComponentPropsWithoutRef<typeof Primitive.Item>> {
     destructive?: boolean;
     icon?: ReactNode;
     shortcut?: string;
-    textProps?: HTMLAttributes<HTMLSpanElement>;
-    shortcutProps?: HTMLAttributes<HTMLSpanElement>;
+    textProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+    shortcutProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
 }
 
 type DropdownItemType = 'item' | 'divider' | 'group';
@@ -7039,11 +7305,11 @@ type DropdownProps = ItemsDropdownProps | (ComposedDropdownProps & {
     items?: never;
 });
 
-type DropdownStyles = Partial<Record<'trigger' | 'popup' | 'list' | 'item' | 'itemIcon' | 'itemLabel' | 'itemExtra' | 'divider' | 'group' | 'groupTitle', CSSProperties>>;
+type DropdownStyles = Partial<Record<'trigger' | 'popup' | 'list' | 'item' | 'itemIcon' | 'itemLabel' | 'itemExtra' | 'divider' | 'group' | 'groupTitle', StyleProperties>>;
 
 type DropdownTriggerMode = 'click' | 'hover';
 
-interface ItemsDropdownProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'children' | 'onSelect'> {
+interface ItemsDropdownProps extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'children' | 'onSelect'> {
     trigger: ReactElement;
     children?: never;
     items: readonly DropdownItemConfig[];
@@ -7060,6 +7326,10 @@ interface ItemsDropdownProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'chil
     classNames?: DropdownClassNames;
     styles?: DropdownStyles;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -7110,11 +7380,11 @@ interface PaginationButtonInfo {
 
 type PaginationClassNames = Partial<Record<'root' | 'list' | 'item' | 'activeItem' | 'prev' | 'next' | 'ellipsis' | 'total' | 'sizeChanger' | 'quickJumper' | 'jumpInput' | 'simple', string>>;
 
-interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onChange' | 'defaultValue'>, PageStateProps {
+interface PaginationProps extends Omit<WithStyle<HTMLAttributes<HTMLElement>>, 'onChange' | 'defaultValue'>, PageStateProps {
     previousContent?: ReactNode;
     nextContent?: ReactNode;
     ellipsis?: ReactNode;
-    buttonProps?: (item: PaginationButtonInfo) => ButtonHTMLAttributes<HTMLButtonElement>;
+    buttonProps?: (item: PaginationButtonInfo) => WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
     boundaryCount?: number;
     animation?: AnimationOptions | false;
     pageSizeOptions?: number[];
@@ -7132,7 +7402,11 @@ interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onChange' |
     styles?: PaginationStyles;
 }
 
-type PaginationStyles = Partial<Record<'root' | 'list' | 'item' | 'activeItem' | 'prev' | 'next' | 'ellipsis' | 'total' | 'sizeChanger' | 'quickJumper' | 'jumpInput' | 'simple', CSSProperties>>;
+type PaginationStyles = Partial<Record<'root' | 'list' | 'item' | 'activeItem' | 'prev' | 'next' | 'ellipsis' | 'total' | 'sizeChanger' | 'quickJumper' | 'jumpInput' | 'simple', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 
 interface PageStateProps {
     total?: number;
@@ -7216,7 +7490,7 @@ type StepsClassNames = Partial<Record<'root' | 'item' | 'icon' | 'tail' | 'conte
 
 type StepsDirection = 'horizontal' | 'vertical';
 
-interface StepsProps extends Omit<HTMLAttributes<HTMLOListElement>, 'onChange'> {
+interface StepsProps extends Omit<WithStyle<HTMLAttributes<HTMLOListElement>>, 'onChange'> {
     items: StepItem[];
     current?: number;
     defaultCurrent?: number;
@@ -7230,7 +7504,11 @@ interface StepsProps extends Omit<HTMLAttributes<HTMLOListElement>, 'onChange'> 
     styles?: StepsStyles;
 }
 
-type StepsStyles = Partial<Record<'root' | 'item' | 'icon' | 'tail' | 'content' | 'title' | 'description' | 'dot', CSSProperties>>;
+type StepsStyles = Partial<Record<'root' | 'item' | 'icon' | 'tail' | 'content' | 'title' | 'description' | 'dot', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -7295,17 +7573,17 @@ Alert(props: AlertProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type AlertClassNames = Partial<Record<'root' | 'icon' | 'content' | 'title' | 'description' | 'action' | 'close', string>>;
 
-interface AlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'children'> {
+interface AlertProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'children'> {
     title?: ReactNode;
     description?: ReactNode;
     children?: ReactNode;
     tone?: AlertTone;
     variant?: AlertVariant | AlertTone;
     closeLabel?: string;
-    bodyProps?: HTMLAttributes<HTMLDivElement>;
-    titleProps?: HTMLAttributes<HTMLDivElement>;
-    descriptionProps?: HTMLAttributes<HTMLDivElement>;
-    closeProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+    bodyProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    titleProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    descriptionProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    closeProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
     showIcon?: boolean;
     icon?: ReactNode;
     closable?: boolean;
@@ -7318,11 +7596,15 @@ interface AlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'chi
     onClose?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-type AlertStyles = Partial<Record<'root' | 'icon' | 'content' | 'title' | 'description' | 'action' | 'close', CSSProperties>>;
+type AlertStyles = Partial<Record<'root' | 'icon' | 'content' | 'title' | 'description' | 'action' | 'close', StyleProperties>>;
 
 type AlertTone = 'info' | 'success' | 'warning' | 'danger';
 
 type AlertVariant = 'subtle' | 'outline' | 'solid';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -7383,7 +7665,7 @@ Tooltip(props: TooltipProps & RefAttributes<HTMLSpanElement>): ReactNode
 
 type TooltipClassNames = Partial<Record<'root' | 'popup' | 'arrow', string>>;
 
-interface TooltipProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'content' | 'title'> {
+interface TooltipProps extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'content' | 'title'> {
     content: ReactNode;
     placement?: Placement;
     side?: 'top' | 'bottom' | 'left' | 'right';
@@ -7400,11 +7682,11 @@ interface TooltipProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'content' |
         container?: HTMLElement | null;
         forceMount?: boolean;
     };
-    arrowProps?: HTMLAttributes<HTMLSpanElement> & {
+    arrowProps?: WithStyle<HTMLAttributes<HTMLSpanElement>> & {
         width?: number | string;
         height?: number | string;
     };
-    contentProps?: HTMLAttributes<HTMLDivElement> & {
+    contentProps?: WithStyle<HTMLAttributes<HTMLDivElement>> & {
         forceMount?: boolean;
         side?: 'top' | 'bottom' | 'left' | 'right';
         align?: 'start' | 'center' | 'end';
@@ -7426,7 +7708,11 @@ interface TooltipProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'content' |
     children: ReactNode;
 }
 
-type TooltipStyles = Partial<Record<'root' | 'popup' | 'arrow', CSSProperties>>;
+type TooltipStyles = Partial<Record<'root' | 'popup' | 'arrow', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -7499,7 +7785,7 @@ Popover(props: PopoverProps & RefAttributes<HTMLSpanElement>): ReactNode
 
 type PopoverClassNames = Partial<Record<'root' | 'popup' | 'arrow' | 'title' | 'content', string>>;
 
-interface PopoverProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'content' | 'title' | 'onChange'> {
+interface PopoverProps extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'content' | 'title' | 'onChange'> {
     content?: ReactNode;
     title?: ReactNode;
     trigger?: PopoverTrigger | ReactElement;
@@ -7519,9 +7805,13 @@ interface PopoverProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'content' |
     children?: ReactNode;
 }
 
-type PopoverStyles = Partial<Record<'root' | 'popup' | 'arrow' | 'title' | 'content', CSSProperties>>;
+type PopoverStyles = Partial<Record<'root' | 'popup' | 'arrow' | 'title' | 'content', StyleProperties>>;
 
 type PopoverTrigger = 'click' | 'hover' | 'focus';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -7604,7 +7894,7 @@ interface PopconfirmProps extends Omit<PopoverProps, 'content' | 'title'> {
     styles?: PopconfirmStyles;
 }
 
-type PopconfirmStyles = Partial<Record<'root' | 'popup' | 'arrow' | 'body' | 'icon' | 'title' | 'description' | 'actions' | 'ok' | 'cancel', CSSProperties>>;
+type PopconfirmStyles = Partial<Record<'root' | 'popup' | 'arrow' | 'body' | 'icon' | 'title' | 'description' | 'actions' | 'ok' | 'cancel', StyleProperties>>;
 ```
 
 </details>
@@ -7657,7 +7947,7 @@ export default function EditProject() {
 ```ts
 Dialog(props: DialogProps & RefAttributes<HTMLDivElement>): ReactNode
 
-DialogClose(props: Primitive.DialogCloseProps & RefAttributes<HTMLButtonElement>): ReactNode
+DialogClose(props: WithStyle<Primitive.DialogCloseProps & RefAttributes<HTMLButtonElement>>): ReactNode
 
 interface DialogProps extends ComponentPropsWithoutRef<typeof Primitive.Root> {
     trigger?: ReactElement;
@@ -7669,17 +7959,21 @@ interface DialogProps extends ComponentPropsWithoutRef<typeof Primitive.Root> {
     closeLabel?: string;
     portalContainer?: HTMLElement | null;
     portalProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Portal>, 'children'>;
-    contentProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Content>, 'children' | 'asChild'>;
-    overlayProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Overlay>, 'children' | 'asChild'>;
-    titleProps?: ComponentPropsWithoutRef<typeof Primitive.Title>;
-    descriptionProps?: ComponentPropsWithoutRef<typeof Primitive.Description>;
-    bodyProps?: HTMLAttributes<HTMLDivElement>;
-    footerProps?: HTMLAttributes<HTMLDivElement>;
-    closeProps?: ComponentPropsWithoutRef<typeof Primitive.Close>;
+    contentProps?: Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Content>>, 'children' | 'asChild'>;
+    overlayProps?: Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Overlay>>, 'children' | 'asChild'>;
+    titleProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Title>>;
+    descriptionProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Description>>;
+    bodyProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    footerProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    closeProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Close>>;
     showClose?: boolean;
     closeIcon?: ReactNode;
     animation?: AnimationOptions | false;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -7785,14 +8079,14 @@ interface ModalMethodOptions {
     size?: ModalSize;
     key?: string;
     className?: string;
-    style?: CSSProperties;
+    style?: StyleProperties;
     classNames?: ModalClassNames;
     styles?: ModalStyles;
     onOk?: () => void | Promise<void>;
     onCancel?: () => void;
 }
 
-interface ModalProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+interface ModalProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'content'> {
     open?: boolean;
     defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
@@ -7819,7 +8113,11 @@ interface ModalProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'con
 
 type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
 
-type ModalStyles = Partial<Record<'root' | 'mask' | 'dialog' | 'header' | 'title' | 'close' | 'body' | 'footer' | 'ok' | 'cancel', CSSProperties>>;
+type ModalStyles = Partial<Record<'root' | 'mask' | 'dialog' | 'header' | 'title' | 'close' | 'body' | 'footer' | 'ok' | 'cancel', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -7890,7 +8188,7 @@ type DrawerClassNames = Partial<Record<'root' | 'mask' | 'panel' | 'header' | 't
 
 type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';
 
-interface DrawerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+interface DrawerProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'content'> {
     open?: boolean;
     defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
@@ -7925,7 +8223,11 @@ interface DrawerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'co
 
 type DrawerSize = 'sm' | 'md' | 'lg';
 
-type DrawerStyles = Partial<Record<'root' | 'mask' | 'panel' | 'header' | 'title' | 'close' | 'body' | 'footer' | 'ok' | 'cancel', CSSProperties>>;
+type DrawerStyles = Partial<Record<'root' | 'mask' | 'panel' | 'header' | 'title' | 'close' | 'body' | 'footer' | 'ok' | 'cancel', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -8051,7 +8353,7 @@ interface MessageOptions {
     placement?: MessagePlacement;
     key?: string;
     className?: string;
-    style?: CSSProperties;
+    style?: StyleProperties;
     classNames?: MessageClassNames;
     styles?: MessageStyles;
     onClose?: () => void;
@@ -8059,7 +8361,7 @@ interface MessageOptions {
 
 type MessagePlacement = 'top' | 'topLeft' | 'topRight' | 'bottom' | 'bottomLeft' | 'bottomRight';
 
-interface MessageProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+interface MessageProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'content'> {
     title?: ReactNode;
     duration?: number;
     onDismiss?: () => void;
@@ -8085,7 +8387,7 @@ interface MessageStackItem {
     action?: ReactNode;
     placement?: MessagePlacement;
     className?: string;
-    style?: CSSProperties;
+    style?: StyleProperties;
     classNames?: MessageClassNames;
     styles?: MessageStyles;
     onClose?: () => void;
@@ -8096,9 +8398,13 @@ interface MessageStackProps {
     requestClose: (id: string) => void;
 }
 
-type MessageStyles = Partial<Record<'root' | 'icon' | 'content' | 'action' | 'close', CSSProperties>>;
+type MessageStyles = Partial<Record<'root' | 'icon' | 'content' | 'action' | 'close', StyleProperties>>;
 
 type MessageTone = 'success' | 'error' | 'info' | 'warning' | 'loading';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -8230,7 +8536,7 @@ interface NotificationOptions {
     placement?: NotificationPlacement;
     key?: string;
     className?: string;
-    style?: CSSProperties;
+    style?: StyleProperties;
     classNames?: NotificationClassNames;
     styles?: NotificationStyles;
     onClose?: () => void;
@@ -8238,7 +8544,7 @@ interface NotificationOptions {
 
 type NotificationPlacement = 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft' | 'top' | 'bottom';
 
-interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+interface NotificationProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'content'> {
     title?: ReactNode;
     description?: ReactNode;
     children?: ReactNode;
@@ -8267,7 +8573,7 @@ interface NotificationStackItem {
     action?: ReactNode;
     placement?: NotificationPlacement;
     className?: string;
-    style?: CSSProperties;
+    style?: StyleProperties;
     classNames?: NotificationClassNames;
     styles?: NotificationStyles;
     onClose?: () => void;
@@ -8278,9 +8584,13 @@ interface NotificationStackProps {
     requestClose: (id: string) => void;
 }
 
-type NotificationStyles = Partial<Record<'root' | 'icon' | 'content' | 'title' | 'description' | 'action' | 'close', CSSProperties>>;
+type NotificationStyles = Partial<Record<'root' | 'icon' | 'content' | 'title' | 'description' | 'action' | 'close', StyleProperties>>;
 
 type NotificationTone = 'success' | 'error' | 'info' | 'warning' | 'loading';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -8341,9 +8651,9 @@ interface ToastOptions {
     action?: ReactNode;
     animation?: AnimationOptions | false;
     rootProps?: ToastRootProps;
-    titleProps?: ComponentPropsWithoutRef<typeof Primitive.Title>;
-    descriptionProps?: ComponentPropsWithoutRef<typeof Primitive.Description>;
-    closeProps?: ComponentPropsWithoutRef<typeof Primitive.Close>;
+    titleProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Title>>;
+    descriptionProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Description>>;
+    closeProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Close>>;
     hideClose?: boolean;
 }
 
@@ -8357,13 +8667,17 @@ interface ToastProviderProps {
     position?: ToastPosition;
     maxToasts?: number;
     portalContainer?: HTMLElement | null;
-    providerProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Provider>, 'children'>;
-    viewportProps?: ComponentPropsWithoutRef<typeof Primitive.Viewport>;
+    providerProps?: Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Provider>>, 'children'>;
+    viewportProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Viewport>>;
     toastProps?: Omit<ToastOptions, 'title' | 'description' | 'duration'>;
     animation?: AnimationOptions | false;
 }
 
 type ToastRootProps = Omit<ComponentPropsWithoutRef<typeof Primitive.Root>, 'children' | 'asChild' | 'open' | 'defaultOpen' | 'duration' | 'forceMount'>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -8433,7 +8747,7 @@ Spin(props: SpinProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type SpinClassNames = Partial<Record<'root' | 'content' | 'mask' | 'indicator' | 'tip', string>>;
 
-interface SpinProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+interface SpinProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
     spinning?: boolean;
     size?: SpinSize;
     tip?: ReactNode;
@@ -8448,7 +8762,11 @@ interface SpinProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
 
 type SpinSize = 'sm' | 'md' | 'lg';
 
-type SpinStyles = Partial<Record<'root' | 'content' | 'mask' | 'indicator' | 'tip', CSSProperties>>;
+type SpinStyles = Partial<Record<'root' | 'content' | 'mask' | 'indicator' | 'tip', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -8494,19 +8812,19 @@ Progress(props: ProgressProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type ProgressClassNames = Partial<Record<'root' | 'track' | 'bar' | 'text', string>>;
 
-interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+interface ProgressProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
     percent?: number;
     value?: number | null;
     max?: number;
     label?: ReactNode;
     showValue?: boolean;
     formatValue?: (value: number | null, max: number) => ReactNode;
-    fieldProps?: HTMLAttributes<HTMLDivElement>;
+    fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
     controlClassName?: string;
-    controlStyle?: CSSProperties;
-    fillProps?: HTMLAttributes<HTMLDivElement>;
-    labelProps?: HTMLAttributes<HTMLDivElement>;
-    valueProps?: HTMLAttributes<HTMLSpanElement>;
+    controlStyle?: StyleProperties;
+    fillProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    labelProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    valueProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
     animation?: AnimationOptions | false;
     type?: ProgressType;
     status?: ProgressStatus;
@@ -8523,11 +8841,15 @@ interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'>
 
 type ProgressStatus = 'normal' | 'success' | 'exception';
 
-type ProgressStyles = Partial<Record<'root' | 'track' | 'bar' | 'text', CSSProperties>>;
+type ProgressStyles = Partial<Record<'root' | 'track' | 'bar' | 'text', StyleProperties>>;
 
 type ProgressTone = 'primary' | 'success' | 'warning' | 'danger' | 'info';
 
 type ProgressType = 'line' | 'circle';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -8568,16 +8890,20 @@ export default function ProjectFilter() {
 ```ts
 EmptyState(props: EmptyStateProps & RefAttributes<HTMLDivElement>): ReactNode
 
-interface EmptyStateProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+interface EmptyStateProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title'> {
     title: ReactNode;
     description?: ReactNode;
     icon?: ReactNode;
     action?: ReactNode;
-    iconProps?: HTMLAttributes<HTMLSpanElement>;
-    titleProps?: HTMLAttributes<HTMLHeadingElement>;
-    descriptionProps?: HTMLAttributes<HTMLParagraphElement>;
-    actionProps?: HTMLAttributes<HTMLDivElement>;
+    iconProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+    titleProps?: WithStyle<HTMLAttributes<HTMLHeadingElement>>;
+    descriptionProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
+    actionProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -8635,7 +8961,7 @@ Result(props: ResultProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type ResultClassNames = Partial<Record<'root' | 'icon' | 'content' | 'title' | 'subtitle' | 'extra', string>>;
 
-interface ResultProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'children'> {
+interface ResultProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'children'> {
     status?: ResultStatus;
     title?: ReactNode;
     subTitle?: ReactNode;
@@ -8648,9 +8974,13 @@ interface ResultProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'ch
 
 type ResultStatus = 'success' | 'error' | 'info' | 'warning' | '403' | '404' | '500';
 
-type ResultStyles = Partial<Record<'root' | 'icon' | 'content' | 'title' | 'subtitle' | 'extra', CSSProperties>>;
+type ResultStyles = Partial<Record<'root' | 'icon' | 'content' | 'title' | 'subtitle' | 'extra', StyleProperties>>;
 
 type ResultTone = 'success' | 'danger' | 'warning' | 'info';
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -8772,7 +9102,7 @@ interface OfflinePageProps extends PagePresetProps {
 type PageAction = {
     label: ReactNode;
     href: string;
-    linkProps?: Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'children'>;
+    linkProps?: Omit<WithStyle<AnchorHTMLAttributes<HTMLAnchorElement>>, 'href' | 'children'>;
 } | {
     label: ReactNode;
     href?: never;
@@ -8782,7 +9112,7 @@ type PageAction = {
 
 type PageLayout = 'compact' | 'illustrated';
 
-interface PagePresetProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+interface PagePresetProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title'> {
     title?: ReactNode;
     description?: ReactNode;
     statusCode?: string | number;
@@ -8797,12 +9127,12 @@ interface PagePresetProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> 
     background?: CSSProperties['background'];
     align?: 'center' | 'start';
     animation?: AnimationOptions | false;
-    LinkComponent?: ComponentType<AnchorHTMLAttributes<HTMLAnchorElement>>;
-    contentProps?: HTMLAttributes<HTMLDivElement>;
-    titleProps?: HTMLAttributes<HTMLHeadingElement>;
-    descriptionProps?: HTMLAttributes<HTMLParagraphElement>;
-    illustrationProps?: HTMLAttributes<HTMLDivElement>;
-    actionsProps?: HTMLAttributes<HTMLDivElement>;
+    LinkComponent?: ComponentType<WithStyle<AnchorHTMLAttributes<HTMLAnchorElement>>>;
+    contentProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    titleProps?: WithStyle<HTMLAttributes<HTMLHeadingElement>>;
+    descriptionProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
+    illustrationProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+    actionsProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
 }
 
 type PageRetry = (signal: AbortSignal) => void | Promise<void>;
@@ -8824,6 +9154,10 @@ interface RedirectPageProps extends PagePresetProps {
 interface ResultPageProps extends PagePresetProps {
     status?: 'success' | 'failure' | 'warning' | 'processing';
 }
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -8912,7 +9246,7 @@ Tour(props: TourProps & RefAttributes<HTMLDivElement>): ReactNode
 
 type TourClassNames = Partial<Record<'root' | 'mask' | 'spotlight' | 'popup' | 'arrow' | 'header' | 'cover' | 'title' | 'description' | 'footer' | 'indicator' | 'actions' | 'skip' | 'prev' | 'next', string>>;
 
-interface TourProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+interface TourProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'content'> {
     steps: readonly TourStep[];
     trigger?: ReactElement<{
         onClick?: (event: MouseEvent<HTMLElement>) => void;
@@ -8950,10 +9284,14 @@ interface TourStep {
     cover?: ReactNode;
     placement?: Placement;
     className?: string;
-    style?: CSSProperties;
+    style?: StyleProperties;
 }
 
-type TourStyles = Partial<Record<'root' | 'mask' | 'spotlight' | 'popup' | 'arrow' | 'header' | 'cover' | 'title' | 'description' | 'footer' | 'indicator' | 'actions' | 'skip' | 'prev' | 'next', CSSProperties>>;
+type TourStyles = Partial<Record<'root' | 'mask' | 'spotlight' | 'popup' | 'arrow' | 'header' | 'cover' | 'title' | 'description' | 'footer' | 'indicator' | 'actions' | 'skip' | 'prev' | 'next', StyleProperties>>;
+
+type WithStyle<Props> = Props & {
+    style?: StyleProperties | undefined;
+};
 ```
 
 </details>
@@ -9032,8 +9370,8 @@ interface UseFloatingOptions {
 }
 
 interface UseFloatingResult {
-    floatingStyles: CSSProperties;
-    arrowStyles: CSSProperties;
+    floatingStyles: StyleProperties;
+    arrowStyles: StyleProperties;
     actualPlacement: Placement;
     isPositioned: boolean;
     update: () => void;

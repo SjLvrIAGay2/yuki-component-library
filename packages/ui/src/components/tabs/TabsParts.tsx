@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import {
   createContext,
   useContext,
@@ -10,7 +11,7 @@ import { cx } from '../../internal/cx';
 import { inertValue } from '../../internal/inert';
 import { useComponentSize } from '../../theme';
 import { useAnimation, type AnimationOptions } from '../../animation';
-interface CompoundTabsProps extends Omit<ComponentPropsWithoutRef<typeof Primitive.Root>, 'value' | 'defaultValue'> {
+interface CompoundTabsProps extends Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Root>>, 'value' | 'defaultValue'> {
   value: string;
   variant?: 'line' | 'segmented' | 'card';
   size?: 'sm' | 'md' | 'lg';
@@ -45,18 +46,18 @@ export const CompoundTabs = forwardRef<HTMLDivElement, CompoundTabsProps>(functi
     </TabsContext.Provider>
   );
 });
-export const TabsList = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<typeof Primitive.List>>(
+export const TabsList = forwardRef<HTMLDivElement, WithStyle<ComponentPropsWithoutRef<typeof Primitive.List>>>(
   function TabsList({ className, ...props }, ref) {
     return <div className="yuki-tabs__nav"><Primitive.List {...props} ref={ref} className={cx('yuki-tabs__tablist', className)} /></div>;
   },
 );
 export const TabsTrigger = forwardRef<
   HTMLButtonElement,
-  ComponentPropsWithoutRef<typeof Primitive.Trigger>
+  WithStyle<ComponentPropsWithoutRef<typeof Primitive.Trigger>>
 >(function TabsTrigger({ className, ...props }, ref) {
   return <Primitive.Trigger {...props} ref={ref} className={cx('yuki-tabs__tab', className)} />;
 });
-export interface TabsContentProps extends ComponentPropsWithoutRef<typeof Primitive.Content> {
+export interface TabsContentProps extends WithStyle<ComponentPropsWithoutRef<typeof Primitive.Content>> {
   animation?: AnimationOptions | false;
 }
 export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(function TabsContent(

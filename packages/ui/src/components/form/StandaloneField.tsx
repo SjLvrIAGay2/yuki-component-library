@@ -1,6 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   useId,
-  type CSSProperties,
   type HTMLAttributes,
   type LabelHTMLAttributes,
   type ReactNode,
@@ -11,11 +11,11 @@ export interface StandaloneFieldProps {
   label?: ReactNode;
   description?: ReactNode;
   error?: ReactNode;
-  fieldProps?: HTMLAttributes<HTMLDivElement>;
-  labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-  messageProps?: HTMLAttributes<HTMLParagraphElement>;
+  fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  labelProps?: WithStyle<LabelHTMLAttributes<HTMLLabelElement>>;
+  messageProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
   controlClassName?: string;
-  controlStyle?: CSSProperties;
+  controlStyle?: StyleProperties;
 }
 
 function hasContent(content: ReactNode): boolean {

@@ -1,6 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   Children, isValidElement, forwardRef,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -24,20 +24,20 @@ export interface CardClassNames {
 }
 
 export interface CardStyles {
-  root?: CSSProperties;
-  cover?: CSSProperties;
-  header?: CSSProperties;
-  title?: CSSProperties;
-  extra?: CSSProperties;
-  body?: CSSProperties;
-  footer?: CSSProperties;
-  actions?: CSSProperties;
-  action?: CSSProperties;
-  loading?: CSSProperties;
+  root?: StyleProperties;
+  cover?: StyleProperties;
+  header?: StyleProperties;
+  title?: StyleProperties;
+  extra?: StyleProperties;
+  body?: StyleProperties;
+  footer?: StyleProperties;
+  actions?: StyleProperties;
+  action?: StyleProperties;
+  loading?: StyleProperties;
 }
 
 export interface CardProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title'> {
   /** 卡片标题。 */
   title?: ReactNode;
   /** 标题右侧的附加内容。 */

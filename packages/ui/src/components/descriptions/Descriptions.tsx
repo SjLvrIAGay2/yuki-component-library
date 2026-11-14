@@ -1,6 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -20,9 +20,9 @@ export interface DescriptionItem {
   /** 占据的列数。 */
   span?: number;
   /** 标签的额外样式。 */
-  labelStyle?: CSSProperties;
+  labelStyle?: StyleProperties;
   /** 内容的额外样式。 */
-  contentStyle?: CSSProperties;
+  contentStyle?: StyleProperties;
   /** 条目的额外类名。 */
   className?: string;
 }
@@ -39,18 +39,18 @@ export interface DescriptionsClassNames {
 }
 
 export interface DescriptionsStyles {
-  root?: CSSProperties;
-  header?: CSSProperties;
-  title?: CSSProperties;
-  extra?: CSSProperties;
-  table?: CSSProperties;
-  item?: CSSProperties;
-  label?: CSSProperties;
-  content?: CSSProperties;
+  root?: StyleProperties;
+  header?: StyleProperties;
+  title?: StyleProperties;
+  extra?: StyleProperties;
+  table?: StyleProperties;
+  item?: StyleProperties;
+  label?: StyleProperties;
+  content?: StyleProperties;
 }
 
 export interface DescriptionsProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'children'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'children'> {
   /** 描述项列表。 */
   items?: DescriptionItem[];
   /** 标题。 */
@@ -124,7 +124,7 @@ export const Descriptions = forwardRef<HTMLDivElement, DescriptionsProps>(
             '--yuki-descriptions-columns': columns,
             ...styles?.root,
             ...style,
-          } as CSSProperties
+          } as StyleProperties
         }
       >
         {hasHeader ? (
@@ -179,7 +179,7 @@ export const Descriptions = forwardRef<HTMLDivElement, DescriptionsProps>(
                       ? { gridColumn: `span ${span}` }
                       : null),
                     ...styles?.item,
-                  } as CSSProperties
+                  } as StyleProperties
                 }
               >
                 <div

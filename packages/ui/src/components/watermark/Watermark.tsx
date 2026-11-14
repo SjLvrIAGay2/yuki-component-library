@@ -1,9 +1,9 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
 import {
   forwardRef,
   useEffect,
   useRef,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -16,12 +16,12 @@ export interface WatermarkClassNames {
 }
 
 export interface WatermarkStyles {
-  root?: CSSProperties;
-  canvas?: CSSProperties;
-  content?: CSSProperties;
+  root?: StyleProperties;
+  canvas?: StyleProperties;
+  content?: StyleProperties;
 }
 
-export interface WatermarkProps extends Omit<HTMLAttributes<HTMLDivElement>, 'content'> {
+export interface WatermarkProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'content'> {
   /** Text lines painted in the repeated pattern. */
   content?: string | string[];
   text?: string;

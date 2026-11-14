@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useCallback,
@@ -55,19 +56,19 @@ export interface TreeClassNames {
 }
 
 export interface TreeStyles {
-  root?: CSSProperties;
-  viewport?: CSSProperties;
-  list?: CSSProperties;
-  virtualContent?: CSSProperties;
-  item?: CSSProperties;
-  switcher?: CSSProperties;
-  switcherIcon?: CSSProperties;
-  checkbox?: CSSProperties;
-  title?: CSSProperties;
-  titleText?: CSSProperties;
-  empty?: CSSProperties;
-  loading?: CSSProperties;
-  spinner?: CSSProperties;
+  root?: StyleProperties;
+  viewport?: StyleProperties;
+  list?: StyleProperties;
+  virtualContent?: StyleProperties;
+  item?: StyleProperties;
+  switcher?: StyleProperties;
+  switcherIcon?: StyleProperties;
+  checkbox?: StyleProperties;
+  title?: StyleProperties;
+  titleText?: StyleProperties;
+  empty?: StyleProperties;
+  loading?: StyleProperties;
+  spinner?: StyleProperties;
 }
 
 export interface TreeSelectInfo<T> {
@@ -111,7 +112,7 @@ export interface TreeOption {
 }
 
 export interface TreeProps<T extends object = TreeNodeData>
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children' | 'onSelect'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'children' | 'onSelect'> {
   treeData: readonly T[];
   /** Map your node shape onto the tree fields. Defaults to key/title/children/…. */
   fieldNames?: TreeFieldNames<T>;

@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   type ButtonHTMLAttributes,
@@ -12,8 +13,8 @@ import { cx } from '../../internal/cx';
 import { formatMessage, useLocale } from '../../locale';
 import { Icon } from '../icon';
 import { useComponentDefaults, useComponentSize } from '../../theme';
-export interface CompoundTableProps extends TableHTMLAttributes<HTMLTableElement> {
-  containerProps?: HTMLAttributes<HTMLDivElement>;
+export interface CompoundTableProps extends WithStyle<TableHTMLAttributes<HTMLTableElement>> {
+  containerProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
   size?: 'sm' | 'md' | 'lg';
   striped?: boolean;
   hoverable?: boolean;
@@ -50,17 +51,17 @@ export const CompoundTable = forwardRef<HTMLTableElement, CompoundTableProps>(fu
     </div>
   );
 });
-export function TableHeader(props: HTMLAttributes<HTMLTableSectionElement>) {
+export function TableHeader(props: WithStyle<HTMLAttributes<HTMLTableSectionElement>>) {
   return <thead {...props} className={cx('yuki-table__header', props.className)} />;
 }
-export function TableBody(props: HTMLAttributes<HTMLTableSectionElement>) {
+export function TableBody(props: WithStyle<HTMLAttributes<HTMLTableSectionElement>>) {
   return <tbody {...props} className={cx('yuki-table__body', props.className)} />;
 }
-export function TableRow(props: HTMLAttributes<HTMLTableRowElement>) {
+export function TableRow(props: WithStyle<HTMLAttributes<HTMLTableRowElement>>) {
   return <tr {...props} className={cx('yuki-table__row', props.className)} />;
 }
 export type TableSortDirection = 'asc' | 'desc' | null;
-export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
+export interface TableHeadProps extends WithStyle<ThHTMLAttributes<HTMLTableCellElement>> {
   sortable?: boolean;
   /** Controlled state; the caller applies sorting to its rows. */
   sortDirection?: TableSortDirection;
@@ -68,7 +69,7 @@ export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
   /** Plain column name used in the localized action label for complex children. */
   sortLabel?: string;
   /** Caller click handlers run first and can cancel the sorting request. */
-  sortButtonProps?: Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'>;
+  sortButtonProps?: Omit<WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>, 'type'>;
   /** Decorative content; null hides the default icon. */
   sortIcon?: ReactNode;
 }
@@ -149,9 +150,9 @@ export const TableHead = forwardRef<HTMLTableCellElement, TableHeadProps>(functi
     </th>
   );
 });
-export function TableCell(props: TdHTMLAttributes<HTMLTableCellElement>) {
+export function TableCell(props: WithStyle<TdHTMLAttributes<HTMLTableCellElement>>) {
   return <td {...props} className={cx('yuki-table__cell', props.className)} />;
 }
-export function TableCaption(props: HTMLAttributes<HTMLTableCaptionElement>) {
+export function TableCaption(props: WithStyle<HTMLAttributes<HTMLTableCaptionElement>>) {
   return <caption {...props} />;
 }

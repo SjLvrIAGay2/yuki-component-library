@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import { forwardRef, useMemo, type HTMLAttributes, type ReactNode } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -61,7 +62,7 @@ function limitMarkdownLines(limit: number) {
   };
 }
 
-export interface MarkdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface MarkdownProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
   children: string;
   /** Trusted React component overrides, not HTML strings. */
   components?: Components;
@@ -72,7 +73,7 @@ export interface MarkdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chi
   codeLineNumbers?: boolean;
   allowImages?: boolean;
   codeBlockProps?: Omit<CodeBlockProps, 'code' | 'language'>;
-  tableScrollProps?: HTMLAttributes<HTMLDivElement>;
+  tableScrollProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
   truncationMessage?: ReactNode;
 }
 

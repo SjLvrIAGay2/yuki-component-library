@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../styles/properties';
 import {
   forwardRef,
   useRef,
@@ -25,17 +26,17 @@ export interface PopupProps {
   offset?: number;
   alignOffset?: number;
   avoidCollisions?: boolean;
-  surfaceProps?: HTMLAttributes<HTMLDivElement>;
-  arrowProps?: HTMLAttributes<HTMLSpanElement> & { width?: number | string; height?: number | string };
+  surfaceProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  arrowProps?: WithStyle<HTMLAttributes<HTMLSpanElement>> & { width?: number | string; height?: number | string };
   matchAnchorWidth?: boolean | 'minimum';
   arrow?: boolean;
   arrowClassName?: string;
-  arrowStyle?: CSSProperties;
+  arrowStyle?: StyleProperties;
   /** ARIA role for the floating surface (tooltip, dialog, listbox, menu…). */
   role?: string;
   id?: string;
   className?: string;
-  style?: CSSProperties;
+  style?: StyleProperties;
   children?: ReactNode;
   'aria-label'?: string;
   'aria-labelledby'?: string;

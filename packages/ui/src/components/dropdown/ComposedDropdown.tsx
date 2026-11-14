@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import { useIsomorphicLayoutEffect } from '../../internal/useIsomorphicLayoutEffect';
 import {
   createContext,
@@ -29,7 +30,7 @@ export interface ComposedDropdownProps extends ComponentPropsWithoutRef<typeof P
   className?: string;
   portalContainer?: HTMLElement | null;
   portalProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Portal>, 'children'>;
-  contentProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Content>, 'children' | 'asChild'>;
+  contentProps?: Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Content>>, 'children' | 'asChild'>;
   animation?: AnimationOptions | false;
 }
 export function ComposedDropdown(input: ComposedDropdownProps) {
@@ -192,12 +193,12 @@ export function ComposedDropdown(input: ComposedDropdownProps) {
     </Primitive.Root>
   );
 }
-export interface DropdownItemProps extends ComponentPropsWithoutRef<typeof Primitive.Item> {
+export interface DropdownItemProps extends WithStyle<ComponentPropsWithoutRef<typeof Primitive.Item>> {
   destructive?: boolean;
   icon?: ReactNode;
   shortcut?: string;
-  textProps?: HTMLAttributes<HTMLSpanElement>;
-  shortcutProps?: HTMLAttributes<HTMLSpanElement>;
+  textProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+  shortcutProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
 }
 export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
   function DropdownItem(
@@ -218,7 +219,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
     ref,
   ) {
     const passive = useContext(PassiveMenuContext);
-    const itemProps: HTMLAttributes<HTMLDivElement> = {
+    const itemProps: WithStyle<HTMLAttributes<HTMLDivElement>> = {
       ...props,
       className: cx('yuki-dropdown-menu-item', destructive && 'yuki-dropdown-menu-item--danger', className),
       onClickCapture: (event: MouseEvent<HTMLDivElement>) => {
@@ -292,7 +293,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
 );
 export const DropdownLabel = forwardRef<
   HTMLDivElement,
-  ComponentPropsWithoutRef<typeof Primitive.Label>
+  WithStyle<ComponentPropsWithoutRef<typeof Primitive.Label>>
 >(function DropdownLabel({ className, ...props }, ref) {
   if (useContext(PassiveMenuContext)) {
     const { asChild, ...nativeProps } = props;
@@ -303,7 +304,7 @@ export const DropdownLabel = forwardRef<
 });
 export const DropdownSeparator = forwardRef<
   HTMLDivElement,
-  ComponentPropsWithoutRef<typeof Primitive.Separator>
+  WithStyle<ComponentPropsWithoutRef<typeof Primitive.Separator>>
 >(function DropdownSeparator({ className, ...props }, ref) {
   if (useContext(PassiveMenuContext)) {
     const { asChild, ...nativeProps } = props;

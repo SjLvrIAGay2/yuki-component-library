@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { Slot } from '@radix-ui/react-slot';
 import { inertValue } from '../../internal/inert';
 import { useDialogConfirm } from '../../internal/useDialogConfirm';
@@ -9,7 +10,6 @@ import {
   useId,
   useMemo,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactElement,
   type ReactNode,
@@ -45,19 +45,19 @@ export interface DrawerClassNames {
 }
 
 export interface DrawerStyles {
-  root?: CSSProperties;
-  mask?: CSSProperties;
-  panel?: CSSProperties;
-  header?: CSSProperties;
-  title?: CSSProperties;
-  close?: CSSProperties;
-  body?: CSSProperties;
-  footer?: CSSProperties;
-  ok?: CSSProperties;
-  cancel?: CSSProperties;
+  root?: StyleProperties;
+  mask?: StyleProperties;
+  panel?: StyleProperties;
+  header?: StyleProperties;
+  title?: StyleProperties;
+  close?: StyleProperties;
+  body?: StyleProperties;
+  footer?: StyleProperties;
+  ok?: StyleProperties;
+  cancel?: StyleProperties;
 }
 
-export interface DrawerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+export interface DrawerProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'content'> {
   /** Controlled open state. */
   open?: boolean;
   /** Uncontrolled initial open state. */

@@ -1,8 +1,8 @@
+import type { StyleProperties } from '../../styles/properties';
 import {
   forwardRef,
   useRef,
   type ChangeEvent,
-  type CSSProperties,
   type KeyboardEvent,
   type ReactNode,
 } from 'react';
@@ -20,9 +20,9 @@ export interface SearchClassNames {
 }
 
 export interface SearchStyles {
-  root?: CSSProperties;
-  input?: CSSProperties;
-  button?: CSSProperties;
+  root?: StyleProperties;
+  input?: StyleProperties;
+  button?: StyleProperties;
 }
 
 export interface SearchProps

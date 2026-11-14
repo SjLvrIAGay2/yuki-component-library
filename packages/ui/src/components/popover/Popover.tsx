@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
 import {
   Children,
@@ -8,7 +9,6 @@ import {
   useEffect,
   useId,
   useRef,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactElement,
   type ReactNode,
@@ -29,15 +29,15 @@ export interface PopoverClassNames {
 }
 
 export interface PopoverStyles {
-  root?: CSSProperties;
-  popup?: CSSProperties;
-  arrow?: CSSProperties;
-  title?: CSSProperties;
-  content?: CSSProperties;
+  root?: StyleProperties;
+  popup?: StyleProperties;
+  arrow?: StyleProperties;
+  title?: StyleProperties;
+  content?: StyleProperties;
 }
 
 export interface PopoverProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, 'content' | 'title' | 'onChange'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'content' | 'title' | 'onChange'> {
   content?: ReactNode;
   title?: ReactNode;
   /** Interaction that opens the popup. Defaults to `click`. */

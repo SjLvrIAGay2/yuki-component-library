@@ -1,9 +1,10 @@
+import type { WithStyle } from '../../styles/properties';
 import { forwardRef, type ImgHTMLAttributes } from 'react';
 import { useMediaSource, type MediaSource } from '../../internal/media';
 import { cx } from '../../internal/cx';
 import { useComponentDefaults } from '../../theme';
 
-export interface ImageViewerProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'> {
+export interface ImageViewerProps extends Omit<WithStyle<ImgHTMLAttributes<HTMLImageElement>>, 'src'> {
   src?: MediaSource;
   alt: string;
 }

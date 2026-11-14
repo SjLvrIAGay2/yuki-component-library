@@ -1,4 +1,5 @@
-import { forwardRef, useId, type CSSProperties, type ReactNode } from 'react';
+import type { StyleProperties } from '../../styles/properties';
+import { forwardRef, useId, type ReactNode } from 'react';
 import * as Primitive from '@radix-ui/react-accordion';
 import { usePrefersReducedMotion } from '../../hooks';
 import { cx } from '../../internal/cx';
@@ -24,7 +25,7 @@ export interface AccordionPanel {
   /** 条目的额外类名。 */
   className?: string;
   /** 条目的额外样式。 */
-  style?: CSSProperties;
+  style?: StyleProperties;
 }
 
 export interface AccordionClassNames {
@@ -40,15 +41,15 @@ export interface AccordionClassNames {
 }
 
 export interface AccordionStyles {
-  root?: CSSProperties;
-  item?: CSSProperties;
-  header?: CSSProperties;
-  title?: CSSProperties;
-  extra?: CSSProperties;
-  expandIcon?: CSSProperties;
-  panel?: CSSProperties;
-  panelInner?: CSSProperties;
-  content?: CSSProperties;
+  root?: StyleProperties;
+  item?: StyleProperties;
+  header?: StyleProperties;
+  title?: StyleProperties;
+  extra?: StyleProperties;
+  expandIcon?: StyleProperties;
+  panel?: StyleProperties;
+  panelInner?: StyleProperties;
+  content?: StyleProperties;
 }
 
 export interface PanelOptions {

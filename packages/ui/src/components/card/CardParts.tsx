@@ -1,12 +1,13 @@
+import type { WithStyle } from '../../styles/properties';
 import { forwardRef, type HTMLAttributes } from 'react';
 import { cx } from '../../internal/cx';
 
-export const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+export const CardHeader = forwardRef<HTMLDivElement, WithStyle<HTMLAttributes<HTMLDivElement>>>(
   function CardHeader({ className, ...props }, ref) {
     return <div {...props} ref={ref} className={cx('yuki-card__header', className)} />;
   },
 );
-export interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+export interface CardTitleProps extends WithStyle<HTMLAttributes<HTMLHeadingElement>> {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(function CardTitle(
@@ -17,16 +18,16 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(function
 });
 export const CardDescription = forwardRef<
   HTMLParagraphElement,
-  HTMLAttributes<HTMLParagraphElement>
+  WithStyle<HTMLAttributes<HTMLParagraphElement>>
 >(function CardDescription({ className, ...props }, ref) {
   return <p {...props} ref={ref} className={cx('yuki-card__description', className)} />;
 });
-export const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+export const CardContent = forwardRef<HTMLDivElement, WithStyle<HTMLAttributes<HTMLDivElement>>>(
   function CardContent({ className, ...props }, ref) {
     return <div {...props} ref={ref} className={cx('yuki-card__body', className)} />;
   },
 );
-export const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+export const CardFooter = forwardRef<HTMLDivElement, WithStyle<HTMLAttributes<HTMLDivElement>>>(
   function CardFooter({ className, ...props }, ref) {
     return <div {...props} ref={ref} className={cx('yuki-card__footer', className)} />;
   },

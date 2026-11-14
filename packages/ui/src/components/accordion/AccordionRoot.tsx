@@ -1,8 +1,9 @@
+import type { WithStyle } from '../../styles/properties';
 import { createContext, forwardRef, useContext, useState, type ComponentPropsWithoutRef } from 'react';
 import * as Primitive from '@radix-ui/react-accordion';
 import type { AnimationOptions } from '../../animation';
 
-type PrimitiveProps = ComponentPropsWithoutRef<typeof Primitive.Root>;
+type PrimitiveProps = WithStyle<ComponentPropsWithoutRef<typeof Primitive.Root>>;
 type MultipleProps = Omit<Extract<PrimitiveProps, { type: 'multiple' }>, 'type'> & { type?: 'multiple' };
 export type RootProps = MultipleProps | Extract<PrimitiveProps, { type: 'single' }>;
 export const AccordionContext = createContext<{ values: string[]; animation?: AnimationOptions | false }>({

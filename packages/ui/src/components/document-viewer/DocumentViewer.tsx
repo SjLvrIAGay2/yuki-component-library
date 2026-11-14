@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   lazy,
@@ -42,7 +43,7 @@ export type { DocumentErrorActions, DocumentErrorRenderer } from '../../internal
 export type { PdfOptions } from '../../internal/pdf-preview';
 export { inferDocumentFormat } from '../../internal/documents';
 export interface DocumentViewerProps extends Omit<
-  HTMLAttributes<HTMLDivElement>,
+  WithStyle<HTMLAttributes<HTMLDivElement>>,
   'children' | 'onLoad' | 'onError'
 > {
   src?: DocumentSource;
@@ -57,8 +58,8 @@ export interface DocumentViewerProps extends Omit<
   markdownOptions?: Omit<MarkdownProps, 'children'>;
   codeBlockProps?: Omit<CodeBlockProps, 'code' | 'language'>;
   header?: ReactNode;
-  headerProps?: HTMLAttributes<HTMLDivElement>;
-  bodyProps?: HTMLAttributes<HTMLDivElement>;
+  headerProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  bodyProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
   renderLoading?: () => ReactNode;
   renderEmpty?: () => ReactNode;
   /** Suspend expensive PDF rendering while a persistent panel is hidden. */

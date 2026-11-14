@@ -1,6 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -21,15 +21,15 @@ export interface ResultClassNames {
 }
 
 export interface ResultStyles {
-  root?: CSSProperties;
-  icon?: CSSProperties;
-  content?: CSSProperties;
-  title?: CSSProperties;
-  subtitle?: CSSProperties;
-  extra?: CSSProperties;
+  root?: StyleProperties;
+  icon?: StyleProperties;
+  content?: StyleProperties;
+  title?: StyleProperties;
+  subtitle?: StyleProperties;
+  extra?: StyleProperties;
 }
 
-export interface ResultProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'children'> {
+export interface ResultProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'children'> {
   /** Preset status that drives the default icon, tone and copy. @default 'info' */
   status?: ResultStatus;
   /** Headline. Defaults to the status copy. */

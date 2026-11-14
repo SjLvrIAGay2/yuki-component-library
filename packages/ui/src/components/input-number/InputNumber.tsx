@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   StandaloneField,
   fieldDescription,
@@ -10,7 +11,6 @@ import {
   useRef,
   useState,
   type ChangeEvent,
-  type CSSProperties,
   type FocusEvent,
   type HTMLAttributes,
   type InputHTMLAttributes,
@@ -35,14 +35,14 @@ export interface InputNumberClassNames {
 }
 
 export interface InputNumberStyles {
-  root?: CSSProperties;
-  group?: CSSProperties;
-  prefix?: CSSProperties;
-  input?: CSSProperties;
-  suffix?: CSSProperties;
-  controls?: CSSProperties;
-  up?: CSSProperties;
-  down?: CSSProperties;
+  root?: StyleProperties;
+  group?: StyleProperties;
+  prefix?: StyleProperties;
+  input?: StyleProperties;
+  suffix?: StyleProperties;
+  controls?: StyleProperties;
+  up?: StyleProperties;
+  down?: StyleProperties;
 }
 
 export interface InputNumberStepInfo {
@@ -53,7 +53,7 @@ export interface InputNumberProps
   extends
     StandaloneFieldProps,
     Omit<
-      InputHTMLAttributes<HTMLInputElement>,
+      WithStyle<InputHTMLAttributes<HTMLInputElement>>,
       'size' | 'value' | 'defaultValue' | 'onChange' | 'prefix' | 'min' | 'max' | 'step'
     > {
   size?: Size;
@@ -73,9 +73,9 @@ export interface InputNumberProps
   parser?: (text: string) => number | null;
   startIcon?: ReactNode;
   endIcon?: ReactNode;
-  wrapperProps?: HTMLAttributes<HTMLDivElement>;
-  startIconProps?: HTMLAttributes<HTMLSpanElement>;
-  endIconProps?: HTMLAttributes<HTMLSpanElement>;
+  wrapperProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  startIconProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+  endIconProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
   prefix?: ReactNode;
   suffix?: ReactNode;
   onChange?: (value: number | null) => void;

@@ -1,8 +1,8 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useId,
   type ChangeEvent,
-  type CSSProperties,
   type InputHTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -23,16 +23,16 @@ export interface RadioClassNames {
 }
 
 export interface RadioStyles {
-  root?: CSSProperties;
-  input?: CSSProperties;
-  control?: CSSProperties;
-  dot?: CSSProperties;
-  label?: CSSProperties;
+  root?: StyleProperties;
+  input?: StyleProperties;
+  control?: StyleProperties;
+  dot?: StyleProperties;
+  label?: StyleProperties;
 }
 
 export interface RadioProps
   extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
+    WithStyle<InputHTMLAttributes<HTMLInputElement>>,
     'size' | 'type' | 'onChange' | 'value' | 'checked' | 'defaultChecked' | 'children'
   > {
   checked?: boolean;

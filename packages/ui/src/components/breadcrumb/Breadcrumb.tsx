@@ -1,6 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
-  type CSSProperties,
   type HTMLAttributes,
   type MouseEvent,
   type ReactNode,
@@ -33,17 +33,17 @@ export interface BreadcrumbClassNames {
 }
 
 export interface BreadcrumbStyles {
-  root?: CSSProperties;
-  list?: CSSProperties;
-  item?: CSSProperties;
-  link?: CSSProperties;
-  icon?: CSSProperties;
-  separator?: CSSProperties;
-  current?: CSSProperties;
+  root?: StyleProperties;
+  list?: StyleProperties;
+  item?: StyleProperties;
+  link?: StyleProperties;
+  icon?: StyleProperties;
+  separator?: StyleProperties;
+  current?: StyleProperties;
 }
 
 export interface BreadcrumbProps
-  extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLElement>>, 'children'> {
   items: BreadcrumbItem[];
   current?: string;
   /** Node between items. Defaults to a calm `/`. */

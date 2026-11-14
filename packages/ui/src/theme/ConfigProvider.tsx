@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../styles/properties';
 import {
   createContext,
   useCallback,
@@ -5,7 +6,6 @@ import {
   useEffect,
   useMemo,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -14,6 +14,7 @@ import { EscapeScope } from '../internal/escapeScope';
 import { mergeProps } from '../internal/merge-props';
 import type { AnimationOptions } from '../animation';
 import type { ComponentDefaults } from './defaults';
+import type { ThemeTokens } from './tokens';
 import { componentMessages, type LocaleMessages } from '../locale/messages';
 import { cx } from '../internal/cx';
 import { useMediaQuery } from '../hooks/useMediaQuery';
@@ -31,7 +32,6 @@ export type ThemeMode = 'light' | 'dark' | 'system';
 
 export type Density = 'comfortable' | 'compact';
 export type MotionPreference = 'system' | 'none';
-export type ThemeTokens = Record<string, string | number>;
 export type Theme = ThemeMode;
 
 export interface ThemeConfig {
@@ -49,7 +49,7 @@ export interface ConfigContextValue {
   components: ComponentDefaults;
   animation?: AnimationOptions | false;
   messages: LocaleMessages;
-  themeVars: CSSProperties;
+  themeVars: StyleProperties;
   motion: boolean;
   locale: LocaleConfig;
   theme: ThemeConfig;
@@ -82,7 +82,7 @@ const defaultContext: ConfigContextValue = {
 
 const ConfigContext = createContext<ConfigContextValue>(defaultContext);
 
-export interface ConfigProviderProps extends HTMLAttributes<HTMLDivElement> {
+export interface ConfigProviderProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
   children: ReactNode;
   /** Theme mode, brand color and token overrides. */
   theme?: ThemeConfig;
@@ -101,7 +101,7 @@ export interface ConfigProviderProps extends HTMLAttributes<HTMLDivElement> {
   /** Apply theme attributes to <html> so the whole document follows. */
   global?: boolean;
   className?: string;
-  style?: CSSProperties;
+  style?: StyleProperties;
   /** Extra class names for the portal host (advanced). */
   portalClassName?: string;
 }
@@ -162,7 +162,7 @@ export function ConfigProvider({
     [getPopupContainerProp, portalHost],
   );
 
-  const themeVars = useMemo<CSSProperties>(() => {
+  const themeVars = useMemo(() => {
     const vars: Record<string, string | number> = {};
     if (theme.primaryColor) {
       vars['--yuki-color-primary'] = theme.primaryColor;
@@ -174,7 +174,7 @@ export function ConfigProvider({
         vars[token] = value;
       }
     }
-    return vars as CSSProperties;
+    return vars;
   }, [theme.primaryColor, theme.tokens]);
 
   const t = useCallback<ConfigContextValue['t']>(
@@ -210,7 +210,7 @@ export function ConfigProvider({
         'data-yuki-brand': theme.primaryColor ? 'custom' : 'default',
         'data-yuki-motion': motion ? 'on' : 'off',
       },
-      tokens: themeVars as ThemeTokens,
+      tokens: themeVars,
     });
   }, [global, globalOwner, resolvedTheme, motion, theme.primaryColor, themeVars]);
 

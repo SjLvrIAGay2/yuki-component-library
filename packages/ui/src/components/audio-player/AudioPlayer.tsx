@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useImperativeHandle,
@@ -30,7 +31,7 @@ export type { MediaSource, MediaMetadata, MediaFailure } from '../../internal/me
 export type { PlayerControlOptions, PlayerControlsState } from '../../internal/player';
 
 export interface AudioPlayerProps
-  extends Omit<AudioHTMLAttributes<HTMLAudioElement>, 'src'>, PlayerControlOptions {
+  extends Omit<WithStyle<AudioHTMLAttributes<HTMLAudioElement>>, 'src'>, PlayerControlOptions {
   src?: MediaSource;
   description?: string;
   cover?: string;
@@ -40,12 +41,12 @@ export interface AudioPlayerProps
   /** Opt in to visibility coordination. Becoming inactive pauses; reactivation never autoplays. */
   active?: boolean;
   animation?: AnimationOptions | false;
-  captionProps?: HTMLAttributes<HTMLElement>;
+  captionProps?: WithStyle<HTMLAttributes<HTMLElement>>;
   renderEmpty?: () => ReactNode;
   renderLoading?: () => ReactNode;
   renderError?: (error: MediaFailure, actions: { retry: () => void }) => ReactNode;
-  mediaProps?: AudioHTMLAttributes<HTMLAudioElement>;
-  coverProps?: HTMLAttributes<HTMLSpanElement>;
+  mediaProps?: WithStyle<AudioHTMLAttributes<HTMLAudioElement>>;
+  coverProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
 }
 export const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
   function AudioPlayer(input, ref) {
@@ -87,7 +88,7 @@ export const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
     const resource = useMediaResource<HTMLAudioElement>(src, children);
     const { media, metadata: current, failure: error } = resource;
     useImperativeHandle(ref, () => media!, [media]);
-    const nativeProps = mergeProps<AudioHTMLAttributes<HTMLAudioElement>>(mediaProps, { ...props, onLoadedMetadata, onError });
+    const nativeProps = mergeProps<WithStyle<AudioHTMLAttributes<HTMLAudioElement>>>(mediaProps, { ...props, onLoadedMetadata, onError });
     const player = usePlayer(media, nativeProps.muted);
     const { duration: _duration, delay: _delay, ...motion } = useAnimation(animation, 'fade');
     useEffect(() => {

@@ -1,8 +1,8 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -21,14 +21,14 @@ export interface SpinClassNames {
 }
 
 export interface SpinStyles {
-  root?: CSSProperties;
-  content?: CSSProperties;
-  mask?: CSSProperties;
-  indicator?: CSSProperties;
-  tip?: CSSProperties;
+  root?: StyleProperties;
+  content?: StyleProperties;
+  mask?: StyleProperties;
+  indicator?: StyleProperties;
+  tip?: StyleProperties;
 }
 
-export interface SpinProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface SpinProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
   /** Whether the loading indicator is shown. @default true */
   spinning?: boolean;
   /** Indicator size. @default 'md' */

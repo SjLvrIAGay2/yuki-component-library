@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   type CSSProperties,
@@ -24,20 +25,20 @@ export interface BadgeClassNames {
 }
 
 export interface BadgeStyles {
-  root?: CSSProperties;
-  indicator?: CSSProperties;
-  count?: CSSProperties;
-  dot?: CSSProperties;
-  text?: CSSProperties;
+  root?: StyleProperties;
+  indicator?: StyleProperties;
+  count?: StyleProperties;
+  dot?: StyleProperties;
+  text?: StyleProperties;
 }
 
 export interface BadgeProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, 'content'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'content'> {
   /** 展示的数字。 */
   count?: number;
   /** 展示为小圆点（不展示数字）。 */
   dot?: boolean;
-  dotProps?: HTMLAttributes<HTMLSpanElement>;
+  dotProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
   /** 状态徽标，也可单独搭配 `text` 使用。 */
   status?: BadgeStatus;
   /** 状态文本，仅在无 children 时生效。 */

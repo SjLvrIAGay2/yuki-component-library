@@ -1,9 +1,9 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
   useId,
   useRef,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent as ReactKeyboardEvent,
   type MouseEvent as ReactMouseEvent,
@@ -51,20 +51,20 @@ export interface DropdownClassNames {
 }
 
 export interface DropdownStyles {
-  trigger?: CSSProperties;
-  popup?: CSSProperties;
-  list?: CSSProperties;
-  item?: CSSProperties;
-  itemIcon?: CSSProperties;
-  itemLabel?: CSSProperties;
-  itemExtra?: CSSProperties;
-  divider?: CSSProperties;
-  group?: CSSProperties;
-  groupTitle?: CSSProperties;
+  trigger?: StyleProperties;
+  popup?: StyleProperties;
+  list?: StyleProperties;
+  item?: StyleProperties;
+  itemIcon?: StyleProperties;
+  itemLabel?: StyleProperties;
+  itemExtra?: StyleProperties;
+  divider?: StyleProperties;
+  group?: StyleProperties;
+  groupTitle?: StyleProperties;
 }
 
 export interface ItemsDropdownProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, 'children' | 'onSelect'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'children' | 'onSelect'> {
   /** The trigger element; it receives the ARIA menu wiring. */
   trigger: ReactElement;
   children?: never;
@@ -252,7 +252,7 @@ const ItemsDropdown = forwardRef<HTMLSpanElement, ItemsDropdownProps>(function I
     setOpen(true);
   };
 
-  const triggerProps: HTMLAttributes<HTMLElement> & {
+  const triggerProps: WithStyle<HTMLAttributes<HTMLElement>> & {
     'data-state'?: string;
   } = {
     'aria-haspopup': 'menu',

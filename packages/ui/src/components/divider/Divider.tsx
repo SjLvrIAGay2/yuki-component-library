@@ -1,7 +1,7 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
 import {
   forwardRef,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -17,11 +17,11 @@ export interface DividerClassNames {
 }
 
 export interface DividerStyles {
-  root?: CSSProperties;
-  label?: CSSProperties;
+  root?: StyleProperties;
+  label?: StyleProperties;
 }
 
-export interface DividerProps extends HTMLAttributes<HTMLDivElement> {
+export interface DividerProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
   /** A decorative rule has no separator semantics. */
   decorative?: boolean;
   orientation?: DividerOrientation;

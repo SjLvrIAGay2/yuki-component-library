@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   Children,
   forwardRef,
@@ -23,20 +24,20 @@ export interface AvatarClassNames {
 }
 
 export interface AvatarStyles {
-  root?: CSSProperties;
-  image?: CSSProperties;
-  fallback?: CSSProperties;
+  root?: StyleProperties;
+  image?: StyleProperties;
+  fallback?: StyleProperties;
 }
 
 export interface AvatarProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, 'children'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'children'> {
   /** 图片地址。 */
   src?: string;
   status?: 'online' | 'offline' | 'busy';
   statusLabel?: string;
-  imageProps?: Omit<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt' | 'children'>;
-  fallbackProps?: HTMLAttributes<HTMLSpanElement>;
-  statusProps?: HTMLAttributes<HTMLSpanElement>;
+  imageProps?: Omit<WithStyle<ImgHTMLAttributes<HTMLImageElement>>, 'src' | 'alt' | 'children'>;
+  fallbackProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+  statusProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
   /** 响应式图片地址。 */
   srcSet?: string;
   /** 图片替代文本，缺失时视为装饰图。 */
@@ -52,12 +53,12 @@ export interface AvatarProps
   /** 完全自定义内容，优先于图片。 */
   children?: ReactNode;
   /** 图片加载完成回调。 */
-  onImageLoad?: ImgHTMLAttributes<HTMLImageElement>['onLoad'];
+  onImageLoad?: WithStyle<ImgHTMLAttributes<HTMLImageElement>>['onLoad'];
   /** 图片加载失败回调。 */
-  onImageError?: ImgHTMLAttributes<HTMLImageElement>['onError'];
+  onImageError?: WithStyle<ImgHTMLAttributes<HTMLImageElement>>['onError'];
   /** 图片元素的额外属性。 */
   imgProps?: Omit<
-    ImgHTMLAttributes<HTMLImageElement>,
+    WithStyle<ImgHTMLAttributes<HTMLImageElement>>,
     'src' | 'srcSet' | 'alt' | 'onLoad' | 'onError'
   >;
   classNames?: AvatarClassNames;
@@ -180,12 +181,12 @@ export interface AvatarGroupClassNames {
 }
 
 export interface AvatarGroupStyles {
-  root?: CSSProperties;
-  overflow?: CSSProperties;
+  root?: StyleProperties;
+  overflow?: StyleProperties;
 }
 
 export interface AvatarGroupProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
   /** 头像列表。 */
   children?: ReactNode;
   /** 最多展示多少个，其余折叠为 +N。 */

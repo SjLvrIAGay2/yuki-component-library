@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
 import {
   forwardRef,
@@ -28,17 +29,17 @@ export interface ScrollbarClassNames {
 }
 
 export interface ScrollbarStyles {
-  root?: CSSProperties;
-  view?: CSSProperties;
-  track?: CSSProperties;
-  trackX?: CSSProperties;
-  trackY?: CSSProperties;
-  thumb?: CSSProperties;
-  thumbX?: CSSProperties;
-  thumbY?: CSSProperties;
+  root?: StyleProperties;
+  view?: StyleProperties;
+  track?: StyleProperties;
+  trackX?: StyleProperties;
+  trackY?: StyleProperties;
+  thumb?: StyleProperties;
+  thumbX?: StyleProperties;
+  thumbY?: StyleProperties;
 }
 
-export interface ScrollbarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onScroll'> {
+export interface ScrollbarProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onScroll'> {
   direction?: ScrollbarDirection;
   visibility?: ScrollbarVisibility;
   /** Thickness of the custom scrollbar in px. */

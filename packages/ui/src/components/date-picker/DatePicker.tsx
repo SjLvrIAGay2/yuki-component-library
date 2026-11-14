@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   StandaloneField,
   useStandaloneField,
@@ -13,7 +14,6 @@ import {
   useId,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type ReactElement,
@@ -60,16 +60,16 @@ export interface DatePickerClassNames {
 }
 
 export interface DatePickerStyles {
-  root?: CSSProperties;
-  trigger?: CSSProperties;
-  panel?: CSSProperties;
+  root?: StyleProperties;
+  trigger?: StyleProperties;
+  panel?: StyleProperties;
   calendar?: DateCalendarStyles;
 }
 
 export interface DatePickerProps
   extends
     StandaloneFieldProps,
-    Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
+    Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
   /** Controlled value; `null` clears it. */
   value?: DatePickerValue;
   defaultValue?: DatePickerValue;

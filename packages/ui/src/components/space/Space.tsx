@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
 import {
   Children,
@@ -21,12 +22,12 @@ export interface SpaceClassNames {
 }
 
 export interface SpaceStyles {
-  root?: CSSProperties;
-  item?: CSSProperties;
-  split?: CSSProperties;
+  root?: StyleProperties;
+  item?: StyleProperties;
+  split?: StyleProperties;
 }
 
-export interface SpaceProps extends HTMLAttributes<HTMLDivElement> {
+export interface SpaceProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
   direction?: SpaceDirection;
   vertical?: boolean;
   gap?: CSSProperties['gap'];
@@ -86,7 +87,7 @@ export const Space = forwardRef<HTMLDivElement, SpaceProps>(function Space(
           gap: customGap,
           ...styles?.root,
           ...style,
-        } as CSSProperties
+        } as StyleProperties
       }
     >
       {items.map((child, index) => (

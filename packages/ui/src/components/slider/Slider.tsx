@@ -1,6 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
-  type CSSProperties,
   type InputHTMLAttributes,
   type KeyboardEvent,
   type ReactNode,
@@ -23,16 +23,16 @@ export interface SliderClassNames {
 }
 
 export interface SliderStyles {
-  root?: CSSProperties;
-  input?: CSSProperties;
-  marks?: CSSProperties;
-  mark?: CSSProperties;
-  value?: CSSProperties;
+  root?: StyleProperties;
+  input?: StyleProperties;
+  marks?: StyleProperties;
+  mark?: StyleProperties;
+  value?: StyleProperties;
 }
 
 export interface SliderProps
   extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
+    WithStyle<InputHTMLAttributes<HTMLInputElement>>,
     'size' | 'value' | 'defaultValue' | 'onChange' | 'min' | 'max' | 'step' | 'type'
   > {
   size?: Size;
@@ -172,7 +172,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
     direction: reverse ? 'rtl' : undefined,
     ...styles?.input,
     ...style,
-  } as CSSProperties;
+  } as StyleProperties;
 
   const formatted = formatValue ? formatValue(current) : String(current);
 
@@ -195,7 +195,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
             {
               insetInlineStart: `${fillPercent}%`,
               ...styles?.value,
-            } as CSSProperties
+            } as StyleProperties
           }
         >
           {formatted}
@@ -250,7 +250,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
                   {
                     insetInlineStart: `${Math.min(100, Math.max(0, reverse ? 100 - markPercent : markPercent))}%`,
                     ...styles?.mark,
-                  } as CSSProperties
+                  } as StyleProperties
                 }
               >
                 {label}

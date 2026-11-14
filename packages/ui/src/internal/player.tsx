@@ -1,8 +1,8 @@
+import type { StyleProperties, WithStyle } from '../styles/properties';
 import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type ReactNode,
   type HTMLAttributes,
   type ButtonHTMLAttributes,
@@ -28,10 +28,10 @@ export interface PlayerControlOptions {
     fullscreen?: boolean;
     skipSeconds?: number;
   };
-  controlsProps?: HTMLAttributes<HTMLDivElement>;
-  playButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-  timelineProps?: InputHTMLAttributes<HTMLInputElement>;
-  volumeProps?: InputHTMLAttributes<HTMLInputElement>;
+  controlsProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  playButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+  timelineProps?: WithStyle<InputHTMLAttributes<HTMLInputElement>>;
+  volumeProps?: WithStyle<InputHTMLAttributes<HTMLInputElement>>;
   /** Replace custom controls using public state/actions; native controls are unaffected. */
   renderControls?: (state: PlayerControlsState) => ReactNode;
 }
@@ -275,10 +275,10 @@ export function PlayerControls({
   compact?: boolean;
   summary?: ReactNode;
   controlOptions?: PlayerControlOptions['controlOptions'];
-  controlsProps?: HTMLAttributes<HTMLDivElement>;
-  playButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
-  timelineProps?: InputHTMLAttributes<HTMLInputElement>;
-  volumeProps?: InputHTMLAttributes<HTMLInputElement>;
+  controlsProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  playButtonProps?: WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
+  timelineProps?: WithStyle<InputHTMLAttributes<HTMLInputElement>>;
+  volumeProps?: WithStyle<InputHTMLAttributes<HTMLInputElement>>;
 }) {
   const { messages } = useLocale();
   const rates = [
@@ -321,7 +321,7 @@ export function PlayerControls({
                 '--yuki-player-progress': `${progress}%`,
                 '--yuki-player-buffered': `${Math.min(100, player.buffered)}%`,
                 ...timelineProps?.style,
-              } as CSSProperties
+              } as StyleProperties
             }
             onChange={(event) => {
               timelineProps?.onChange?.(event);
@@ -413,7 +413,7 @@ export function PlayerControls({
                 {
                   '--yuki-player-progress': `${(player.muted ? 0 : player.volume) * 100}%`,
                   ...volumeProps?.style,
-                } as CSSProperties
+                } as StyleProperties
               }
             />
           </div>

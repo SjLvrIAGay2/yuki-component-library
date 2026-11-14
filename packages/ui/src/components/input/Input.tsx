@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   StandaloneField,
   fieldDescription,
@@ -8,7 +9,6 @@ import {
   forwardRef,
   useRef,
   type ChangeEvent,
-  type CSSProperties,
   type HTMLAttributes,
   type InputHTMLAttributes,
   type ReactNode,
@@ -34,22 +34,22 @@ export interface InputClassNames {
 }
 
 export interface InputStyles {
-  root?: CSSProperties;
-  group?: CSSProperties;
-  prefix?: CSSProperties;
-  input?: CSSProperties;
-  suffix?: CSSProperties;
-  clear?: CSSProperties;
-  addonBefore?: CSSProperties;
-  addonAfter?: CSSProperties;
-  count?: CSSProperties;
+  root?: StyleProperties;
+  group?: StyleProperties;
+  prefix?: StyleProperties;
+  input?: StyleProperties;
+  suffix?: StyleProperties;
+  clear?: StyleProperties;
+  addonBefore?: StyleProperties;
+  addonAfter?: StyleProperties;
+  count?: StyleProperties;
 }
 
 export interface InputProps
   extends
     StandaloneFieldProps,
     Omit<
-      InputHTMLAttributes<HTMLInputElement>,
+      WithStyle<InputHTMLAttributes<HTMLInputElement>>,
       'size' | 'prefix' | 'onChange' | 'value' | 'defaultValue'
     > {
   /** Defaults to the ConfigProvider size, then `md`. */
@@ -60,9 +60,9 @@ export interface InputProps
   prefix?: ReactNode;
   startIcon?: ReactNode;
   endIcon?: ReactNode;
-  wrapperProps?: HTMLAttributes<HTMLDivElement>;
-  startIconProps?: HTMLAttributes<HTMLSpanElement>;
-  endIconProps?: HTMLAttributes<HTMLSpanElement>;
+  wrapperProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  startIconProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+  endIconProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
   /** Trailing decoration inside the field box. */
   suffix?: ReactNode;
   /** Text / node attached before the field box. */

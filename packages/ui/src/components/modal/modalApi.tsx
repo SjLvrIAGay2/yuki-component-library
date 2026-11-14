@@ -1,4 +1,5 @@
-import { type CSSProperties, type ReactNode } from 'react';
+import type { StyleProperties } from '../../styles/properties';
+import { type ReactNode } from 'react';
 import { createImperativeHost, nextImperativeId } from '../message/createImperativeHost';
 import { useLocale } from '../../theme';
 import { Icon, type IconName } from '../icon';
@@ -30,7 +31,7 @@ export interface ModalMethodOptions {
   /** Stable id used to close/update this dialog. */
   key?: string;
   className?: string;
-  style?: CSSProperties;
+  style?: StyleProperties;
   classNames?: ModalClassNames;
   styles?: ModalStyles;
   /** Called when the confirm button is pressed; return a promise to keep the button loading. */

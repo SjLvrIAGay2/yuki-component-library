@@ -1,6 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
@@ -34,14 +34,14 @@ export interface TagClassNames {
 }
 
 export interface TagStyles {
-  root?: CSSProperties;
-  icon?: CSSProperties;
-  content?: CSSProperties;
-  close?: CSSProperties;
+  root?: StyleProperties;
+  icon?: StyleProperties;
+  content?: StyleProperties;
+  close?: StyleProperties;
 }
 
 export interface TagProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, 'onChange'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLSpanElement>>, 'onChange'> {
   /** 视觉变体。 */
   variant?: TagVariant;
   /** 语义色。 */

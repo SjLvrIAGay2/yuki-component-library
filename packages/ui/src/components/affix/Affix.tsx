@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
 import {
   forwardRef,
@@ -17,11 +18,11 @@ export interface AffixClassNames {
 }
 
 export interface AffixStyles {
-  root?: CSSProperties;
-  affix?: CSSProperties;
+  root?: StyleProperties;
+  affix?: StyleProperties;
 }
 
-export interface AffixProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface AffixProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange'> {
   /** Distance (px) from the top of the container when pinned. */
   offsetTop?: number;
   /** Pin to the bottom of the container instead of the top. */

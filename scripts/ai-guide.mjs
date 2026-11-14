@@ -63,10 +63,11 @@ function declarationText(declaration, name) {
     const members = declaration.members.filter(member => !member.name?.getText().startsWith('__'));
     const head = print(declaration).split('{')[0].trim().replace(/\s+/g, ' ');
     const index = members.find(member => !member.name || !ts.isPropertySignature(member));
+    const mapValue = name.endsWith('Styles') ? 'StyleProperties' : 'string';
     if (!declaration.heritageClauses?.length && !index && /(ClassNames|Styles)$/.test(name) && members.every(member =>
-      member.questionToken && ['string', 'CSSProperties'].includes(member.type?.getText()))) {
+      member.questionToken && member.type?.getText() === mapValue)) {
       const keys = members.map(member => "'" + member.name.getText() + "'").join(' | ') || 'never';
-      return 'type ' + name + ' = Partial<Record<' + keys + ', ' + (name.endsWith('Styles') ? 'CSSProperties' : 'string') + '>>;';
+      return 'type ' + name + ' = Partial<Record<' + keys + ', ' + mapValue + '>>;';
     }
     if (members.length < declaration.members.length) {
       return head + ' {\n' + members.map(member => '    ' + print(member)).join('\n') + '\n}';

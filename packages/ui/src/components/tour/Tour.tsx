@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   cloneElement,
   type ReactElement,
@@ -39,7 +40,7 @@ export interface TourStep {
   /** Preferred panel side; flips when there is not enough room. @default 'bottom' */
   placement?: Placement;
   className?: string;
-  style?: CSSProperties;
+  style?: StyleProperties;
 }
 
 export interface TourClassNames {
@@ -61,24 +62,24 @@ export interface TourClassNames {
 }
 
 export interface TourStyles {
-  root?: CSSProperties;
-  mask?: CSSProperties;
-  spotlight?: CSSProperties;
-  popup?: CSSProperties;
-  arrow?: CSSProperties;
-  header?: CSSProperties;
-  cover?: CSSProperties;
-  title?: CSSProperties;
-  description?: CSSProperties;
-  footer?: CSSProperties;
-  indicator?: CSSProperties;
-  actions?: CSSProperties;
-  skip?: CSSProperties;
-  prev?: CSSProperties;
-  next?: CSSProperties;
+  root?: StyleProperties;
+  mask?: StyleProperties;
+  spotlight?: StyleProperties;
+  popup?: StyleProperties;
+  arrow?: StyleProperties;
+  header?: StyleProperties;
+  cover?: StyleProperties;
+  title?: StyleProperties;
+  description?: StyleProperties;
+  footer?: StyleProperties;
+  indicator?: StyleProperties;
+  actions?: StyleProperties;
+  skip?: StyleProperties;
+  prev?: StyleProperties;
+  next?: StyleProperties;
 }
 
-export interface TourProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+export interface TourProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'content'> {
   steps: readonly TourStep[];
   trigger?: ReactElement<{ onClick?: (event: MouseEvent<HTMLElement>) => void; 'aria-haspopup'?: 'dialog'; 'aria-expanded'?: boolean }>;
   /** Controlled open state. */

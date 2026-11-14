@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useCallback,
@@ -5,7 +6,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type ReactElement,
@@ -53,26 +53,26 @@ export interface TransferClassNames {
 }
 
 export interface TransferStyles {
-  root?: CSSProperties;
-  column?: CSSProperties;
-  header?: CSSProperties;
-  title?: CSSProperties;
-  count?: CSSProperties;
-  selectAll?: CSSProperties;
-  search?: CSSProperties;
-  body?: CSSProperties;
-  list?: CSSProperties;
-  item?: CSSProperties;
-  itemCheckbox?: CSSProperties;
-  itemLabel?: CSSProperties;
-  itemDescription?: CSSProperties;
-  empty?: CSSProperties;
-  operations?: CSSProperties;
-  operation?: CSSProperties;
+  root?: StyleProperties;
+  column?: StyleProperties;
+  header?: StyleProperties;
+  title?: StyleProperties;
+  count?: StyleProperties;
+  selectAll?: StyleProperties;
+  search?: StyleProperties;
+  body?: StyleProperties;
+  list?: StyleProperties;
+  item?: StyleProperties;
+  itemCheckbox?: StyleProperties;
+  itemLabel?: StyleProperties;
+  itemDescription?: StyleProperties;
+  empty?: StyleProperties;
+  operations?: StyleProperties;
+  operation?: StyleProperties;
 }
 
 export interface TransferProps<T extends TransferItem = TransferItem>
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'title'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'title'> {
   /** All transferable records, in display order. */
   dataSource: T[];
   /** Keys on the right (target) side — controlled. */

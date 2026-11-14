@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useAnimation, type AnimationOptions } from '../../animation';
 import {
   StandaloneField,
@@ -8,7 +9,6 @@ import {
 import {
   forwardRef,
   type ChangeEvent,
-  type CSSProperties,
   type HTMLAttributes,
   type InputHTMLAttributes,
   type ReactNode,
@@ -32,23 +32,23 @@ export interface SwitchClassNames {
 }
 
 export interface SwitchStyles {
-  root?: CSSProperties;
-  input?: CSSProperties;
-  track?: CSSProperties;
-  handle?: CSSProperties;
-  label?: CSSProperties;
-  loading?: CSSProperties;
+  root?: StyleProperties;
+  input?: StyleProperties;
+  track?: StyleProperties;
+  handle?: StyleProperties;
+  label?: StyleProperties;
+  loading?: StyleProperties;
 }
 
 export interface SwitchProps
   extends
     StandaloneFieldProps,
     Omit<
-      InputHTMLAttributes<HTMLInputElement>,
+      WithStyle<InputHTMLAttributes<HTMLInputElement>>,
       'size' | 'type' | 'onChange' | 'checked' | 'defaultChecked' | 'children'
     > {
   animation?: AnimationOptions | false;
-  thumbProps?: HTMLAttributes<HTMLSpanElement>;
+  thumbProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
   checked?: boolean;
   defaultChecked?: boolean;
   /** Called with the next checked state, not the DOM event. */

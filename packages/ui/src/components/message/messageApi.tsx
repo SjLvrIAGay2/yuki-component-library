@@ -1,4 +1,5 @@
-import { type CSSProperties, type ReactNode } from 'react';
+import type { StyleProperties } from '../../styles/properties';
+import { type ReactNode } from 'react';
 import {
   createImperativeHost,
   isNoticeOptions,
@@ -33,7 +34,7 @@ export interface MessageOptions {
   /** Stable id used to close/update this message. */
   key?: string;
   className?: string;
-  style?: CSSProperties;
+  style?: StyleProperties;
   classNames?: MessageClassNames;
   styles?: MessageStyles;
   /** Called when the message is dismissed (automatically or manually). */

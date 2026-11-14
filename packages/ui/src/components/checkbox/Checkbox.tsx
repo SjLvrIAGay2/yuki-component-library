@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   StandaloneField,
   fieldDescription,
@@ -9,7 +10,6 @@ import {
   useEffect,
   useRef,
   type ChangeEvent,
-  type CSSProperties,
   type HTMLAttributes,
   type InputHTMLAttributes,
   type ReactNode,
@@ -32,22 +32,22 @@ export interface CheckboxClassNames {
 }
 
 export interface CheckboxStyles {
-  root?: CSSProperties;
-  input?: CSSProperties;
-  control?: CSSProperties;
-  label?: CSSProperties;
+  root?: StyleProperties;
+  input?: StyleProperties;
+  control?: StyleProperties;
+  label?: StyleProperties;
 }
 
 export interface CheckboxProps
   extends
     StandaloneFieldProps,
     Omit<
-      InputHTMLAttributes<HTMLInputElement>,
+      WithStyle<InputHTMLAttributes<HTMLInputElement>>,
       'size' | 'type' | 'onChange' | 'value' | 'defaultChecked' | 'checked' | 'children'
     > {
   indicator?: ReactNode;
-  indicatorProps?: HTMLAttributes<HTMLSpanElement>;
-  descriptionProps?: HTMLAttributes<HTMLParagraphElement>;
+  indicatorProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+  descriptionProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
   checked?: boolean;
   defaultChecked?: boolean;
   /** Half-checked visual + `aria-checked="mixed"`. Table / Tree use this. */

@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useCallback,
@@ -7,7 +8,6 @@ import {
   useRef,
   useState,
   type ChangeEvent,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type ReactNode,
@@ -43,18 +43,18 @@ export interface MentionsClassNames {
 }
 
 export interface MentionsStyles {
-  root?: CSSProperties;
-  textarea?: CSSProperties;
-  dropdown?: CSSProperties;
-  list?: CSSProperties;
-  option?: CSSProperties;
-  optionLabel?: CSSProperties;
-  empty?: CSSProperties;
-  loading?: CSSProperties;
+  root?: StyleProperties;
+  textarea?: StyleProperties;
+  dropdown?: StyleProperties;
+  list?: StyleProperties;
+  option?: StyleProperties;
+  optionLabel?: StyleProperties;
+  empty?: StyleProperties;
+  loading?: StyleProperties;
 }
 
 export interface MentionsProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'onSelect'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'onSelect'> {
   /** Controlled text value. */
   value?: string;
   defaultValue?: string;

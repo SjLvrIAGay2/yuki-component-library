@@ -1,6 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
-  type CSSProperties,
   type HTMLAttributes,
   type MouseEvent,
   type ReactNode,
@@ -33,7 +33,7 @@ export interface SelectTriggerClassNames {
 }
 
 export interface SelectTriggerProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'prefix' | 'onClick'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'prefix' | 'onClick'> {
   size?: Size;
   open: boolean;
   disabled?: boolean;
@@ -42,7 +42,7 @@ export interface SelectTriggerProps
   borderless?: boolean;
   placeholder?: ReactNode;
   value?: ReactNode;
-  valueProps?: HTMLAttributes<HTMLSpanElement>;
+  valueProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
   arrowIcon?: ReactNode;
   /** Controls placeholder vs value styling. */
   hasValue: boolean;
@@ -56,7 +56,7 @@ export interface SelectTriggerProps
   /** Custom content instead of `value` (multiple Select tags, custom render). */
   children?: ReactNode;
   className?: string;
-  style?: CSSProperties;
+  style?: StyleProperties;
   classNames?: SelectTriggerClassNames;
   onClick?: (event: MouseEvent<HTMLDivElement>) => void;
 }
@@ -233,7 +233,7 @@ export function SelectTag({
   );
 }
 
-export interface SelectPanelStatusProps extends HTMLAttributes<HTMLDivElement> {
+export interface SelectPanelStatusProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
   tone?: 'default' | 'error';
 }
 

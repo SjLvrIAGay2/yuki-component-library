@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useContext,
@@ -6,7 +7,6 @@ import {
   useRef,
   useState,
   createContext,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent as ReactKeyboardEvent,
   type MouseEvent,
@@ -56,23 +56,23 @@ export interface MenuClassNames {
 }
 
 export interface MenuStyles {
-  root?: CSSProperties;
-  item?: CSSProperties;
-  itemIcon?: CSSProperties;
-  itemLabel?: CSSProperties;
-  itemExtra?: CSSProperties;
-  submenu?: CSSProperties;
-  submenuTrigger?: CSSProperties;
-  submenuArrow?: CSSProperties;
-  submenuList?: CSSProperties;
-  popup?: CSSProperties;
-  group?: CSSProperties;
-  groupTitle?: CSSProperties;
-  divider?: CSSProperties;
+  root?: StyleProperties;
+  item?: StyleProperties;
+  itemIcon?: StyleProperties;
+  itemLabel?: StyleProperties;
+  itemExtra?: StyleProperties;
+  submenu?: StyleProperties;
+  submenuTrigger?: StyleProperties;
+  submenuArrow?: StyleProperties;
+  submenuList?: StyleProperties;
+  popup?: StyleProperties;
+  group?: StyleProperties;
+  groupTitle?: StyleProperties;
+  divider?: StyleProperties;
 }
 
 export interface MenuProps
-  extends Omit<HTMLAttributes<HTMLUListElement>, 'children' | 'onSelect'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLUListElement>>, 'children' | 'onSelect'> {
   /** Menu tree. Nested `children` become submenus. */
   items: MenuItemConfig[];
   mode?: MenuMode;

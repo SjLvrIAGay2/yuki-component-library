@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { CompoundTable, type CompoundTableProps } from './TableParts';
 import { useComponentDefaults } from '../../theme';
 import {
@@ -181,48 +182,48 @@ export interface TableClassNames {
 }
 
 export interface TableStyles {
-  root?: CSSProperties;
-  content?: CSSProperties;
-  container?: CSSProperties;
-  table?: CSSProperties;
-  header?: CSSProperties;
-  headerRow?: CSSProperties;
-  headerCell?: CSSProperties;
-  headerInner?: CSSProperties;
-  sortTrigger?: CSSProperties;
-  sortIcon?: CSSProperties;
-  filterTrigger?: CSSProperties;
-  filterIcon?: CSSProperties;
-  filterPanel?: CSSProperties;
-  filterOption?: CSSProperties;
-  filterCheck?: CSSProperties;
-  filterFooter?: CSSProperties;
-  filterReset?: CSSProperties;
-  body?: CSSProperties;
-  row?: CSSProperties;
-  rowExpanded?: CSSProperties;
-  cell?: CSSProperties;
-  cellEllipsis?: CSSProperties;
-  selectionCell?: CSSProperties;
-  selectionHeaderCell?: CSSProperties;
-  selectionCheckbox?: CSSProperties;
-  selectionRadio?: CSSProperties;
-  expandCell?: CSSProperties;
-  expandHeaderCell?: CSSProperties;
-  expandButton?: CSSProperties;
-  expandIcon?: CSSProperties;
-  expandedRow?: CSSProperties;
-  expandedCell?: CSSProperties;
-  expandedContent?: CSSProperties;
-  footer?: CSSProperties;
-  pagination?: CSSProperties;
-  empty?: CSSProperties;
-  loading?: CSSProperties;
-  spinner?: CSSProperties;
+  root?: StyleProperties;
+  content?: StyleProperties;
+  container?: StyleProperties;
+  table?: StyleProperties;
+  header?: StyleProperties;
+  headerRow?: StyleProperties;
+  headerCell?: StyleProperties;
+  headerInner?: StyleProperties;
+  sortTrigger?: StyleProperties;
+  sortIcon?: StyleProperties;
+  filterTrigger?: StyleProperties;
+  filterIcon?: StyleProperties;
+  filterPanel?: StyleProperties;
+  filterOption?: StyleProperties;
+  filterCheck?: StyleProperties;
+  filterFooter?: StyleProperties;
+  filterReset?: StyleProperties;
+  body?: StyleProperties;
+  row?: StyleProperties;
+  rowExpanded?: StyleProperties;
+  cell?: StyleProperties;
+  cellEllipsis?: StyleProperties;
+  selectionCell?: StyleProperties;
+  selectionHeaderCell?: StyleProperties;
+  selectionCheckbox?: StyleProperties;
+  selectionRadio?: StyleProperties;
+  expandCell?: StyleProperties;
+  expandHeaderCell?: StyleProperties;
+  expandButton?: StyleProperties;
+  expandIcon?: StyleProperties;
+  expandedRow?: StyleProperties;
+  expandedCell?: StyleProperties;
+  expandedContent?: StyleProperties;
+  footer?: StyleProperties;
+  pagination?: StyleProperties;
+  empty?: StyleProperties;
+  loading?: StyleProperties;
+  spinner?: StyleProperties;
 }
 
 export interface TableProps<T>
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'onChange'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children' | 'onChange'> {
   columns: readonly TableColumn<T>[];
   data?: readonly T[];
   rowKey?: keyof T | ((row: T, index: number) => TableKey);
@@ -246,7 +247,7 @@ export interface TableProps<T>
   /** Table-level cell fallback used when a column has no `render`. */
   renderCell?: (context: TableCellContext<T>) => ReactNode;
   rowClassName?: string | ((row: T, index: number) => string);
-  onRow?: (row: T, index: number) => HTMLAttributes<HTMLTableRowElement>;
+  onRow?: (row: T, index: number) => WithStyle<HTMLAttributes<HTMLTableRowElement>>;
   rowSelection?: TableRowSelection<T>;
   expandable?: TableExpandable<T>;
   sortState?: TableSortState | null;

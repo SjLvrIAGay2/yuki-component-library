@@ -1,7 +1,7 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useMemo,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -23,15 +23,15 @@ export interface QRCodeClassNames {
 }
 
 export interface QRCodeStyles {
-  root?: CSSProperties;
-  canvas?: CSSProperties;
-  logo?: CSSProperties;
-  status?: CSSProperties;
-  refresh?: CSSProperties;
+  root?: StyleProperties;
+  canvas?: StyleProperties;
+  logo?: StyleProperties;
+  status?: StyleProperties;
+  refresh?: StyleProperties;
 }
 
 export interface QRCodeProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'color' | 'children'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'color' | 'children'> {
   /** 需要编码的文本（UTF-8）。 */
   value: string;
   /** 二维码像素尺寸，默认 160。 */

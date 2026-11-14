@@ -1,9 +1,9 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
   useState,
   type ComponentPropsWithoutRef,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -11,7 +11,7 @@ import * as Primitive from '@radix-ui/react-slider';
 import { cx } from '../../internal/cx';
 import { useLocale, useComponentSize, useComponentDefaults } from '../../theme';
 import { useAnimation, type AnimationOptions } from '../../animation';
-export interface RangeSliderProps extends ComponentPropsWithoutRef<typeof Primitive.Root> {
+export interface RangeSliderProps extends WithStyle<ComponentPropsWithoutRef<typeof Primitive.Root>> {
   /** Controlled values are passed through; the caller must keep them within min/max and step. */
   value?: number[];
   /** Initial uncontrolled values. Defaults to the midpoint snapped to the configured step. */
@@ -21,19 +21,19 @@ export interface RangeSliderProps extends ComponentPropsWithoutRef<typeof Primit
   formatValue?: (value: number) => string;
   thumbLabels?: string[];
   /** Attributes and styles for the field wrapper. className keeps targeting this wrapper. */
-  fieldProps?: HTMLAttributes<HTMLDivElement>;
+  fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
   controlClassName?: string;
-  controlStyle?: CSSProperties;
+  controlStyle?: StyleProperties;
   size?: 'sm' | 'md' | 'lg';
-  trackProps?: ComponentPropsWithoutRef<typeof Primitive.Track>;
-  rangeProps?: ComponentPropsWithoutRef<typeof Primitive.Range>;
+  trackProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Track>>;
+  rangeProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Range>>;
   thumbProps?:
-    | Omit<ComponentPropsWithoutRef<typeof Primitive.Thumb>, 'children' | 'asChild'>
+    | Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Thumb>>, 'children' | 'asChild'>
     | ((
         index: number,
-      ) => Omit<ComponentPropsWithoutRef<typeof Primitive.Thumb>, 'children' | 'asChild'>);
-  labelProps?: HTMLAttributes<HTMLDivElement>;
-  valueProps?: HTMLAttributes<HTMLSpanElement>;
+      ) => Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Thumb>>, 'children' | 'asChild'>);
+  labelProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  valueProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
   animation?: AnimationOptions | false;
 }
 

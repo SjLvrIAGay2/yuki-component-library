@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
 import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react';
 import { cx } from '../../internal/cx';
@@ -10,10 +11,10 @@ export interface ContainerClassNames {
 }
 
 export interface ContainerStyles {
-  root?: CSSProperties;
+  root?: StyleProperties;
 }
 
-export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
+export interface ContainerProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
   /** Max content width mapped to the breakpoint scale. */
   size?: ContainerSize;
   /** Stretch edge-to-edge regardless of `size`. */
@@ -66,7 +67,7 @@ export const Container = forwardRef<HTMLDivElement, ContainerProps>(
             maxWidth: fluid ? undefined : maxWidth,
             ...styles?.root,
             ...style,
-          } as CSSProperties
+          } as StyleProperties
         }
       >
         {children}

@@ -1,5 +1,6 @@
+import type { StyleProperties } from '../../styles/properties';
 import { useIsomorphicLayoutEffect } from '../../internal/useIsomorphicLayoutEffect';
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useResizeObserver } from '../../hooks';
 import { cx } from '../../internal/cx';
 import { useLocale } from '../../theme';
@@ -13,7 +14,7 @@ interface PreviewContentProps {
   src?: string;
   alt: string;
   className?: string;
-  style?: CSSProperties;
+  style?: StyleProperties;
   onBackdropClick: () => void;
 }
 

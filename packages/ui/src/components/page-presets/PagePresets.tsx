@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
@@ -24,7 +25,7 @@ export type PageAction =
   | {
       label: ReactNode;
       href: string;
-      linkProps?: Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'children'>;
+      linkProps?: Omit<WithStyle<AnchorHTMLAttributes<HTMLAnchorElement>>, 'href' | 'children'>;
     }
   | {
       label: ReactNode;
@@ -32,7 +33,7 @@ export type PageAction =
       onClick?: ButtonProps['onClick'];
       buttonProps?: Omit<ButtonProps, 'children'>;
     };
-export interface PagePresetProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface PagePresetProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title'> {
   title?: ReactNode;
   description?: ReactNode;
   statusCode?: string | number;
@@ -47,12 +48,12 @@ export interface PagePresetProps extends Omit<HTMLAttributes<HTMLDivElement>, 't
   background?: CSSProperties['background'];
   align?: 'center' | 'start';
   animation?: AnimationOptions | false;
-  LinkComponent?: ComponentType<AnchorHTMLAttributes<HTMLAnchorElement>>;
-  contentProps?: HTMLAttributes<HTMLDivElement>;
-  titleProps?: HTMLAttributes<HTMLHeadingElement>;
-  descriptionProps?: HTMLAttributes<HTMLParagraphElement>;
-  illustrationProps?: HTMLAttributes<HTMLDivElement>;
-  actionsProps?: HTMLAttributes<HTMLDivElement>;
+  LinkComponent?: ComponentType<WithStyle<AnchorHTMLAttributes<HTMLAnchorElement>>>;
+  contentProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  titleProps?: WithStyle<HTMLAttributes<HTMLHeadingElement>>;
+  descriptionProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
+  illustrationProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  actionsProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
 }
 function Action({
   action,

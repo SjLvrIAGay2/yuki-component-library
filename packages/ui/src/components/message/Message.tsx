@@ -1,7 +1,7 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
-  type CSSProperties,
   type HTMLAttributes,
   type MouseEvent,
   type ReactNode,
@@ -23,14 +23,14 @@ export interface MessageClassNames {
 }
 
 export interface MessageStyles {
-  root?: CSSProperties;
-  icon?: CSSProperties;
-  content?: CSSProperties;
-  action?: CSSProperties;
-  close?: CSSProperties;
+  root?: StyleProperties;
+  icon?: StyleProperties;
+  content?: StyleProperties;
+  action?: StyleProperties;
+  close?: StyleProperties;
 }
 
-export interface MessageProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+export interface MessageProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'content'> {
   /** Auto-dismiss a declarative notice after this many milliseconds. */
   title?: ReactNode;
   duration?: number;
@@ -158,7 +158,7 @@ export interface MessageStackItem {
   action?: ReactNode;
   placement?: MessagePlacement;
   className?: string;
-  style?: CSSProperties;
+  style?: StyleProperties;
   classNames?: MessageClassNames;
   styles?: MessageStyles;
   onClose?: () => void;

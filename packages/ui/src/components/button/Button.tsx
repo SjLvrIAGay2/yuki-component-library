@@ -1,7 +1,7 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   type ButtonHTMLAttributes,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -22,13 +22,13 @@ export interface ButtonClassNames {
 }
 
 export interface ButtonStyles {
-  root?: CSSProperties;
-  icon?: CSSProperties;
-  label?: CSSProperties;
-  spinner?: CSSProperties;
+  root?: StyleProperties;
+  icon?: StyleProperties;
+  label?: StyleProperties;
+  spinner?: StyleProperties;
 }
 
-export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
+export interface ButtonProps extends Omit<WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>, 'color'> {
   variant?: ButtonVariant;
   tone?: ButtonTone;
   /** Defaults to the ConfigProvider size, then `md`. */
@@ -41,7 +41,7 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   loadingIndicator?: ReactNode;
-  spinnerProps?: HTMLAttributes<HTMLSpanElement>;
+  spinnerProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
   animation?: AnimationOptions | false;
   /** Icon-only buttons require an accessible name. */
   iconOnly?: boolean;
@@ -162,7 +162,7 @@ function LoadingSpinner({
   className,
   style,
   ...props
-}: HTMLAttributes<HTMLSpanElement> & {
+}: WithStyle<HTMLAttributes<HTMLSpanElement>> & {
   animation?: AnimationOptions | false;
   customMotion: boolean;
 }) {

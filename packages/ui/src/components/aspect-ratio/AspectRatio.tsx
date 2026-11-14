@@ -1,5 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
-import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react';
+import { forwardRef, type HTMLAttributes } from 'react';
 import { cx } from '../../internal/cx';
 
 export interface AspectRatioClassNames {
@@ -8,11 +9,11 @@ export interface AspectRatioClassNames {
 }
 
 export interface AspectRatioStyles {
-  root?: CSSProperties;
-  content?: CSSProperties;
+  root?: StyleProperties;
+  content?: StyleProperties;
 }
 
-export interface AspectRatioProps extends HTMLAttributes<HTMLDivElement> {
+export interface AspectRatioProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
   /** width / height. Accepts `16 / 9`, `1.777`, or `'16/9'`. */
   ratio?: number | string;
   classNames?: AspectRatioClassNames;
@@ -37,7 +38,7 @@ export const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
             '--yuki-aspect-ratio': ratio,
             ...styles?.root,
             ...style,
-          } as CSSProperties
+          } as StyleProperties
         }
       >
         <div

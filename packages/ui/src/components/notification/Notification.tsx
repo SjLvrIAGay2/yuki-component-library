@@ -1,7 +1,7 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
-  type CSSProperties,
   type HTMLAttributes,
   type MouseEvent,
   type ReactNode,
@@ -31,17 +31,17 @@ export interface NotificationClassNames {
 }
 
 export interface NotificationStyles {
-  root?: CSSProperties;
-  icon?: CSSProperties;
-  content?: CSSProperties;
-  title?: CSSProperties;
-  description?: CSSProperties;
-  action?: CSSProperties;
-  close?: CSSProperties;
+  root?: StyleProperties;
+  icon?: StyleProperties;
+  content?: StyleProperties;
+  title?: StyleProperties;
+  description?: StyleProperties;
+  action?: StyleProperties;
+  close?: StyleProperties;
 }
 
 export interface NotificationProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'content'> {
   /** Headline. */
   title?: ReactNode;
   /** Supporting copy. Falls back to `children`. */
@@ -196,7 +196,7 @@ export interface NotificationStackItem {
   action?: ReactNode;
   placement?: NotificationPlacement;
   className?: string;
-  style?: CSSProperties;
+  style?: StyleProperties;
   classNames?: NotificationClassNames;
   styles?: NotificationStyles;
   onClose?: () => void;

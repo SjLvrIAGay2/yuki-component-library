@@ -1,8 +1,8 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
@@ -22,13 +22,13 @@ export interface RateClassNames {
 }
 
 export interface RateStyles {
-  root?: CSSProperties;
-  item?: CSSProperties;
-  star?: CSSProperties;
-  fill?: CSSProperties;
+  root?: StyleProperties;
+  item?: StyleProperties;
+  star?: StyleProperties;
+  fill?: StyleProperties;
 }
 
-export interface RateProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+export interface RateProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue'> {
   value?: number;
   defaultValue?: number;
   /** Number of symbols, 5 by default. */

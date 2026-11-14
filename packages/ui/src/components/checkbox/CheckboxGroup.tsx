@@ -1,7 +1,7 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   type ChangeEvent,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -25,13 +25,13 @@ export interface CheckboxGroupClassNames {
 }
 
 export interface CheckboxGroupStyles {
-  root?: CSSProperties;
-  item?: CSSProperties;
+  root?: StyleProperties;
+  item?: StyleProperties;
 }
 
 export interface CheckboxGroupProps
   extends Omit<
-    HTMLAttributes<HTMLDivElement>,
+    WithStyle<HTMLAttributes<HTMLDivElement>>,
     'onChange' | 'defaultValue' | 'value' | 'children'
   > {
   value?: CheckboxValue[];

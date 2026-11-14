@@ -17,7 +17,7 @@ order: 1
 
 ## 深度定制
 
-`theme.primaryColor` 会通过 `color-mix` 派生 hover / active / subtle / border / ring，无需逐个覆盖。`theme.tokens` 以不带 `--yuki-` 前缀的 token 名覆盖任意全局 token，例如 `radius-md`。
+`theme.primaryColor` 会通过 `color-mix` 派生 hover / active / subtle / border / ring。设置 `theme.tokens` 时编辑器会提示内置名称，也支持业务自定义变量。例如 `{ 'radius-md': tokenVar('radius-lg'), '--app-panel-gap': '1rem' }` 会覆盖中等圆角，并在当前作用域设置业务变量。
 
 <Demo id="config-provider/02-custom" />
 
@@ -25,7 +25,7 @@ order: 1
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| theme | `{ mode?: 'light' \| 'dark' \| 'system'; primaryColor?: string; tokens?: Record<string, string> }` | — | 主题模式、品牌色与 token 覆盖 |
+| theme | `ThemeConfig` | — | 通过 mode 设置明暗模式，primaryColor 设置品牌色，tokens 接受 ThemeTokens 覆盖值 |
 | locale | `'zh-CN' \| 'en-US' \| { name, messages? }` | `zh-CN` | 语言与自定义文案 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 组件默认尺寸 |
 | motion | `boolean` | `true` | 是否启用动效；`false` 等价于 `data-yuki-motion="off"` |

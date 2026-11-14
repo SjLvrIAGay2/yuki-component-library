@@ -1,6 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
-  type CSSProperties,
   type ButtonHTMLAttributes,
   type HTMLAttributes,
   type KeyboardEvent,
@@ -30,18 +30,18 @@ export interface PaginationClassNames {
 }
 
 export interface PaginationStyles {
-  root?: CSSProperties;
-  list?: CSSProperties;
-  item?: CSSProperties;
-  activeItem?: CSSProperties;
-  prev?: CSSProperties;
-  next?: CSSProperties;
-  ellipsis?: CSSProperties;
-  total?: CSSProperties;
-  sizeChanger?: CSSProperties;
-  quickJumper?: CSSProperties;
-  jumpInput?: CSSProperties;
-  simple?: CSSProperties;
+  root?: StyleProperties;
+  list?: StyleProperties;
+  item?: StyleProperties;
+  activeItem?: StyleProperties;
+  prev?: StyleProperties;
+  next?: StyleProperties;
+  ellipsis?: StyleProperties;
+  total?: StyleProperties;
+  sizeChanger?: StyleProperties;
+  quickJumper?: StyleProperties;
+  jumpInput?: StyleProperties;
+  simple?: StyleProperties;
 }
 
 export interface PaginationButtonInfo {
@@ -52,13 +52,13 @@ export interface PaginationButtonInfo {
 }
 
 export interface PaginationProps extends Omit<
-  HTMLAttributes<HTMLElement>,
+  WithStyle<HTMLAttributes<HTMLElement>>,
   'onChange' | 'defaultValue'
 >, PageStateProps {
   previousContent?: ReactNode;
   nextContent?: ReactNode;
   ellipsis?: ReactNode;
-  buttonProps?: (item: PaginationButtonInfo) => ButtonHTMLAttributes<HTMLButtonElement>;
+  buttonProps?: (item: PaginationButtonInfo) => WithStyle<ButtonHTMLAttributes<HTMLButtonElement>>;
   boundaryCount?: number;
   animation?: AnimationOptions | false;
   pageSizeOptions?: number[];

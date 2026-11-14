@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useCallback,
@@ -5,7 +6,6 @@ import {
   useId,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type ReactElement,
@@ -68,15 +68,15 @@ export interface DateRangePickerClassNames {
 }
 
 export interface DateRangePickerStyles {
-  root?: CSSProperties;
-  trigger?: CSSProperties;
-  panel?: CSSProperties;
+  root?: StyleProperties;
+  trigger?: StyleProperties;
+  panel?: StyleProperties;
   calendar?: DateCalendarStyles;
 }
 
 export interface DateRangePickerProps
   extends Omit<
-    HTMLAttributes<HTMLDivElement>,
+    WithStyle<HTMLAttributes<HTMLDivElement>>,
     'onChange' | 'defaultValue' | 'value' | 'prefix'
   > {
   /** Controlled range; `null` clears it. */

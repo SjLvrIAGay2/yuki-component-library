@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   StandaloneField,
   useStandaloneField,
@@ -13,7 +14,6 @@ import {
   useId,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
@@ -62,16 +62,16 @@ export interface TimePickerClassNames {
 }
 
 export interface TimePickerStyles {
-  root?: CSSProperties;
-  trigger?: CSSProperties;
-  panel?: CSSProperties;
-  columns?: CSSProperties;
+  root?: StyleProperties;
+  trigger?: StyleProperties;
+  panel?: StyleProperties;
+  columns?: StyleProperties;
 }
 
 export interface TimePickerProps
   extends
     StandaloneFieldProps,
-    Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
+    Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue' | 'value' | 'prefix'> {
   /** Controlled `HH:mm` or `HH:mm:ss` value. */
   value?: string | null;
   defaultValue?: string | null;

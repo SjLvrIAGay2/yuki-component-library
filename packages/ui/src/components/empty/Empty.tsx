@@ -1,6 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -15,14 +15,14 @@ export interface EmptyClassNames {
 }
 
 export interface EmptyStyles {
-  root?: CSSProperties;
-  image?: CSSProperties;
-  description?: CSSProperties;
-  footer?: CSSProperties;
+  root?: StyleProperties;
+  image?: StyleProperties;
+  description?: StyleProperties;
+  footer?: StyleProperties;
 }
 
 export interface EmptyProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
   /** 自定义插图：传入字符串按图片地址处理，传 null 隐藏。 */
   image?: ReactNode;
   /** 使用图标代替默认插图。 */
@@ -32,7 +32,7 @@ export interface EmptyProps
   /** 尺寸。 */
   size?: Size;
   /** 插图区域的额外样式。 */
-  imageStyle?: CSSProperties;
+  imageStyle?: StyleProperties;
   /** 操作区内容，例如按钮。 */
   children?: ReactNode;
   classNames?: EmptyClassNames;

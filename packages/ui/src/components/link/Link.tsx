@@ -1,8 +1,8 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
 import {
   forwardRef,
   type AnchorHTMLAttributes,
-  type CSSProperties,
   type ReactNode,
 } from 'react';
 import { cx } from '../../internal/cx';
@@ -18,12 +18,12 @@ export interface LinkClassNames {
 }
 
 export interface LinkStyles {
-  root?: CSSProperties;
-  icon?: CSSProperties;
+  root?: StyleProperties;
+  icon?: StyleProperties;
 }
 
 export interface LinkProps
-  extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'color'> {
+  extends Omit<WithStyle<AnchorHTMLAttributes<HTMLAnchorElement>>, 'color'> {
   underline?: LinkUnderline;
   tone?: LinkTone;
   size?: LinkSize;

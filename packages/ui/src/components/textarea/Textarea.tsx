@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   StandaloneField,
   fieldDescription,
@@ -9,7 +10,6 @@ import {
   useEffect,
   useRef,
   type ChangeEvent,
-  type CSSProperties,
   type ReactNode,
   type TextareaHTMLAttributes,
 } from 'react';
@@ -27,10 +27,10 @@ export interface TextareaClassNames {
 }
 
 export interface TextareaStyles {
-  root?: CSSProperties;
-  control?: CSSProperties;
-  clear?: CSSProperties;
-  count?: CSSProperties;
+  root?: StyleProperties;
+  control?: StyleProperties;
+  clear?: StyleProperties;
+  count?: StyleProperties;
 }
 
 export interface TextareaAutoSize {
@@ -42,7 +42,7 @@ export interface TextareaProps
   extends
     StandaloneFieldProps,
     Omit<
-      TextareaHTMLAttributes<HTMLTextAreaElement>,
+      WithStyle<TextareaHTMLAttributes<HTMLTextAreaElement>>,
       'size' | 'onChange' | 'value' | 'defaultValue'
     > {
   size?: Size;

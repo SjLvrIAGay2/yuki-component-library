@@ -1,3 +1,4 @@
+import type { WithStyle } from '../styles/properties';
 import {
   forwardRef,
   useEffect,
@@ -93,7 +94,7 @@ export function usePresence(open: boolean, duration: number, delay = 0) {
   return open || present;
 }
 
-export interface AnimationProps extends HTMLAttributes<HTMLDivElement> {
+export interface AnimationProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
   animation?: AnimationOptions | false;
   open?: boolean;
   forceMount?: boolean;

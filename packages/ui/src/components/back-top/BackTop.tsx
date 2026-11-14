@@ -1,9 +1,9 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
   useState,
   type ButtonHTMLAttributes,
-  type CSSProperties,
   type ReactNode,
 } from 'react';
 import { cx } from '../../internal/cx';
@@ -17,12 +17,12 @@ export interface BackTopClassNames {
 }
 
 export interface BackTopStyles {
-  root?: CSSProperties;
-  arrow?: CSSProperties;
-  content?: CSSProperties;
+  root?: StyleProperties;
+  arrow?: StyleProperties;
+  content?: StyleProperties;
 }
 
-export interface BackTopProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface BackTopProps extends WithStyle<ButtonHTMLAttributes<HTMLButtonElement>> {
   /** Scroll distance (px) after which the button appears. */
   visibilityHeight?: number;
   threshold?: number;

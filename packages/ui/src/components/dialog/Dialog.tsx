@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import { useIsomorphicLayoutEffect } from '../../internal/useIsomorphicLayoutEffect';
 import {
   forwardRef,
@@ -7,6 +8,8 @@ import {
   useRef,
   useState,
   type ComponentPropsWithoutRef,
+  type ComponentProps,
+  type ForwardRefExoticComponent,
   type DOMAttributes,
   type HTMLAttributes,
   type MutableRefObject,
@@ -28,7 +31,7 @@ import { useLocale } from '../../theme';
 // relay those handlers because their React event ancestry intentionally survives the surface.
 const DialogSurface = forwardRef<
   HTMLDivElement,
-  HTMLAttributes<HTMLDivElement> & { events: MutableRefObject<Record<string, unknown>> }
+  WithStyle<HTMLAttributes<HTMLDivElement>> & { events: MutableRefObject<Record<string, unknown>> }
 >(function DialogSurface({ events, ...props }, ref) {
   events.current = Object.fromEntries(
     Object.entries(props).filter(
@@ -48,13 +51,13 @@ export interface DialogProps extends ComponentPropsWithoutRef<typeof Primitive.R
   closeLabel?: string;
   portalContainer?: HTMLElement | null;
   portalProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Portal>, 'children'>;
-  contentProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Content>, 'children' | 'asChild'>;
-  overlayProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Overlay>, 'children' | 'asChild'>;
-  titleProps?: ComponentPropsWithoutRef<typeof Primitive.Title>;
-  descriptionProps?: ComponentPropsWithoutRef<typeof Primitive.Description>;
-  bodyProps?: HTMLAttributes<HTMLDivElement>;
-  footerProps?: HTMLAttributes<HTMLDivElement>;
-  closeProps?: ComponentPropsWithoutRef<typeof Primitive.Close>;
+  contentProps?: Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Content>>, 'children' | 'asChild'>;
+  overlayProps?: Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Overlay>>, 'children' | 'asChild'>;
+  titleProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Title>>;
+  descriptionProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Description>>;
+  bodyProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  footerProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  closeProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Close>>;
   showClose?: boolean;
   closeIcon?: ReactNode;
   animation?: AnimationOptions | false;
@@ -360,4 +363,5 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(function Dialog(in
     </Primitive.Root>
   );
 });
-export const DialogClose = Primitive.Close;
+export const DialogClose: ForwardRefExoticComponent<WithStyle<ComponentProps<typeof Primitive.Close>>> =
+  Primitive.Close;

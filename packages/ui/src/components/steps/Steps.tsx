@@ -1,7 +1,7 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useRef,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type ReactNode,
@@ -38,17 +38,17 @@ export interface StepsClassNames {
 }
 
 export interface StepsStyles {
-  root?: CSSProperties;
-  item?: CSSProperties;
-  icon?: CSSProperties;
-  tail?: CSSProperties;
-  content?: CSSProperties;
-  title?: CSSProperties;
-  description?: CSSProperties;
-  dot?: CSSProperties;
+  root?: StyleProperties;
+  item?: StyleProperties;
+  icon?: StyleProperties;
+  tail?: StyleProperties;
+  content?: StyleProperties;
+  title?: StyleProperties;
+  description?: StyleProperties;
+  dot?: StyleProperties;
 }
 
-export interface StepsProps extends Omit<HTMLAttributes<HTMLOListElement>, 'onChange'> {
+export interface StepsProps extends Omit<WithStyle<HTMLAttributes<HTMLOListElement>>, 'onChange'> {
   items: StepItem[];
   /** Index of the current step, controlled. */
   current?: number;

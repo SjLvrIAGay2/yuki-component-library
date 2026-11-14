@@ -1,4 +1,4 @@
-import { ConfigProvider, Button, Divider, Flex, Typography } from '@yuki-ui/react';
+import { ConfigProvider, Button, Divider, Flex, Typography, tokenVar } from '@yuki-ui/react';
 import { useState } from 'react';
 
 export default function ConfigProviderCustom() {
@@ -22,11 +22,11 @@ export default function ConfigProviderCustom() {
               aria-hidden="true"
               style={{
                 display: 'inline-block',
-                width: 'var(--yuki-icon-size-sm)',
-                height: 'var(--yuki-icon-size-sm)',
-                borderRadius: 'var(--yuki-radius-full)',
+                width: tokenVar('icon-size-sm'),
+                height: tokenVar('icon-size-sm'),
+                borderRadius: tokenVar('radius-full'),
                 background: color,
-                marginInlineEnd: 'var(--yuki-space-1-5)',
+                marginInlineEnd: tokenVar('space-1-5'),
               }}
             />
             品牌色
@@ -37,9 +37,9 @@ export default function ConfigProviderCustom() {
       <div
         style={{
           width: '100%',
-          padding: 'var(--yuki-space-5)',
-          borderRadius: 'var(--yuki-radius-xl)',
-          background: 'var(--yuki-color-bg-subtle)',
+          padding: tokenVar('space-5'),
+          borderRadius: tokenVar('radius-xl'),
+          background: tokenVar('color-bg-subtle'),
         }}
       >
         <ConfigProvider

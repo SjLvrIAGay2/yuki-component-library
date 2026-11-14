@@ -1,5 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useConfig, useComponentDefaults } from '../../theme';
-import { forwardRef, useId, type CSSProperties, type HTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, useId, type HTMLAttributes, type ReactNode } from 'react';
 import { useAnimation, type AnimationOptions } from '../../animation';
 import { cx } from '../../internal/cx';
 import { useComponentSize, useLocale, type Size } from '../../theme';
@@ -16,13 +17,13 @@ export interface ProgressClassNames {
 }
 
 export interface ProgressStyles {
-  root?: CSSProperties;
-  track?: CSSProperties;
-  bar?: CSSProperties;
-  text?: CSSProperties;
+  root?: StyleProperties;
+  track?: StyleProperties;
+  bar?: StyleProperties;
+  text?: StyleProperties;
 }
 
-export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface ProgressProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'children'> {
   /** Completion percentage, clamped to 0–100. @default 0 */
   percent?: number;
   value?: number | null;
@@ -30,12 +31,12 @@ export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chi
   label?: ReactNode;
   showValue?: boolean;
   formatValue?: (value: number | null, max: number) => ReactNode;
-  fieldProps?: HTMLAttributes<HTMLDivElement>;
+  fieldProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
   controlClassName?: string;
-  controlStyle?: CSSProperties;
-  fillProps?: HTMLAttributes<HTMLDivElement>;
-  labelProps?: HTMLAttributes<HTMLDivElement>;
-  valueProps?: HTMLAttributes<HTMLSpanElement>;
+  controlStyle?: StyleProperties;
+  fillProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  labelProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
+  valueProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
   animation?: AnimationOptions | false;
   /** Shape of the indicator. @default 'line' */
   type?: ProgressType;

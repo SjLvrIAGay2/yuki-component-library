@@ -1,4 +1,5 @@
-import { Fragment, type CSSProperties, type HTMLAttributes, type ReactNode } from 'react';
+import type { StyleProperties, WithStyle } from '../../styles/properties';
+import { Fragment, type HTMLAttributes, type ReactNode } from 'react';
 import { cx } from '../../internal/cx';
 import { useLocale } from '../../theme';
 import type { SelectClassNames } from './Select';
@@ -18,8 +19,8 @@ interface TagsProps<T> extends Omit<SelectTagOptions<T>, 'onRemove' | 'removable
   options: SelectOption<T>[];
   remove?: (value: T) => void;
   classNames?: SelectClassNames;
-  valueProps?: HTMLAttributes<HTMLSpanElement>;
-  style?: CSSProperties;
+  valueProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+  style?: StyleProperties;
 }
 
 export function SelectTags<T>({

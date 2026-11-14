@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { CompoundTabs } from './TabsParts';
 import type { AnimationOptions } from '../../animation';
 import { useComponentDefaults } from '../../theme';
@@ -6,7 +7,6 @@ import {
   useId,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
@@ -31,7 +31,7 @@ export interface TabItem {
   /** 条目的额外类名。 */
   className?: string;
   /** 条目的额外样式。 */
-  style?: CSSProperties;
+  style?: StyleProperties;
 }
 
 export interface TabsClassNames {
@@ -47,19 +47,19 @@ export interface TabsClassNames {
 }
 
 export interface TabsStyles {
-  root?: CSSProperties;
-  nav?: CSSProperties;
-  tablist?: CSSProperties;
-  tab?: CSSProperties;
-  label?: CSSProperties;
-  icon?: CSSProperties;
-  extra?: CSSProperties;
-  content?: CSSProperties;
-  panel?: CSSProperties;
+  root?: StyleProperties;
+  nav?: StyleProperties;
+  tablist?: StyleProperties;
+  tab?: StyleProperties;
+  label?: StyleProperties;
+  icon?: StyleProperties;
+  extra?: StyleProperties;
+  content?: StyleProperties;
+  panel?: StyleProperties;
 }
 
 export interface TabsProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'onChange' | 'defaultValue'> {
   /** 选项卡列表。 */
   items?: readonly TabItem[];
   /** 受控的选中项，对应条目的 key 或触发器的 value。 */

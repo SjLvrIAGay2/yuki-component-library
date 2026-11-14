@@ -1,16 +1,17 @@
+import type { WithStyle } from '../../styles/properties';
 import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
 import { cx } from '../../internal/cx';
 import { Icon } from '../icon';
 import { useComponentDefaults } from '../../theme';
-export interface EmptyStateProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface EmptyStateProps extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title'> {
   title: ReactNode;
   description?: ReactNode;
   icon?: ReactNode;
   action?: ReactNode;
-  iconProps?: HTMLAttributes<HTMLSpanElement>;
-  titleProps?: HTMLAttributes<HTMLHeadingElement>;
-  descriptionProps?: HTMLAttributes<HTMLParagraphElement>;
-  actionProps?: HTMLAttributes<HTMLDivElement>;
+  iconProps?: WithStyle<HTMLAttributes<HTMLSpanElement>>;
+  titleProps?: WithStyle<HTMLAttributes<HTMLHeadingElement>>;
+  descriptionProps?: WithStyle<HTMLAttributes<HTMLParagraphElement>>;
+  actionProps?: WithStyle<HTMLAttributes<HTMLDivElement>>;
 }
 export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
   function EmptyState(input, ref) {

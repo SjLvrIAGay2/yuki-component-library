@@ -1,3 +1,4 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useConfig, useComponentDefaults } from '../../theme';
 import {
   forwardRef,
@@ -40,16 +41,16 @@ export interface SkeletonClassNames {
 }
 
 export interface SkeletonStyles {
-  root?: CSSProperties;
-  avatar?: CSSProperties;
-  content?: CSSProperties;
-  title?: CSSProperties;
-  paragraph?: CSSProperties;
-  row?: CSSProperties;
+  root?: StyleProperties;
+  avatar?: StyleProperties;
+  content?: StyleProperties;
+  title?: StyleProperties;
+  paragraph?: StyleProperties;
+  row?: StyleProperties;
 }
 
 export interface SkeletonProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title'> {
   /** 为 false 时直接渲染 children。 */
   loading?: boolean;
   width?: CSSProperties['width'];

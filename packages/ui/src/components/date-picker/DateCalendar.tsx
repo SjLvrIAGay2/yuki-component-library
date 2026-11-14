@@ -1,10 +1,10 @@
+import type { StyleProperties } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
   type KeyboardEvent,
   type ReactNode,
 } from 'react';
@@ -54,9 +54,9 @@ export interface DateCalendarClassNames {
 }
 
 export interface DateCalendarStyles {
-  root?: CSSProperties;
-  grid?: CSSProperties;
-  day?: CSSProperties;
+  root?: StyleProperties;
+  grid?: StyleProperties;
+  day?: StyleProperties;
 }
 
 export interface DateCalendarProps {

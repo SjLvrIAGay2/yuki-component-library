@@ -1,9 +1,9 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import {
   forwardRef,
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from 'react';
@@ -24,17 +24,17 @@ export interface StatisticClassNames {
 }
 
 export interface StatisticStyles {
-  root?: CSSProperties;
-  title?: CSSProperties;
-  content?: CSSProperties;
-  prefix?: CSSProperties;
-  value?: CSSProperties;
-  suffix?: CSSProperties;
-  loading?: CSSProperties;
+  root?: StyleProperties;
+  title?: StyleProperties;
+  content?: StyleProperties;
+  prefix?: StyleProperties;
+  value?: StyleProperties;
+  suffix?: StyleProperties;
+  loading?: StyleProperties;
 }
 
 export interface StatisticProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'prefix'> {
+  extends Omit<WithStyle<HTMLAttributes<HTMLDivElement>>, 'title' | 'prefix'> {
   /** 数值。 */
   value: StatisticValue;
   /** 标题。 */
@@ -63,7 +63,7 @@ export interface StatisticProps
   /** 尺寸。 */
   size?: Size;
   /** 数值的额外样式。 */
-  valueStyle?: CSSProperties;
+  valueStyle?: StyleProperties;
   classNames?: StatisticClassNames;
   styles?: StatisticStyles;
 }

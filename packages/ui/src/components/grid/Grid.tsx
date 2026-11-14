@@ -1,5 +1,6 @@
+import type { StyleProperties, WithStyle } from '../../styles/properties';
 import { useComponentDefaults } from '../../theme';
-import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react';
+import { forwardRef, type HTMLAttributes } from 'react';
 import { cx } from '../../internal/cx';
 import { spaceValue, type SpaceSize } from '../../internal/spacing';
 
@@ -19,11 +20,11 @@ export interface GridClassNames {
 }
 
 export interface GridStyles {
-  root?: CSSProperties;
-  item?: CSSProperties;
+  root?: StyleProperties;
+  item?: StyleProperties;
 }
 
-export interface GridProps extends HTMLAttributes<HTMLDivElement> {
+export interface GridProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
   /** Number of equal columns. Defaults to 12. */
   columns?: number;
   gap?: SpaceSize;
@@ -77,7 +78,7 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>(function Grid(
         '--yuki-grid-column-gap': columnGap ? spaceValue(columnGap) : undefined,
         ...styles?.root,
         ...style,
-      } as CSSProperties}
+      } as StyleProperties}
     >
       {children}
     </div>
@@ -86,7 +87,7 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>(function Grid(
 
 Grid.displayName = 'Grid';
 
-export interface GridItemProps extends HTMLAttributes<HTMLDivElement> {
+export interface GridItemProps extends WithStyle<HTMLAttributes<HTMLDivElement>> {
   /** Columns to span at the base breakpoint. */
   span?: number;
   /** Column to start at (1-based). */

@@ -1,3 +1,4 @@
+import type { WithStyle } from '../../styles/properties';
 import {
   createContext,
   useCallback,
@@ -32,9 +33,9 @@ export interface ToastOptions {
   action?: ReactNode;
   animation?: AnimationOptions | false;
   rootProps?: ToastRootProps;
-  titleProps?: ComponentPropsWithoutRef<typeof Primitive.Title>;
-  descriptionProps?: ComponentPropsWithoutRef<typeof Primitive.Description>;
-  closeProps?: ComponentPropsWithoutRef<typeof Primitive.Close>;
+  titleProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Title>>;
+  descriptionProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Description>>;
+  closeProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Close>>;
   hideClose?: boolean;
 }
 export interface ToastDismissOptions {
@@ -56,8 +57,8 @@ export interface ToastProviderProps {
   position?: ToastPosition;
   maxToasts?: number;
   portalContainer?: HTMLElement | null;
-  providerProps?: Omit<ComponentPropsWithoutRef<typeof Primitive.Provider>, 'children'>;
-  viewportProps?: ComponentPropsWithoutRef<typeof Primitive.Viewport>;
+  providerProps?: Omit<WithStyle<ComponentPropsWithoutRef<typeof Primitive.Provider>>, 'children'>;
+  viewportProps?: WithStyle<ComponentPropsWithoutRef<typeof Primitive.Viewport>>;
   toastProps?: Omit<ToastOptions, 'title' | 'description' | 'duration'>;
   animation?: AnimationOptions | false;
 }
