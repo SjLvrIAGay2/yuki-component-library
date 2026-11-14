@@ -1,6 +1,7 @@
 /**
- * Sync the reference blocks in AI-GUIDE.md from public TypeScript entry points.
- * The usage notes and examples outside those blocks are edited in Markdown.
+ * Sync the opening inventory and reference blocks in AI-GUIDE.md.
+ * Edit usage notes and task index rows in Markdown. Each row links a public
+ * entry point to its reference section and groups it in the opening inventory.
  * Run with --check to verify coverage and detect stale signatures.
  */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -24,15 +25,13 @@ for (const dir of readdirSync(join(source, 'components'), { withFileTypes: true 
   if (program.getSourceFile(join(source, entry, 'index.ts'))) entryPoints.set(dir.name, entry);
 }
 
-const symbolOf = node => {
-  const symbol = checker.getSymbolAtLocation(node);
-  return symbol?.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
-};
+const resolveAlias = symbol => symbol?.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
+const symbolOf = node => resolveAlias(checker.getSymbolAtLocation(node));
 const publicNames = new Set();
 for (const path of entryPoints.values()) {
   const entry = program.getSourceFile(join(source, path, 'index.ts'));
   for (const symbol of checker.getExportsOfModule(checker.getSymbolAtLocation(entry))) {
-    publicNames.add(symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol);
+    publicNames.add(resolveAlias(symbol));
   }
 }
 const print = node => printer.printNode(ts.EmitHint.Unspecified, node, node.getSourceFile())
@@ -76,12 +75,13 @@ function declarationText(declaration, name) {
   return print(declaration);
 }
 
-function refBlock(slug) {
+function refBlock(slug, groupLink) {
   const path = entryPoints.get(slug);
   if (!path) throw new Error('Unknown reference section: ' + slug);
   const entry = program.getSourceFile(join(source, path, 'index.ts'));
   const symbols = checker.getExportsOfModule(checker.getSymbolAtLocation(entry));
   const runtime = [];
+  const typeNames = [];
   const declarations = new Map();
   const calls = [];
   const extras = new Map();
@@ -98,7 +98,7 @@ function refBlock(slug) {
     ts.forEachChild(node, addDependencies);
   };
   for (const exported of [...symbols].sort((a, b) => a.name < b.name ? -1 : 1)) {
-    const symbol = exported.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(exported) : exported;
+    const symbol = resolveAlias(exported);
     if (symbol.flags & ts.SymbolFlags.Value) {
       runtime.push(exported.name);
       const at = symbol.valueDeclaration;
@@ -129,6 +129,7 @@ function refBlock(slug) {
     }
     const declaration = symbol.declarations?.find(isType);
     if (!declaration) continue;
+    typeNames.push(exported.name);
     if (declaration.name.text !== exported.name) {
       declarations.set(exported.name, 'type ' + exported.name + ' = ' + declaration.name.text + ';');
     } else {
@@ -139,38 +140,99 @@ function refBlock(slug) {
   for (const [symbol, declaration] of extras) {
     declarations.set(symbol.name, declarationText(declaration, symbol.name));
   }
-  const links = ['[类型与导出入口](' + relative(root, entry.fileName).replaceAll('\\', '/') + ')'];
+  const links = [groupLink, '[类型与导出入口](' + relative(root, entry.fileName).replaceAll('\\', '/') + ')'];
   const page = docPath(slug === 'theme' ? 'config-provider' : slug);
   if (page) links.push('[交互说明](' + page + ')');
   const examples = slug === 'theme' ? 'config-provider' : slug;
   const examplesDir = join(root, 'apps/docs/src/examples', examples);
   let basicExample;
+  let exampleLinks;
   if (ts.sys.directoryExists(examplesDir)) {
-    links.push('[可运行示例](apps/docs/src/examples/' + examples + ')');
-    const first = readdirSync(examplesDir).filter(file => file.endsWith('.tsx')).sort()[0];
-    if (first) basicExample = readFileSync(join(examplesDir, first), 'utf8').replace(/\r\n/g, '\n').trim();
+    const files = readdirSync(examplesDir).filter(file => file.endsWith('.tsx')).sort();
+    if (files.length) {
+      basicExample = readFileSync(join(examplesDir, files[0]), 'utf8').replace(/\r\n/g, '\n').trim();
+      exampleLinks = files.map(file => '[' + file + '](apps/docs/src/examples/' + examples + '/' + file + ')');
+    }
   }
   const blocks = [...calls, ...declarations.values()];
-  const lines = [
-    '可导入 ' + runtime.map(name => '`' + name + '`').join('、') + '。', links.join(' · '),
-  ];
+  const lines = ['可导入 ' + runtime.map(name => '`' + name + '`').join('、') + '。'];
+  if (typeNames.length) lines.push('公开类型 ' + typeNames.map(name => '`' + name + '`').join('、') + '。');
+  lines.push(links.join(' · '));
+  if (exampleLinks) lines.push('仓库示例 ' + exampleLinks.join(' · '));
   if (basicExample) lines.push('<details>\n<summary>完整 TSX 示例</summary>\n\n```tsx\n' + basicExample + '\n```\n\n</details>');
   if (blocks.length) lines.push('<details>\n<summary>字段、回调与数据类型</summary>\n\n```ts\n' + blocks.join('\n\n') + '\n```\n\n</details>');
-  return lines.join('\n\n');
+  return { runtime, markdown: lines.join('\n\n') };
 }
 
 const original = readFileSync(guide, 'utf8').replace(/\r\n/g, '\n');
-const found = new Set();
-const updated = original.replace(/<!-- api:([\w-]+) -->[\s\S]*?<!-- \/api -->/g, (_, slug) => {
-  if (found.has(slug)) throw new Error('Duplicate section: ' + slug);
-  found.add(slug);
-  return '<!-- api:' + slug + ' -->\n\n' + refBlock(slug) + '\n\n<!-- /api -->';
+const catalog = original.match(/^## 按需求查用法\n([\s\S]*?)(?=^## )/m);
+if (!catalog) throw new Error('Missing task index in AI-GUIDE.md');
+const groups = new Map();
+const groupByEntry = new Map();
+let group;
+for (const match of catalog[1].matchAll(/^### (.+)$|^\| \[[^\]\n]+\]\(#api-([\w-]+)\) \| .+ \|$/gm)) {
+  if (match[1]) {
+    group = match[1];
+    if (groups.has(group)) throw new Error('Duplicate task group: ' + group);
+    groups.set(group, []);
+  } else {
+    const slug = match[2];
+    if (!group || !entryPoints.has(slug)) throw new Error('Invalid task index entry: ' + slug);
+    if (groupByEntry.has(slug)) throw new Error('Duplicate task index entry: ' + slug);
+    groups.get(group).push(slug);
+    groupByEntry.set(slug, group);
+  }
+}
+
+const groupLink = name => '[' + name + '](#' + name.toLowerCase().replaceAll(' ', '-') + ')';
+const runtimeByEntry = new Map();
+const sections = /^### API ([\w-]+)$|^<!-- api:([\w-]+) -->[\s\S]*?^<!-- \/api -->$/gm;
+let pendingHeading;
+const references = original.replace(sections, (text, heading, slug) => {
+  if (heading) {
+    if (pendingHeading) throw new Error('Missing API block for: ' + pendingHeading);
+    pendingHeading = heading;
+    return text;
+  }
+  if (pendingHeading !== slug) throw new Error('Expected a matching API heading before: ' + slug);
+  pendingHeading = undefined;
+  if (!groupByEntry.has(slug)) throw new Error('Add a task index row for: ' + slug);
+  if (runtimeByEntry.has(slug)) throw new Error('Duplicate section: ' + slug);
+  const block = refBlock(slug, groupLink(groupByEntry.get(slug)));
+  runtimeByEntry.set(slug, block.runtime);
+  return '<!-- api:' + slug + ' -->\n\n' + block.markdown + '\n\n<!-- /api -->';
 });
-const missing = [...entryPoints.keys()].filter(slug => !found.has(slug));
-if (missing.length) throw new Error('Add usage notes and api markers for: ' + missing.join(', '));
+if (pendingHeading) throw new Error('Missing API block for: ' + pendingHeading);
+const missing = [...entryPoints.keys()].filter(slug => !runtimeByEntry.has(slug));
+if (missing.length) throw new Error('Add a task index row and an API section for: ' + missing.join(', '));
+const rootModule = checker.getSymbolAtLocation(program.getSourceFile(join(source, 'index.ts')));
+const rootNames = new Set(checker.getExportsOfModule(rootModule)
+  .filter(symbol => resolveAlias(symbol).flags & ts.SymbolFlags.Value)
+  .map(symbol => symbol.name));
+const listedNames = new Set([...runtimeByEntry.values()].flat());
+const allNames = new Set([...rootNames, ...listedNames]);
+const unmatched = [...allNames].filter(name => rootNames.has(name) !== listedNames.has(name));
+if (unmatched.length) throw new Error('Guide inventory differs from package root exports: ' + unmatched.join(', '));
+
+const componentCount = [...entryPoints.values()].filter(path => path.startsWith('components/')).length;
+const inventory = [
+  '## 全库速览',
+  '',
+  '共 ' + componentCount + ' 个组件目录，另含主题、语言、动效和公共 Hooks。点需求方向查看该组的简明用法，点导出名查看所属入口的示例和签名。',
+  '',
+  '| 需求方向 | 组件、组合部件、Hooks 与工具 |',
+  '| --- | --- |',
+];
+for (const [name, slugs] of groups) {
+  const families = slugs.map(slug => '[' + runtimeByEntry.get(slug).join('、') + '](#api-' + slug + ')');
+  inventory.push('| ' + groupLink(name) + ' | ' + families.join(' · ') + ' |');
+}
+const overview = /^<!-- overview -->\n[\s\S]*?^<!-- \/overview -->$/m;
+if (!overview.test(references)) throw new Error('Missing opening inventory markers in AI-GUIDE.md');
+const updated = references.replace(overview, () => '<!-- overview -->\n\n' + inventory.join('\n') + '\n\n<!-- /overview -->');
 if (process.argv.includes('--check')) {
   if (updated !== original) throw new Error('AI-GUIDE.md is stale. Run node scripts/ai-guide.mjs.');
 } else if (updated !== original) {
   writeFileSync(guide, updated);
 }
-console.log('AI-GUIDE.md: ' + found.size + ' entry points checked.');
+console.log('AI-GUIDE.md: ' + runtimeByEntry.size + ' entry points in ' + groups.size + ' task groups checked.');
