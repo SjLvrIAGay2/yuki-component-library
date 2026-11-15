@@ -1,11 +1,10 @@
-import lake from '../../assets/alpine-lake.jpg';
 import { Icon, Image } from '@yuki-ui/react';
 
 export default function CustomImage() {
   return (
     <div style={{ display: 'grid', gap: 'var(--yuki-space-4)' }}>
       <Image
-        src={lake}
+        src="./samples/alpine-lake.jpg"
         alt="山峰在湖面的倒影"
         width={320}
         height={180}

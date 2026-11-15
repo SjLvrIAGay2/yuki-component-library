@@ -25,13 +25,13 @@ order: 1
 
 ### 大数据与固定列
 
-同时设置 `virtual` 与数字 `scroll.y` 即可启用虚拟滚动，`rowHeight` 必须与真实行高一致。`scroll.x` 配合 `fixed: 'left' | 'right'` 可固定列；固定列偏移会根据数字宽度自动累加。
+同时设置 `virtual` 与 `scroll.y` 启用虚拟滚动，视口高度可以用数字像素值。所有数据行应等高且与 `rowHeight` 一致。启用虚拟滚动后会跳过展开行。要在行内展示明细，可关闭 `virtual` 并保留滚动高度或分页。`scroll.x` 配合 `fixed: 'left' | 'right'` 可固定列，固定列偏移根据数字宽度累加。
 
 <Demo id="table/03-virtual" />
 
 ## 组合表头与排序
 
-通过 TableHead 的 sortDirection 和 onSortChange 控制排序。表头和单元格也支持原生合并行、合并列。
+通过 TableHead 的 sortDirection 和 onSortChange 控制排序。表头和单元格也支持原生合并行、合并列。组合模式用 `hoverable` 控制行悬停高亮，数据模式用 `hover`，两者默认均为 true。
 
 <Demo id="table/03-composition" />
 
@@ -57,7 +57,7 @@ order: 1
 | hover | 行悬停高亮 | `boolean` | `true` |
 | scroll | 横向/纵向滚动区域 | `{ x?: number ｜ string; y?: number ｜ string }` | — |
 | stickyHeader | 固定表头 | `boolean` | 设置 `scroll.y` 时为 `true` |
-| virtual | 行虚拟滚动（要求数字 `scroll.y`） | `boolean` | `false` |
+| virtual | 行虚拟滚动，需要同时指定 `scroll.y` | `boolean` | `false` |
 | rowHeight | 虚拟滚动的固定行高 | `number` | sm 40 / md 48 / lg 56 |
 | pagination | 分页配置 | `false ｜ TablePaginationConfig` | `false` |
 | loading | 加载中 | `boolean` | `false` |
@@ -87,7 +87,7 @@ order: 1
 | align | 对齐 | `left ｜ center ｜ right` | `left` |
 | fixed | 固定列 | `left ｜ right` | — |
 | sortable | 启用排序 | `boolean` | `false` |
-| sorter | 自定义比较函数 | `(a: T, b: T) => number` | 按 `dataIndex` 比较 |
+| sorter | 自定义比较函数，显示表头排序按钮需另设 `sortable: true` | `(a: T, b: T) => number` | 按 `dataIndex` 比较 |
 | defaultSortOrder | 初始排序 | `'ascend' ｜ 'descend'` | — |
 | sortDirections | 排序循环方向 | `readonly ('ascend' ｜ 'descend')[]` | `['ascend', 'descend']` |
 | filters | 筛选选项 | `readonly { label: ReactNode; value: string ｜ number ｜ boolean }[]` | — |
@@ -112,7 +112,7 @@ order: 1
 | hideSelectAll | 隐藏表头全选 | `false` |
 | renderCell | 自定义选择单元格（`control` 为内置控件） | — |
 
-全选只作用于当前页中未禁用的行；部分选中时表头显示半选。
+表头全选只作用于当前页中未禁用的行，保留其他页的键。回调中的 selectedRows 从当前传入的整份 data 中按键匹配。服务端只传当前页数据时，跨页批量操作应使用 selectedRowKeys。
 
 ### TableExpandable<T>
 
@@ -149,7 +149,7 @@ order: 1
 
 ## 无障碍
 
-- 根节点 `role="table"`，表头单元格 `role="columnheader"` 并带 `aria-sort`，数据单元格 `role="cell"`；加载时根节点 `aria-busy="true"`，状态区 `role="status"`。
+- 内层 `<table role="table">` 在加载时带 `aria-busy="true"`，状态区为 `role="status"`。表头单元格为 columnheader，可排序列带 `aria-sort`，数据单元格为 cell。
 - 排序按钮 `aria-label="排序 {列名}"`，筛选按钮为弹层触发器（`aria-haspopup="dialog"`），筛选选项为 `aria-pressed` 按钮；全选与行选择使用原生 checkbox / radio。
 - 展开按钮带 `aria-expanded` 与“展开/收起”标签；选中行带 `aria-selected`。
 - 固定列使用 `position: sticky`，键盘仍按 DOM 顺序遍历；虚拟滚动仅渲染可视行，请确保行高固定以获得稳定的焦点与读屏体验。

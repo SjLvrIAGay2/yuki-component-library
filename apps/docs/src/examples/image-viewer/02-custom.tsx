@@ -1,4 +1,3 @@
-import lake from '../../assets/alpine-lake.jpg';
 import { useState } from 'react';
 import { Carousel, Image, Watermark } from '@yuki-ui/react';
 
@@ -8,7 +7,7 @@ export default function GalleryExample() {
   const images = files.length
     ? files.map((file) => ({ src: file, label: file.name }))
     : [
-        { src: lake, label: '山间湖泊' },
+        { src: './samples/alpine-lake.jpg', label: '山间湖泊' },
         { src: './samples/yuki-motion.png', label: '动效封面' },
       ];
   return (

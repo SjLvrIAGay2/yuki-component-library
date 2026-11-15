@@ -1,13 +1,12 @@
 /**
- * Sync the opening inventory and reference blocks in AI-GUIDE.md.
- * Edit usage notes and task index rows in Markdown. Each row links a public
- * entry point to its reference section and groups it in the opening inventory.
- * Run with --check to verify coverage and detect stale signatures.
+ * Sync the inventory, recipes, documented defaults, accessibility notes,
+ * examples and public types. The guide owns task selection and usage contracts.
  */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
+import { advancedExamples, docFacts, embeddedExample, readText, sourceLink, syncRecipes, usageDetails } from './ai-guide-docs.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const source = join(root, 'packages/ui/src');
@@ -75,7 +74,7 @@ function declarationText(declaration, name) {
   return print(declaration);
 }
 
-function refBlock(slug, groupLink) {
+function refBlock(slug, groupLink, notes) {
   const path = entryPoints.get(slug);
   if (!path) throw new Error('Unknown reference section: ' + slug);
   const entry = program.getSourceFile(join(source, path, 'index.ts'));
@@ -140,28 +139,40 @@ function refBlock(slug, groupLink) {
   for (const [symbol, declaration] of extras) {
     declarations.set(symbol.name, declarationText(declaration, symbol.name));
   }
-  const links = [groupLink, '[类型与导出入口](' + relative(root, entry.fileName).replaceAll('\\', '/') + ')'];
+  const links = ['所属分组 ' + groupLink, sourceLink('类型与导出入口', relative(root, entry.fileName).replaceAll('\\', '/'))];
   const page = docPath(slug === 'theme' ? 'config-provider' : slug);
-  if (page) links.push('[交互说明](' + page + ')');
+  if (!page && !['locale', 'hooks'].includes(slug)) throw new Error('Missing docs page for: ' + slug);
+  if (page) links.push(sourceLink('交互与定制', page));
+  const content = page ? readText(join(root, page)) : '';
+  const facts = docFacts(content);
+  const description = [notes, ...facts].join('\n');
+  if (!/^\*\*默认(?:值|行为)\*\*\s+[^\s*<#]/m.test(description)) throw new Error('Missing default behavior in API ' + slug);
+  if (!/^\*\*无障碍\*\*\s+[^\s*<#]/m.test(description)) throw new Error('Missing accessibility notes in API ' + slug);
+  const contract = notes.match(/^\*\*联动\*\*[^\n]+/m)?.[0] ?? '';
+  if (![...contract.matchAll(/\]\(#api-([\w-]+)\)/g)].some(match => match[1] !== slug)) {
+    throw new Error('Missing related component in API ' + slug);
+  }
   const examples = slug === 'theme' ? 'config-provider' : slug;
-  const examplesDir = join(root, 'apps/docs/src/examples', examples);
-  let basicExample;
-  let exampleLinks;
+  const examplesPath = 'apps/docs/src/examples/' + examples + '/';
+  const examplesDir = join(root, examplesPath);
+  const exampleBlocks = [];
   if (ts.sys.directoryExists(examplesDir)) {
     const files = readdirSync(examplesDir).filter(file => file.endsWith('.tsx')).sort();
     if (files.length) {
-      basicExample = readFileSync(join(examplesDir, files[0]), 'utf8').replace(/\r\n/g, '\n').trim();
-      exampleLinks = files.map(file => '[' + file + '](apps/docs/src/examples/' + examples + '/' + file + ')');
+      exampleBlocks.push('仓库示例 ' + files.map(file => sourceLink(file, examplesPath + file)).join(' · '));
+      exampleBlocks.push(embeddedExample(root, examplesPath + files[0], '完整 TSX 示例'));
+      const extra = advancedExamples[slug];
+      if (extra) exampleBlocks.push(embeddedExample(root, examplesPath + extra[0] + '.tsx', extra[1]));
     }
   }
   const blocks = [...calls, ...declarations.values()];
-  const lines = ['可导入 ' + runtime.map(name => '`' + name + '`').join('、') + '。'];
+  const lines = [...facts, links.join(' · '), '可导入 ' + runtime.map(name => '`' + name + '`').join('、') + '。'];
   if (typeNames.length) lines.push('公开类型 ' + typeNames.map(name => '`' + name + '`').join('、') + '。');
-  lines.push(links.join(' · '));
-  if (exampleLinks) lines.push('仓库示例 ' + exampleLinks.join(' · '));
-  if (basicExample) lines.push('<details>\n<summary>完整 TSX 示例</summary>\n\n```tsx\n' + basicExample + '\n```\n\n</details>');
+  lines.push(...exampleBlocks);
+  const details = usageDetails(content);
+  if (details) lines.push(details);
   if (blocks.length) lines.push('<details>\n<summary>字段、回调与数据类型</summary>\n\n```ts\n' + blocks.join('\n\n') + '\n```\n\n</details>');
-  return { runtime, markdown: lines.join('\n\n') };
+  return { runtime, typeNames, markdown: lines.join('\n\n') };
 }
 
 const original = readFileSync(guide, 'utf8').replace(/\r\n/g, '\n');
@@ -186,52 +197,85 @@ for (const match of catalog[1].matchAll(/^### (.+)$|^\| \[[^\]\n]+\]\(#api-([\w-
 
 const groupLink = name => '[' + name + '](#' + name.toLowerCase().replaceAll(' ', '-') + ')';
 const runtimeByEntry = new Map();
+const listedTypes = new Set();
 const sections = /^### API ([\w-]+)$|^<!-- api:([\w-]+) -->[\s\S]*?^<!-- \/api -->$/gm;
 let pendingHeading;
-const references = original.replace(sections, (text, heading, slug) => {
+let notesStart;
+const references = original.replace(sections, (text, heading, slug, offset) => {
   if (heading) {
     if (pendingHeading) throw new Error('Missing API block for: ' + pendingHeading);
     pendingHeading = heading;
+    notesStart = offset + text.length;
     return text;
   }
   if (pendingHeading !== slug) throw new Error('Expected a matching API heading before: ' + slug);
   pendingHeading = undefined;
   if (!groupByEntry.has(slug)) throw new Error('Add a task index row for: ' + slug);
   if (runtimeByEntry.has(slug)) throw new Error('Duplicate section: ' + slug);
-  const block = refBlock(slug, groupLink(groupByEntry.get(slug)));
+  const block = refBlock(slug, groupLink(groupByEntry.get(slug)), original.slice(notesStart, offset));
   runtimeByEntry.set(slug, block.runtime);
+  for (const name of block.typeNames) listedTypes.add(name);
   return '<!-- api:' + slug + ' -->\n\n' + block.markdown + '\n\n<!-- /api -->';
 });
 if (pendingHeading) throw new Error('Missing API block for: ' + pendingHeading);
 const missing = [...entryPoints.keys()].filter(slug => !runtimeByEntry.has(slug));
 if (missing.length) throw new Error('Add a task index row and an API section for: ' + missing.join(', '));
 const rootModule = checker.getSymbolAtLocation(program.getSourceFile(join(source, 'index.ts')));
-const rootNames = new Set(checker.getExportsOfModule(rootModule)
+const rootExports = checker.getExportsOfModule(rootModule);
+const rootNames = new Set(rootExports
   .filter(symbol => resolveAlias(symbol).flags & ts.SymbolFlags.Value)
   .map(symbol => symbol.name));
 const listedNames = new Set([...runtimeByEntry.values()].flat());
 const allNames = new Set([...rootNames, ...listedNames]);
 const unmatched = [...allNames].filter(name => rootNames.has(name) !== listedNames.has(name));
 if (unmatched.length) throw new Error('Guide inventory differs from package root exports: ' + unmatched.join(', '));
+const missingTypes = rootExports.filter(symbol => !(resolveAlias(symbol).flags & ts.SymbolFlags.Value) && !listedTypes.has(symbol.name));
+if (missingTypes.length) throw new Error('Missing public types: ' + missingTypes.map(symbol => symbol.name).join(', '));
 
 const componentCount = [...entryPoints.values()].filter(path => path.startsWith('components/')).length;
+const { version } = JSON.parse(readText(join(root, 'packages/ui/package.json')));
 const inventory = [
   '## 全库速览',
   '',
-  '共 ' + componentCount + ' 个组件目录，另含主题、语言、动效和公共 Hooks。点需求方向查看该组的简明用法，点导出名查看所属入口的示例和签名。',
+  '`@yuki-ui/react@' + version + '` 提供 ' + componentCount + ' 个组件目录，另含主题、语言、动效和公共 Hooks。点需求方向查看用法，点导出名可直达默认行为、示例和类型。',
   '',
   '| 需求方向 | 组件、组合部件、Hooks 与工具 |',
   '| --- | --- |',
 ];
+// Prefer an export's namesake entry when two barrels expose it (e.g. RadioGroup).
+const primaryEntry = new Map();
+for (const [slug, names] of runtimeByEntry) {
+  for (const name of names) {
+    const namesake = name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    if (!primaryEntry.has(name) || slug === namesake) primaryEntry.set(name, slug);
+  }
+}
 for (const [name, slugs] of groups) {
-  const families = slugs.map(slug => '[' + runtimeByEntry.get(slug).join('、') + '](#api-' + slug + ')');
+  const families = slugs.flatMap(slug => {
+    const names = runtimeByEntry.get(slug).filter(symbol => primaryEntry.get(symbol) === slug);
+    return names.length ? ['[' + names.join('、') + '](#api-' + slug + ')'] : [];
+  });
   inventory.push('| ' + groupLink(name) + ' | ' + families.join(' · ') + ' |');
 }
 const overview = /^<!-- overview -->\n[\s\S]*?^<!-- \/overview -->$/m;
 if (!overview.test(references)) throw new Error('Missing opening inventory markers in AI-GUIDE.md');
-const updated = references.replace(overview, () => '<!-- overview -->\n\n' + inventory.join('\n') + '\n\n<!-- /overview -->');
+const letters = new Map();
+for (const slug of [...entryPoints.keys()].sort()) {
+  const letter = slug[0].toUpperCase();
+  if (!letters.has(letter)) letters.set(letter, []);
+  letters.get(letter).push('[' + slug + '](#api-' + slug + ')');
+}
+const alphabet = /^<!-- alphabet -->[\s\S]*?^<!-- \/alphabet -->$/m;
+if (!alphabet.test(references)) throw new Error('Missing alphabetical index markers');
+const alphabeticalIndex = [...letters].map(([letter, links]) => '| ' + letter + ' | ' + links.join(' · ') + ' |');
+const updated = syncRecipes(root, references
+  .replace(overview, () => '<!-- overview -->\n\n' + inventory.join('\n') + '\n\n<!-- /overview -->')
+  .replace(alphabet, () => ['<!-- alphabet -->', '', '| 首字母 | API 入口 |', '| --- | --- |',
+    ...alphabeticalIndex, '', '<!-- /alphabet -->'].join('\n')));
 if (process.argv.includes('--check')) {
   if (updated !== original) throw new Error('AI-GUIDE.md is stale. Run node scripts/ai-guide.mjs.');
+  const { checkGuide } = await import('./check-ai-guide.mjs');
+  checkGuide(root, updated);
 } else if (updated !== original) {
   writeFileSync(guide, updated);
 }
